@@ -13,6 +13,10 @@ A music app created for a school project
 - [ ] Implement recommendations and suggestions for search menu
 - [ ] Attempt ~~stealing~~ retrieval of songlist from youtube/spotify/soundcloud/etc. 
 
+### Fragments
+[Tutorial](https://www.youtube.com/watch?v=PiExmkR3aps)
+
+
 ### Search function - > check for similarity.
 Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
 
