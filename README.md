@@ -23,3 +23,6 @@ Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
  - Magic
 ##### Google:
  - https://developers.google.com/identity/one-tap/android/get-started
+
+### Adding of songs from links:
+ - This library [here](https://github.com/Litarvan/vget)
