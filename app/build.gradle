@@ -28,6 +28,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+    flavorDimensions 'default'
+    productFlavors {
+        'default' {
+            dimension 'default'
+            minSdk 27
+        }
+    }
 }
 
 dependencies {
