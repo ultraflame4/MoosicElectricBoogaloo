@@ -5,20 +5,19 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@color/color_b"
     android:paddingTop="?attr/actionBarSize">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/NavMenu"
+        style="@style/NavBarStyle"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/color_a"
-        app:itemTextAppearanceActive="@style/Theme.MoosicElectricBoogaloo"
-        app:itemTextColor="@color/white"
+        android:background="?attr/colorSecondary"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navmenu"
-        tools:itemIconTint="@color/white" />
+        app:menu="@menu/navmenu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,11 @@
 <resources>
 
+    <style name="NavBarStyle" >
+        <item name="background">?attr/colorSecondary</item>
+        <item name="android:state_selected">@color/white</item>
+        <item name="itemIconTint">@color/bottom_navbar_tint</item>
+        <item name="itemTextColor">@color/bottom_navbar_tint</item>
+        <item name="itemTextAppearanceActive">@color/bottom_navbar_tint</item>
+        <item name="itemTextAppearanceInactive">@color/bottom_navbar_tint</item>
+    </style>
 </resources>
