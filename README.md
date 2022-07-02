@@ -32,3 +32,10 @@ Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
 
 ### Adding of songs from links:
  - This library [here](https://github.com/Litarvan/vget)
+
+### Advanced playing of songs and playlist.
+ 1. New class to wrap around media player and playlists
+ 2. Called SongPlayer
+ 3. When created, it takes in a playlist
+ 4. It copies the playlist songs to a new array
+ 5. SongPlayer class keeps tracked of played songs and next songs
