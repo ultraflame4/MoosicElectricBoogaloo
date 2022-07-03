@@ -15,5 +15,6 @@
     <color name="color_b">#7A4343</color>
     <color name="color_tint">#E8FFE5E0</color>
     <color name="color_c">#707070</color>
+    <color name="claer">#00000000</color>
 
 </resources>

@@ -5,9 +5,15 @@
 <!--    </style>-->
     <style name="NavBarStyle" >
         <item name="background">?attr/colorSecondary</item>
-        <item name="android:state_selected">@color/white</item>
+
         <item name="itemIconTint">@color/bottom_navbar_tint</item>
         <item name="itemTextColor">@color/bottom_navbar_tint</item>
+    </style>
+    <style name="menuTitle" >
+        <item name="textFillColor">@color/white</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
 
     </style>
+
 </resources>
