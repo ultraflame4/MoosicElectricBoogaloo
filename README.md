@@ -4,14 +4,17 @@ A music app created for a school project
 
 
 ## The Plan
-- [ ] Do the bottom navigation bar ( Done by template )
-- [ ] Implement the library user interface
+- [ ] Implement the library ui
 - [ ] Implement adding of songs from links to the library
 - [ ] Implement creation of playlist
 - [ ] Implement playing of songs/playlists (and the ui)
+- [ ] Implement the login screen
 - [ ] Implement the search bar (and the ui)
 - [ ] Implement recommendations and suggestions for search menu
-- [ ] Attempt ~~stealing~~ retrieval of songlist from youtube/spotify/soundcloud/etc. 
+- [ ] Attempt ~~stealing~~ retrieval of songlist from youtube/spotify/soundcloud/etc.
+
+#### Done
+- [x] Do the bottom navigation bar
 
 ### Fragments
 [Tutorial](https://www.youtube.com/watch?v=PiExmkR3aps)
