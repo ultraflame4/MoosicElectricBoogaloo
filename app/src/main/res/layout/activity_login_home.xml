@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_b"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ui.login.LoginHomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="311dp"
+        android:layout_height="455dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_extrabold"
+                android:letterSpacing="0.35"
+                android:text="@string/moosic_app_title"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_extrabold"
+                android:letterSpacing="0.22"
+                android:text="Electric Boogalo"
+                android:textAlignment="center"
+                android:textColor="@color/color_a" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btnLogin"
+                style="@style/PrimaryButtonStyle"
+                android:layout_width="192dp"
+                android:layout_height="54dp"
+                android:text="Login" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                style="@style/SecondaryButtonStyle"
+                android:layout_width="192dp"
+                android:layout_height="54dp"
+                android:text="Sign Up" />
+
+            <Button
+                android:id="@+id/btnContinueAsGuest"
+                style="@style/LinkButtonStyle"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:onClick="handleContinueAsGuest"
+                android:text="@string/continue_as_guest" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

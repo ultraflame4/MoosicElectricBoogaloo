@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.ui;
+package com.ultraflame42.moosicelectricboogaloo.ui.home;
 
 import android.os.Bundle;
 

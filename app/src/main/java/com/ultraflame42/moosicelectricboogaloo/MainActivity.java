@@ -1,5 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -11,12 +12,23 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ultraflame42.moosicelectricboogaloo.login.LoginManager;
+import com.ultraflame42.moosicelectricboogaloo.login.LoginStatus;
+import com.ultraflame42.moosicelectricboogaloo.ui.login.LoginHomeActivity;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    void sendUserToLogin() {
+        if (LoginManager.getStatus() == LoginStatus.NOT_LOGGED_IN) {
+            Intent intent = new Intent(this, LoginHomeActivity.class);
+            startActivity(intent);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sendUserToLogin();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
@@ -28,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.NavMenu);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
 
     }
 
