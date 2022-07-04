@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    // Android Navigation
     def nav_version = "2.5.0"
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
