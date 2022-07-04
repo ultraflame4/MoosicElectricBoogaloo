@@ -31,6 +31,7 @@ public class LoginHomeActivity extends AppCompatActivity {
 
     public void handleContinueAsGuest(View view) {
         LoginManager.setStatus(LoginStatus.GUEST);
+        // todo, move finish() call to event handler when LoginManager events are implemented
         finish();
     }
 }
