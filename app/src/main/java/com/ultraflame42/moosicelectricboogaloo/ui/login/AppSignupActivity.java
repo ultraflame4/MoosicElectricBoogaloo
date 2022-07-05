@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class AppSignupActivity extends AppCompatActivity {
 
@@ -19,9 +20,7 @@ public class AppSignupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getSupportActionBar().hide();
+        UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_signup);
 
