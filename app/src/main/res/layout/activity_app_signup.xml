@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.login.AppSignupActivity"
     android:background="@color/color_b"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.AppSigninActivity">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="311dp"
-        android:layout_height="455dp"
+        android:layout_width="314dp"
+        android:layout_height="526dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,8 +46,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="252dp"
+            android:layout_height="371dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,11 +61,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="35dp"
-                android:text="@string/signin_title"
+                android:text="@string/signup_title"
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/signInEmailInput"
+                android:id="@+id/signUpEmailInput"
                 style="@style/LoginTextInputStyle"
                 android:layout_marginBottom="12dp"
                 android:ems="10"
@@ -76,7 +76,7 @@
                 />
 
             <EditText
-                android:id="@+id/signInPasswordInput"
+                android:id="@+id/signUpPasswordInput"
                 style="@style/LoginTextInputStyle"
                 android:ems="10"
                 android:hint="@string/password_hint"
@@ -84,14 +84,24 @@
                 android:autofillHints="password"
                 />
 
+            <EditText
+                android:id="@+id/signUpConfirmPasswordInput"
+                style="@style/LoginTextInputStyle"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="@string/confirm_password_hint"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                />
+
             <Button
-                android:id="@+id/signinSignInBtn"
+                android:id="@+id/signUpButton"
                 style="@style/PrimaryButtonStyle"
                 android:layout_width="226dp"
                 android:layout_height="58dp"
                 android:layout_marginTop="32dp"
-                android:onClick="handleSignin"
-                android:text="@string/sign_in_button_text" />
+                android:onClick="handleSignup"
+                android:text="@string/sign_up_button_text" />
 
             <Button
                 android:id="@+id/signinCancelBtn"
@@ -100,8 +110,6 @@
                 android:layout_height="wrap_content"
                 android:onClick="handleCancel"
                 android:text="@string/cancel_link" />
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

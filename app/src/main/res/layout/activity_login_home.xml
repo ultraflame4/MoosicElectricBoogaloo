@@ -66,6 +66,7 @@
                 style="@style/SecondaryButtonStyle"
                 android:layout_width="192dp"
                 android:layout_height="54dp"
+                android:onClick="handleSignUp"
                 android:text="Sign Up" />
 
             <Button

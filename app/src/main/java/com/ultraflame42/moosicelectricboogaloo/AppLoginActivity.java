@@ -11,6 +11,7 @@ import android.view.Window;
 import com.ultraflame42.moosicelectricboogaloo.login.LoginManager;
 import com.ultraflame42.moosicelectricboogaloo.login.LoginStatus;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSigninActivity;
+import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSignupActivity;
 
 public class AppLoginActivity extends AppCompatActivity {
 
@@ -38,7 +39,6 @@ public class AppLoginActivity extends AppCompatActivity {
         LoginManager.setStatus(LoginStatus.GUEST);
     }
 
-
     // own login.
     public void handleLogin(View view) {
         // send to signin page
@@ -46,6 +46,15 @@ public class AppLoginActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    // own signup.
+    public void handleSignUp(View view) {
+        // send to signin page
+        Intent intent = new Intent(this, AppSignupActivity.class);
+        startActivity(intent);
+
+    }
+
 
 
 }
