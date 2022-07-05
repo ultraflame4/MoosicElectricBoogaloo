@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_b"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".AppLoginActivity">
+    tools:context=".ui.login.AppSigninActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="311dp"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_extrabold"
                 android:letterSpacing="0.22"
-                android:text="Electric Boogalo"
+                android:text="@string/apptitle_sub"
                 android:textAlignment="center"
                 android:textColor="@color/color_a" />
 
@@ -48,34 +48,55 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/btnLogin"
-                style="@style/PrimaryButtonStyle"
-                android:layout_width="192dp"
-                android:layout_height="54dp"
-                android:onClick="handleLogin"
-                android:text="Login" />
 
-            <Button
-                android:id="@+id/btnRegister"
-                style="@style/SecondaryButtonStyle"
-                android:layout_width="192dp"
-                android:layout_height="54dp"
-                android:text="Sign Up" />
-
-            <Button
-                android:id="@+id/btnContinueAsGuest"
-                style="@style/LinkButtonStyle"
-                android:layout_width="192dp"
+            <TextView
+                android:id="@+id/textView"
+                style="@style/menuSubTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="handleContinueAsGuest"
-                android:text="@string/continue_as_guest" />
+                android:layout_marginBottom="35dp"
+                android:text="@string/signin_title"
+                android:textAlignment="center" />
 
+            <EditText
+                android:id="@+id/signInEmailInput"
+                style="@style/LoginTextInputStyle"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="@string/signin_email_hint"
+                android:inputType="textPersonName"
+                android:textAlignment="gravity" />
+
+            <EditText
+                android:id="@+id/signInPasswordInput"
+                style="@style/LoginTextInputStyle"
+                android:ems="10"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/signinSignInBtn"
+                style="@style/PrimaryButtonStyle"
+                android:layout_width="226dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="32dp"
+                android:onClick="handleSignin"
+                android:text="@string/sign_in_button" />
+
+            <Button
+                android:id="@+id/signinCancelBtn"
+                style="@style/LinkButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="handleCancel"
+                android:text="@string/cancel_link" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

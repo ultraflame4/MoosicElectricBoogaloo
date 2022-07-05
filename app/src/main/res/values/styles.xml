@@ -1,23 +1,25 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-<!--    <style name="bottomNavbarTint">-->
-<!--        <item android:alpha="1.0" android:color="@color/white" android:state_checked="true" />-->
-<!--        <item android:alpha="0.6" android:color="@color/color_tint" />-->
-<!--    </style>-->
+    <!--    <style name="bottomNavbarTint">-->
+    <!--        <item android:alpha="1.0" android:color="@color/white" android:state_checked="true" />-->
+    <!--        <item android:alpha="0.6" android:color="@color/color_tint" />-->
+    <!--    </style>-->
 
-    <style name="ButtonStyle" >
+    <style name="ButtonStyle">
         <item name="cornerRadius">9dp</item>
         <item name="fontFamily">@font/poppins_bold</item>
         <item name="borderWidth">0dp</item>
 
     </style>
 
-    <style name="PrimaryButtonStyle" parent="@style/ButtonStyle" >
+    <style name="PrimaryButtonStyle" parent="@style/ButtonStyle">
 
     </style>
-    <style name="SecondaryButtonStyle" parent="@style/ButtonStyle" >
+
+    <style name="SecondaryButtonStyle" parent="@style/ButtonStyle">
         <item name="backgroundTint">@color/color_c</item>
     </style>
-    <style name="LinkButtonStyle" parent="@style/ButtonStyle" >
+
+    <style name="LinkButtonStyle" parent="@style/ButtonStyle">
         <item name="backgroundTint">@color/clear</item>
         <item name="android:background">@color/clear</item>
         <item name="fontFamily">@font/poppins_medium</item>
@@ -25,17 +27,40 @@
     </style>
 
 
-    <style name="NavBarStyle" >
+    <style name="NavBarStyle">
         <item name="android:background">?attr/colorPrimary</item>
 
         <item name="itemIconTint">@color/bottom_navbar_tint</item>
         <item name="itemTextColor">@color/bottom_navbar_tint</item>
     </style>
-    <style name="menuTitle" >
+
+    <style name="menuTitle">
         <item name="textFillColor">@color/white</item>
         <item name="android:textSize">24sp</item>
         <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:letterSpacing">0.06</item>
+    </style>
+
+    <style name="menuSubTitle" parent="menuTitle">
+
+        <item name="android:textSize">22sp</item>
 
     </style>
+
+    <style name="textInputStyle">
+        <item name="android:background">@drawable/rounded_corner</item>
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">218dp</item>
+
+
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <style name="LoginTextInputStyle" parent="textInputStyle">
+        <item name="android:layout_width">250dp</item>
+    </style>
+
 
 </resources>

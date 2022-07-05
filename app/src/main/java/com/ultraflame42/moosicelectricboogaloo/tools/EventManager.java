@@ -5,14 +5,25 @@ import java.util.List;
 
 public class EventManager<T extends EventFunctionCallback> {
     private List<T> listeners = new ArrayList<T>();
+    private List<T> onceListeners = new ArrayList<T>();
 
     public void addListener(T listener) {
         listeners.add(listener);
+    }
+
+    public void addListenerOnce(T listener) {
+        listeners.add(listener);
+        onceListeners.add(listener);
     }
 
     public void pushEvent() {
         listeners.forEach(t -> {
             t.call();
         });
+
+        onceListeners.forEach(t -> {
+            listeners.remove(t);
+        });
+        onceListeners.clear();
     }
 }
