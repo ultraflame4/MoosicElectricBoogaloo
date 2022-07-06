@@ -3,10 +3,7 @@ package com.ultraflame42.moosicelectricboogaloo.account;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
 
 public class AccountManager {
@@ -17,8 +14,9 @@ public class AccountManager {
     /**
      *  Event fired when status changes to logged in or guest
      */
-    public static final DefaultEventManager LoggedInStatusEvent = new DefaultEventManager();
-    public static final DefaultEventManager OnExitAppHome = new DefaultEventManager();
+    public static final DefaultEventManager LoggedInEvent = new DefaultEventManager();
+    public static final DefaultEventManager LoggedOutEvent = new DefaultEventManager();
+    public static final DefaultEventManager AppHomeExitEvent = new DefaultEventManager();
 
     public static void init() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -32,35 +30,13 @@ public class AccountManager {
         if (AccountManager.authStatus == LoginStatus.NOT_LOGGED_IN && authStatus != LoginStatus.NOT_LOGGED_IN) {
             Log.d("AccountManager", "Logged in with mode    " + authStatus.toString());
             // Only push event if previous status was not logged in
-            LoggedInStatusEvent.pushEvent();
+            LoggedInEvent.pushEvent();
         }
 
         AccountManager.authStatus = authStatus;
     }
 
-    public static void GoogleSignIn(GoogleSignInAccount acct) {
 
-    }
-
-    /**
-     * Creates a new account with firebase using email and password.
-     * @param email Account email
-     * @param password Account Password
-     */
-    public static void SignUp(String email, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("AccountManager", "createUserWithEmail:success");
-                        setAuthStatus(LoginStatus.LOGGED_IN);
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("AccountManager", "createUserWithEmail:failure", task.getException());
-                        setAuthStatus(LoginStatus.NOT_LOGGED_IN);
-                    }
-                });
-    }
 
     public static void SignIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)

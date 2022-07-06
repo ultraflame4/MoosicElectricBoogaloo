@@ -7,10 +7,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
@@ -38,7 +34,8 @@ public class AppHomeActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         finish();
-        AccountManager.OnExitAppHome.pushEvent();
+        mAuth.signOut(); //todo, QOL for debugging, remove in release
+        AccountManager.AppHomeExitEvent.pushEvent();
     }
 
     public void handleGoogleSignIn() {

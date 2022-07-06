@@ -1,6 +1,5 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,12 +14,10 @@ import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -62,12 +59,12 @@ public class AppLoginActivity extends AppCompatActivity {
                 ).build();
 
 
-        AccountManager.LoggedInStatusEvent.addListener(() -> {
+        AccountManager.LoggedInEvent.addListener(() -> {
             Intent intent = new Intent(this, AppHomeActivity.class);
             startActivity(intent);
         });
 
-        AccountManager.OnExitAppHome.addListenerOnce(() -> {
+        AccountManager.AppHomeExitEvent.addListenerOnce(() -> {
             finish();
         });
 
@@ -118,10 +115,26 @@ public class AppLoginActivity extends AppCompatActivity {
                         } catch (IntentSender.SendIntentException e) {
                             Log.e("HandleGoogleSignIn", "Couldn't start One Tap UI: " + e.getLocalizedMessage());
                         }
-                    } else {
 
+                    } else {
                         Exception e = task.getException();
-                        Log.d("HandleGoogleSignIn", "Error " ,e);
+                        try {
+                            throw e;
+                        }
+                        catch (ApiException e1) {
+                            if (e1.getStatusCode() == 16) {
+                                Log.d("HandleGoogleSignIn", "No google accounts detected, executing onetap signup");
+                                // todo, implement the old google sign in api as fallback.
+
+                            } else {
+                                Log.e("HandleGoogleSignIn", "Unknwon Error " ,e);
+                            }
+                        }
+                        catch (Exception e2) {
+                            Log.e("HandleGoogleSignIn", "Unknwon Error " ,e);
+                        }
+
+
                     }
                 });
 
