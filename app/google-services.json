@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "51515790185",
+    "project_id": "moosicappelectricboogaloo",
+    "storage_bucket": "moosicappelectricboogaloo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51515790185:android:4c435643e59dc331b463f8",
+        "android_client_info": {
+          "package_name": "com.ultraflame42.moosicelectricboogaloo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51515790185-034965cj13q00hh1kvn11cirtc5ups2h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYSQcHEg91ALnR9w2a8n3CVttvfG6-CXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51515790185-034965cj13q00hh1kvn11cirtc5ups2h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

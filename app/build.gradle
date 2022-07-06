@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -7,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.ultraflame42.moosicelectricboogaloo"
-        minSdk 23
+        minSdk 28
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -38,8 +39,9 @@ android {
 }
 
 dependencies {
-
-    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
     // Android Navigation
     def nav_version = "2.5.0"
     // Java language implementation

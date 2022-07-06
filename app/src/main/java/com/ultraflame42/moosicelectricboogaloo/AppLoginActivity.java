@@ -1,43 +1,58 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
-import com.ultraflame42.moosicelectricboogaloo.login.LoginManager;
-import com.ultraflame42.moosicelectricboogaloo.login.LoginStatus;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
+import com.ultraflame42.moosicelectricboogaloo.account.LoginStatus;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSigninActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSignupActivity;
 
 public class AppLoginActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-
         setContentView(R.layout.activity_login_home);
+        FirebaseApp.initializeApp(getApplicationContext());
+        AccountManager.init();
+        mAuth = FirebaseAuth.getInstance();
 
-        LoginManager.LoggedInStatusEvent.addListener(() -> {
+
+        AccountManager.LoggedInStatusEvent.addListener(() -> {
             Intent intent = new Intent(this, AppHomeActivity.class);
             startActivity(intent);
         });
 
-        LoginManager.OnExitAppHome.addListenerOnce(() -> {
+        AccountManager.OnExitAppHome.addListenerOnce(() -> {
             finish();
         });
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+
+            AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
+        }
+    }
+
     public void handleContinueAsGuest(View view) {
-        LoginManager.setStatus(LoginStatus.GUEST);
+        AccountManager.setAuthStatus(LoginStatus.GUEST);
     }
 
     // own login.

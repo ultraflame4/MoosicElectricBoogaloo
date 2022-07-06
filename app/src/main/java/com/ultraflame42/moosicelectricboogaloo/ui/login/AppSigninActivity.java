@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class AppSigninActivity extends AppCompatActivity {
@@ -39,6 +40,7 @@ public class AppSigninActivity extends AppCompatActivity {
         String email = emailInput.getText().toString();
         String pwd = pwdInput.getText().toString();
         Log.d("AppSigninActivity", "Attempt signin with: " + email + "," + pwd);
+        AccountManager.SignIn(email, pwd);
     }
 
 }

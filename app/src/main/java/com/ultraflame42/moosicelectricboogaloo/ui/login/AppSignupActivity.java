@@ -1,15 +1,16 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class AppSignupActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class AppSignupActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText pwdInput;
     private EditText confirmPwdInput;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class AppSignupActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.signUpEmailInput);
         pwdInput = findViewById(R.id.signUpPasswordInput);
         confirmPwdInput = findViewById(R.id.signUpConfirmPasswordInput);
-
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -46,7 +48,8 @@ public class AppSignupActivity extends AppCompatActivity {
             toast.show();
             return;
         }
-
+        Log.d("AppSignupActivity", "Attempt signup with: " + email + "and password: " + pwd);
+        AccountManager.SignUp(email, pwd);
 
 
     }
