@@ -61,6 +61,23 @@
                 android:onClick="handleLogin"
                 android:text="Login" />
 
+
+            <Button
+                android:id="@+id/GoogleSignInBtn"
+                style="@style/PrimaryButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:backgroundTint="@android:color/background_light"
+                android:fontFamily="@font/poppins"
+                android:letterSpacing="0.05"
+                android:onClick="handleGoogleSignIn"
+                android:text="Sign in with Google"
+                android:textColor="@color/common_google_signin_btn_text_light_default"
+                android:textSize="11sp"
+                app:icon="@drawable/googleg_standard_color_18"
+                app:iconTint="@android:color/transparent"
+                app:iconTintMode="src_over" />
+
             <Button
                 android:id="@+id/btnRegister"
                 style="@style/SecondaryButtonStyle"
