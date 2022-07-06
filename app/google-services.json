@@ -14,13 +14,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "51515790185-2cmp8eecpdlhfjn81tvgsffni5kuvrss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ultraflame42.moosicelectricboogaloo",
+            "certificate_hash": "66c84ba785ca70863c15275320ba70746ac01c64"
+          }
+        },
+        {
           "client_id": "51515790185-034965cj13q00hh1kvn11cirtc5ups2h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDYSQcHEg91ALnR9w2a8n3CVttvfG6-CXI"
+          "current_key": "AIzaSyCWp4YVUh24hAyePsnvy6aBDHT45-JPR50"
         }
       ],
       "services": {

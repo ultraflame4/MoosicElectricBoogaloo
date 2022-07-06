@@ -2,7 +2,11 @@ package com.ultraflame42.moosicelectricboogaloo.account;
 
 import android.util.Log;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
 
 public class AccountManager {
@@ -32,6 +36,10 @@ public class AccountManager {
         }
 
         AccountManager.authStatus = authStatus;
+    }
+
+    public static void GoogleSignIn(GoogleSignInAccount acct) {
+
     }
 
     /**
