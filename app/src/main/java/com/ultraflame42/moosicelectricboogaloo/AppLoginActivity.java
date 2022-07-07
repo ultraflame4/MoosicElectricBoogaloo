@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
+import com.ultraflame42.moosicelectricboogaloo.account.GoogleAuthHelper;
 import com.ultraflame42.moosicelectricboogaloo.account.LoginStatus;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSigninActivity;
@@ -30,11 +31,8 @@ import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSignupActivity;
 public class AppLoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
 
-
-    private SignInClient oneTapClient;
-    private BeginSignInRequest signInRequest;
+    GoogleAuthHelper googleAuthHelper;
 
 
     @Override
@@ -48,16 +46,7 @@ public class AppLoginActivity extends AppCompatActivity {
 
         AccountManager.init();
         // Google one tap init
-        oneTapClient = Identity.getSignInClient(this);
-
-        signInRequest = BeginSignInRequest.builder()
-                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        .setServerClientId(getString(R.string.web_client_id))
-                        .setFilterByAuthorizedAccounts(false)
-                        .build()
-                ).build();
-
+        googleAuthHelper = new GoogleAuthHelper(this);
 
         AccountManager.LoggedInEvent.addListener(() -> {
             Intent intent = new Intent(this, AppHomeActivity.class);
@@ -66,6 +55,10 @@ public class AppLoginActivity extends AppCompatActivity {
 
         AccountManager.AppHomeExitEvent.addListenerOnce(() -> {
             finish();
+        });
+
+        googleAuthHelper.OnAuthSuccessEvent.addListener(() -> {
+            AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         });
 
     }
@@ -102,80 +95,45 @@ public class AppLoginActivity extends AppCompatActivity {
 
 
     public void handleGoogleSignIn(View view) {
-        oneTapClient.beginSignIn(signInRequest)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        try {
-                            // start the ui intent for google one tap sign in
-                            startIntentSenderForResult(
-                                    task.getResult().getPendingIntent().getIntentSender(),
-                                    REQ_ONE_TAP,
-                                    null, 0, 0, 0
-                            );
-                        } catch (IntentSender.SendIntentException e) {
-                            Log.e("HandleGoogleSignIn", "Couldn't start One Tap UI: " + e.getLocalizedMessage());
-                        }
-
-                    } else {
-                        Exception e = task.getException();
-                        try {
-                            throw e;
-                        }
-                        catch (ApiException e1) {
-                            if (e1.getStatusCode() == 16) {
-                                Log.d("HandleGoogleSignIn", "No google accounts detected, executing onetap signup");
-                                // todo, implement the old google sign in api as fallback.
-
-                            } else {
-                                Log.e("HandleGoogleSignIn", "Unknwon Error " ,e);
-                            }
-                        }
-                        catch (Exception e2) {
-                            Log.e("HandleGoogleSignIn", "Unknwon Error " ,e);
-                        }
-
-
-                    }
-                });
-
+        googleAuthHelper.oneTapSignIn();
     }
 
     private static final int REQ_ONE_TAP = 2;
     private boolean showOneTapUI = true;
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case REQ_ONE_TAP:
-                try {
-                    SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
-                    String idToken = googleCredential.getGoogleIdToken();
-                    if (idToken != null) {
-                        // Got an ID token from Google. Use it to authenticate
-                        // with Firebase.
-                        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-                        mAuth.signInWithCredential(firebaseCredential)
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d("GoogleSignInAuth", "signInWithCredential:success");
-                                        AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
-
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("GoogleSignInAuth", "signInWithCredential:failure", task.getException());
-                                    }
-                                });
-                    }
-
-                } catch (ApiException e) {
-                    // ...
-                }
-                break;
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        switch (requestCode) {
+//            case REQ_ONE_TAP:
+//                try {
+//                    SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
+//                    String idToken = googleCredential.getGoogleIdToken();
+//                    if (idToken != null) {
+//                        // Got an ID token from Google. Use it to authenticate
+//                        // with Firebase.
+//                        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
+//                        mAuth.signInWithCredential(firebaseCredential)
+//                                .addOnCompleteListener(task -> {
+//                                    if (task.isSuccessful()) {
+//                                        // Sign in success, update UI with the signed-in user's information
+//                                        Log.d("GoogleSignInAuth", "signInWithCredential:success");
+//                                        AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
+//
+//                                    } else {
+//                                        // If sign in fails, display a message to the user.
+//                                        Log.w("GoogleSignInAuth", "signInWithCredential:failure", task.getException());
+//                                    }
+//                                });
+//                    }
+//
+//                } catch (ApiException e) {
+//                    // ...
+//                }
+//                break;
+//        }
+//    }
 
 
 }
