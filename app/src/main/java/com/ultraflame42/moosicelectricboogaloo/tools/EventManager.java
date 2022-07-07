@@ -3,6 +3,7 @@ package com.ultraflame42.moosicelectricboogaloo.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+// todo find better way of doing this. Observers?
 public class EventManager<T extends EventFunctionCallback> {
     private List<T> listeners = new ArrayList<T>();
     private List<T> onceListeners = new ArrayList<T>();

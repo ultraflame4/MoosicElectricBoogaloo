@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
-import com.ultraflame42.moosicelectricboogaloo.tools.EventManager;
+
 
 public class GoogleAuthHelper {
 
@@ -140,7 +140,6 @@ public class GoogleAuthHelper {
                     } catch (ApiException apiException) {
                         if (apiException.getStatusCode() == 16) {
                             Log.d("GoogleAuthHelper:OneTap", "No google accounts detected, falling back to google signin");
-                            // todo, implement the old google sign in api as fallback.
                             GoogleFallbackSignIn();
 
                         } else {

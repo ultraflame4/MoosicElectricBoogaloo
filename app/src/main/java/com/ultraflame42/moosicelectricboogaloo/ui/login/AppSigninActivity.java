@@ -36,7 +36,7 @@ public class AppSigninActivity extends AppCompatActivity {
     }
 
     public void handleSignin(View view) {
-        //todo
+
         String email = emailInput.getText().toString();
         String pwd = pwdInput.getText().toString();
         Log.d("AppSigninActivity", "Attempt signin with: " + email + "," + pwd);

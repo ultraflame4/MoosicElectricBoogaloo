@@ -40,7 +40,6 @@ public class AppSignupActivity extends AppCompatActivity {
     }
 
     public void handleSignup(View view) {
-        //todo
         String email = emailInput.getText().toString();
         String pwd = pwdInput.getText().toString();
         String confirmPwd = confirmPwdInput.getText().toString();
