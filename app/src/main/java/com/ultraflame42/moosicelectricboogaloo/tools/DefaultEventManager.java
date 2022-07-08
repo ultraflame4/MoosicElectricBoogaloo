@@ -1,5 +1,5 @@
 package com.ultraflame42.moosicelectricboogaloo.tools;
 
 
-public class DefaultEventManager extends EventManager<EventFunctionCallback> {
+public class DefaultEventManager extends EventManager<Object> {
 }

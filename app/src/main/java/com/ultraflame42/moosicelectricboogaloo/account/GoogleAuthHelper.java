@@ -88,7 +88,7 @@ public class GoogleAuthHelper {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleAuthHelper", "signInWithCredential:success");
-                            OnAuthSuccessEvent.pushEvent();
+                            OnAuthSuccessEvent.pushEvent(null);
 
                         } else {
                             // If sign in fails, todo display a message to the user.

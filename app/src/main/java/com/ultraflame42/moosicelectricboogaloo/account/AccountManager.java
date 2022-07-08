@@ -30,7 +30,7 @@ public class AccountManager {
         if (AccountManager.authStatus == LoginStatus.NOT_LOGGED_IN && authStatus != LoginStatus.NOT_LOGGED_IN) {
             Log.d("AccountManager", "Logged in with mode    " + authStatus.toString());
             // Only push event if previous status was not logged in
-            LoggedInEvent.pushEvent();
+            LoggedInEvent.pushEvent(null);
         }
 
         AccountManager.authStatus = authStatus;

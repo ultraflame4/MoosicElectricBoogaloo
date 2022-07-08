@@ -48,16 +48,16 @@ public class AppLoginActivity extends AppCompatActivity {
         // Google one tap init
         googleAuthHelper = new GoogleAuthHelper(this);
 
-        AccountManager.LoggedInEvent.addListener(() -> {
+        AccountManager.LoggedInEvent.addListener((data) -> {
             Intent intent = new Intent(this, AppHomeActivity.class);
             startActivity(intent);
         });
 
-        AccountManager.AppHomeExitEvent.addListenerOnce(() -> {
+        AccountManager.AppHomeExitEvent.addListenerOnce((data) -> {
             finish();
         });
 
-        googleAuthHelper.OnAuthSuccessEvent.addListener(() -> {
+        googleAuthHelper.OnAuthSuccessEvent.addListener((data) -> {
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         });
 
