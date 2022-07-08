@@ -93,7 +93,7 @@ public class GoogleAuthHelper {
                             OnAuthSuccessEvent.pushEvent(null);
 
                         } else {
-                            // If sign in fails, todo display a message to the user.
+                            // If sign in fails
                             Exception e = task.getException();
                             Log.w("GoogleAuthHelper", "signInWithCredential:failure", e);
                             OnAuthFailureEvent.pushEvent("Firebase Authentication failed: " + e.getClass() + ":" +e.getMessage());
