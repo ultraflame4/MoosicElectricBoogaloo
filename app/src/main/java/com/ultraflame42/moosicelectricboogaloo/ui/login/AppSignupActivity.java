@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
@@ -63,6 +66,12 @@ public class AppSignupActivity extends AppCompatActivity {
                             throw task.getException();
                         } catch (FirebaseAuthWeakPasswordException e) {
                             Toast toast = Toast.makeText(this, "Password is too weak! Must be atleast 6 characters", Toast.LENGTH_SHORT);
+                            toast.show();
+                        } catch (FirebaseAuthUserCollisionException e) {
+                            Toast toast = Toast.makeText(this, "An account with the same email already exists!", Toast.LENGTH_SHORT);
+                            toast.show();
+                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                            Toast toast = Toast.makeText(this, "Invalid email!", Toast.LENGTH_SHORT);
                             toast.show();
                         } catch (Exception e) {
                             Toast toast = Toast.makeText(this, "Signup failed! Check Logs", Toast.LENGTH_SHORT);

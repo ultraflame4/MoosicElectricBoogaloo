@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-
+/**
+ * A utility class for easy events and callbacks.
+ * @param <D> The type of data to be passed to the event listener.
+ */
 public class EventManager<D> {
     private List<EventFunctionCallback<D>> listeners = new ArrayList<>();
     private List<EventFunctionCallback<D>> onceListeners = new ArrayList<>();
+
 
     public void addListener(EventFunctionCallback<D> listener) {
         listeners.add(listener);

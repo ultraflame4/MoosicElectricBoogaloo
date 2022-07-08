@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
@@ -29,6 +30,12 @@ public class AppSigninActivity extends AppCompatActivity {
 
         emailInput = findViewById(R.id.signInEmailInput);
         pwdInput = findViewById(R.id.signInPasswordInput);
+
+        AccountManager.OnAuthFailureEvent.addListener(data -> {
+            Log.d("AppSigninActivity", "Auth failure: " + data);
+            Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     public void handleCancel(View view) {

@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -59,6 +60,9 @@ public class AppLoginActivity extends AppCompatActivity {
 
         googleAuthHelper.OnAuthSuccessEvent.addListener((data) -> {
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
+        });
+        googleAuthHelper.OnAuthFailureEvent.addListener((data) -> {
+            Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
 
     }

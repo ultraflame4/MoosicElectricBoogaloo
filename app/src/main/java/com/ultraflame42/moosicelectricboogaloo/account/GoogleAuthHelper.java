@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
+import com.ultraflame42.moosicelectricboogaloo.tools.EventManager;
 
 
 public class GoogleAuthHelper {
@@ -42,6 +43,7 @@ public class GoogleAuthHelper {
     private FirebaseAuth mAuth;
 
     public DefaultEventManager OnAuthSuccessEvent = new DefaultEventManager();
+    public EventManager<String> OnAuthFailureEvent = new EventManager<>();
 
 
     public GoogleAuthHelper(AppCompatActivity activity) {
@@ -92,7 +94,9 @@ public class GoogleAuthHelper {
 
                         } else {
                             // If sign in fails, todo display a message to the user.
-                            Log.w("GoogleAuthHelper", "signInWithCredential:failure", task.getException());
+                            Exception e = task.getException();
+                            Log.w("GoogleAuthHelper", "signInWithCredential:failure", e);
+                            OnAuthFailureEvent.pushEvent("Firebase Authentication failed: " + e.getClass() + ":" +e.getMessage());
                         }
                     });
         }
@@ -105,7 +109,7 @@ public class GoogleAuthHelper {
      * The old way for signing in with Google. Exists as a fallback for one tap
      */
     private void GoogleFallbackSignIn() {
-        Log.d("GoogleAuthHelper:GoogleSignIn", "Lauching Google Sign In Ui");
+        Log.d("GoogleAuthHelper:GoogleSignIn", "Launching Google Sign In Ui");
         googleSignInUiResultLauncher.launch(googleSignInClient.getSignInIntent());
     }
 
@@ -118,6 +122,7 @@ public class GoogleAuthHelper {
         }
         catch (ApiException e) {
             Log.w("GoogleAuthHelper:GoogleSignIn", "Api Error, Google sign in failed. code="+e.getStatusCode(), e);
+            OnAuthFailureEvent.pushEvent("Google sign in failed, Api Error Code: "+e.getStatusCode());
         }
     }
 
@@ -132,6 +137,7 @@ public class GoogleAuthHelper {
 
                     } catch (ActivityNotFoundException e) {
                         Log.e("GoogleAuthHelper:OneTap", "Couldn't start One Tap UI: " + e.getLocalizedMessage());
+                        OnAuthFailureEvent.pushEvent("Couldn't start One Tap UI: " + e.getLocalizedMessage());
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -144,9 +150,11 @@ public class GoogleAuthHelper {
 
                         } else {
                             Log.e("GoogleAuthHelper:OneTap", "Unknown Api Error ", e);
+                            OnAuthFailureEvent.pushEvent("Unknown Api Error " + e.getLocalizedMessage());
                         }
                     } catch (Exception e1) {
                         Log.e("GoogleAuthHelper:OneTap", "Unknown Error ", e);
+                        OnAuthFailureEvent.pushEvent("Unknown Error " + e.getLocalizedMessage());
                     }
 
                 });

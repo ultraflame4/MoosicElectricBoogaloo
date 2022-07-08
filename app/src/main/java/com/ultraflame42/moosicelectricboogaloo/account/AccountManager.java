@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
+import com.ultraflame42.moosicelectricboogaloo.tools.EventManager;
 
 public class AccountManager {
     private static LoginStatus authStatus = LoginStatus.NOT_LOGGED_IN;
@@ -16,6 +19,7 @@ public class AccountManager {
      */
     public static final DefaultEventManager LoggedInEvent = new DefaultEventManager();
     public static final DefaultEventManager LoggedOutEvent = new DefaultEventManager();
+
     public static final DefaultEventManager AppHomeExitEvent = new DefaultEventManager();
 
     public static void init() {
@@ -36,7 +40,10 @@ public class AccountManager {
         AccountManager.authStatus = authStatus;
     }
 
-
+    /**
+     * When sign in with email and password fails
+     */
+    public static EventManager<String> OnAuthFailureEvent = new EventManager<>();
 
     public static void SignIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -47,7 +54,23 @@ public class AccountManager {
                         setAuthStatus(LoginStatus.LOGGED_IN);
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w("AccountManager", "signInWithEmail:failure", task.getException());
+                        Exception e = task.getException();
+                        Log.w("AccountManager", "Warning: signInWithEmail:failure",e);
+                        try{
+                            throw e;
+                        }
+                        catch (FirebaseAuthInvalidCredentialsException e1) {
+                            OnAuthFailureEvent.pushEvent("Invalid email or password");
+                        }
+                        catch (FirebaseAuthInvalidUserException e1) {
+                            OnAuthFailureEvent.pushEvent("Invalid email or password");
+                        }
+
+                        catch (Exception e2) {
+                            OnAuthFailureEvent.pushEvent("Sign in failed! Check Logs");
+                            Log.e("AccountManager", "signInWithEmail:unkownFailure", e);
+                        }
+
                         setAuthStatus(LoginStatus.NOT_LOGGED_IN);
                     }
                 });
