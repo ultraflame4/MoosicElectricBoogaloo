@@ -89,7 +89,7 @@ public class GoogleAuthHelper {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("GoogleAuthHelper", "signInWithCredential:success");
+                            Log.d("GoogleAuthHelper:OneTap", "signInWithCredential:success");
                             OnAuthSuccessEvent.pushEvent(null);
 
                         } else {

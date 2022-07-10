@@ -50,6 +50,7 @@ public class AppLoginActivity extends AppCompatActivity {
         googleAuthHelper = new GoogleAuthHelper(this);
 
         AccountManager.LoggedInEvent.addListener((data) -> {
+            Log.d("AppLogin","Switching to home activity");
             Intent intent = new Intent(this, AppHomeActivity.class);
             startActivity(intent);
         });
@@ -59,6 +60,7 @@ public class AppLoginActivity extends AppCompatActivity {
         });
 
         googleAuthHelper.OnAuthSuccessEvent.addListener((data) -> {
+            Log.d("AppLogin","Successfully logged in with Google");
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         });
         googleAuthHelper.OnAuthFailureEvent.addListener((data) -> {
@@ -104,40 +106,5 @@ public class AppLoginActivity extends AppCompatActivity {
 
     private static final int REQ_ONE_TAP = 2;
     private boolean showOneTapUI = true;
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode) {
-//            case REQ_ONE_TAP:
-//                try {
-//                    SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
-//                    String idToken = googleCredential.getGoogleIdToken();
-//                    if (idToken != null) {
-//                        // Got an ID token from Google. Use it to authenticate
-//                        // with Firebase.
-//                        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-//                        mAuth.signInWithCredential(firebaseCredential)
-//                                .addOnCompleteListener(task -> {
-//                                    if (task.isSuccessful()) {
-//                                        // Sign in success, update UI with the signed-in user's information
-//                                        Log.d("GoogleSignInAuth", "signInWithCredential:success");
-//                                        AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
-//
-//                                    } else {
-//                                        // If sign in fails, display a message to the user.
-//                                        Log.w("GoogleSignInAuth", "signInWithCredential:failure", task.getException());
-//                                    }
-//                                });
-//                    }
-//
-//                } catch (ApiException e) {
-//                    // ...
-//                }
-//                break;
-//        }
-//    }
-
 
 }

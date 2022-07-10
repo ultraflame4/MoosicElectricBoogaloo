@@ -33,9 +33,9 @@ public class AppHomeActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        finish();
         mAuth.signOut(); //todo, QOL for debugging, remove in release
         AccountManager.AppHomeExitEvent.pushEvent(null);
+        finish();
     }
 
     public void handleGoogleSignIn() {
