@@ -38,7 +38,7 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        String[] favItemNames = {"A","B","C"};
+        String[] favItemNames = {"A","B","C","D"};
         FavouritesGridAdapter favouritesGridAdapter = new FavouritesGridAdapter(getContext(), favItemNames);
         GridView gridView = view.findViewById(R.id.FavouritesGrid);
         gridView.setAdapter(favouritesGridAdapter);
