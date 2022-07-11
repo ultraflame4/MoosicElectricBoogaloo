@@ -22,5 +22,8 @@
     <style name="Theme.MoosicElectricBoogaloo.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.MoosicElectricBoogaloo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
 </resources>

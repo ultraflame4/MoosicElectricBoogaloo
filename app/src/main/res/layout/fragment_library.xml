@@ -53,10 +53,9 @@
             android:horizontalSpacing="6dp"
             android:minHeight="48dp"
             android:numColumns="2"
-            android:padding="8dp"
+            android:paddingHorizontal="12dp"
             android:verticalSpacing="6dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.463"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/FavouritesTitle"
             tools:ignore="TouchTargetSizeCheck" />
