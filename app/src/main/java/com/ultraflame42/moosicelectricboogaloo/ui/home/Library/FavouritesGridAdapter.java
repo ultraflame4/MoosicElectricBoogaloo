@@ -1,6 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home.Library;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class FavouritesGridAdapter extends BaseAdapter {
         if (convertView == null){
             convertView = inflater.inflate(R.layout.favourites_griditem, null);
         }
+        Log.d("AA<", "ADWASDWAD");
 
         //todo set image for fav item btn
         ImageButton favGridItemBtn = convertView.findViewById(R.id.favItemImageBtn);

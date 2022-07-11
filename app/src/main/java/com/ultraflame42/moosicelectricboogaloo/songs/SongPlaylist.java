@@ -28,6 +28,9 @@ public class SongPlaylist {
     public ArrayList<Integer> getSongs() {
         return songs;
     }
+    public int getSongCount() {
+        return songs.size();
+    }
 
     public String getCreator() {
         return creator;

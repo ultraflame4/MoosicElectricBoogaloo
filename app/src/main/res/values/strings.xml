@@ -33,4 +33,6 @@
     <string name="library_add_desc">Create playlist or Add song</string>
     <string name="library_favourites_title">Favourites</string>
     <string name="library_playlists_title">Playlists</string>
+    <string name="playlist_totallength_text">Total length:</string>
+    <string name="playlist_songcount_text">Songs:</string>
 </resources>
