@@ -2,12 +2,11 @@ package com.ultraflame42.moosicelectricboogaloo.account;
 
 import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
-import com.ultraflame42.moosicelectricboogaloo.tools.EventManager;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
 public class AccountManager {
     private static LoginStatus authStatus = LoginStatus.NOT_LOGGED_IN;
@@ -17,10 +16,10 @@ public class AccountManager {
     /**
      *  Event fired when status changes to logged in or guest
      */
-    public static final DefaultEventManager LoggedInEvent = new DefaultEventManager();
-    public static final DefaultEventManager LoggedOutEvent = new DefaultEventManager();
+    public static final DefaultEvent LoggedInEvent = new DefaultEvent("OnAccLoggedInEvent");
+    public static final DefaultEvent LoggedOutEvent = new DefaultEvent("OnAccLoggedOutEvent");
 
-    public static final DefaultEventManager AppHomeExitEvent = new DefaultEventManager();
+    public static final DefaultEvent AppHomeExitEvent = new DefaultEvent("OnAppHomeExitEvent");
 
     public static void init() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -43,7 +42,7 @@ public class AccountManager {
     /**
      * When sign in with email and password fails
      */
-    public static EventManager<String> OnAuthFailureEvent = new EventManager<>();
+    public static CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>("OnAccountAuthFailureEvent");
 
     public static void SignIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)

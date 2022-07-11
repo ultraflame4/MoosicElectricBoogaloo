@@ -4,44 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.AppSignupActivity"
     android:background="@color/color_b"
-    >
+    tools:context=".ui.login.AppSignupActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="314dp"
-        android:layout_height="526dp"
+        android:layout_width="315dp"
+        android:layout_height="545dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="0dp"
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="273dp"
+            android:layout_height="187dp"
+            android:backgroundTint="@color/clear"
+            android:contentDescription="@string/app_logo_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logo"
+            app:tint="@color/color_a_o" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_extrabold"
                 android:letterSpacing="0.35"
                 android:text="@string/moosic_app_title"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                tools:layout_conversion_absoluteHeight="42dp"
+                tools:layout_conversion_absoluteWidth="228dp"
+                tools:layout_editor_absoluteX="92dp"
+                tools:layout_editor_absoluteY="142dp" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_extrabold"
                 android:letterSpacing="0.22"
-                android:text="@string/apptitle_sub"
+                android:text="Electric Boogalo"
                 android:textAlignment="center"
-                android:textColor="@color/color_a" />
+                android:textColor="@color/color_a"
+                tools:layout_conversion_absoluteHeight="25dp"
+                tools:layout_conversion_absoluteWidth="228dp"
+                tools:layout_editor_absoluteX="92dp"
+                tools:layout_editor_absoluteY="184dp" />
 
         </LinearLayout>
 
@@ -68,31 +91,28 @@
                 android:id="@+id/signUpEmailInput"
                 style="@style/LoginTextInputStyle"
                 android:layout_marginBottom="12dp"
+                android:autofillHints="emailAddress"
                 android:ems="10"
                 android:hint="@string/signin_email_hint"
                 android:inputType="textEmailAddress"
-                android:textAlignment="gravity"
-                android:autofillHints="emailAddress"
-                />
+                android:textAlignment="gravity" />
 
             <EditText
                 android:id="@+id/signUpPasswordInput"
                 style="@style/LoginTextInputStyle"
+                android:autofillHints="password"
                 android:ems="10"
                 android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                android:autofillHints="password"
-                />
+                android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/signUpConfirmPasswordInput"
                 style="@style/LoginTextInputStyle"
                 android:layout_marginTop="12dp"
+                android:autofillHints="password"
                 android:ems="10"
                 android:hint="@string/confirm_password_hint"
-                android:inputType="textPassword"
-                android:autofillHints="password"
-                />
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/signUpButton"

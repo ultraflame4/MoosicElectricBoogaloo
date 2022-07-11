@@ -24,8 +24,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.tools.DefaultEventManager;
-import com.ultraflame42.moosicelectricboogaloo.tools.EventManager;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
 
 public class GoogleAuthHelper {
@@ -42,8 +42,8 @@ public class GoogleAuthHelper {
 
     private FirebaseAuth mAuth;
 
-    public DefaultEventManager OnAuthSuccessEvent = new DefaultEventManager();
-    public EventManager<String> OnAuthFailureEvent = new EventManager<>();
+    public DefaultEvent OnAuthSuccessEvent = new DefaultEvent("OnGoogleAuthSuccess");
+    public CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>("OnGoogleAuthFailure");
 
 
     public GoogleAuthHelper(AppCompatActivity activity) {

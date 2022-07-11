@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.tools;
+package com.ultraflame42.moosicelectricboogaloo.tools.events;
 
 @FunctionalInterface
 public interface EventFunctionCallback<D> {

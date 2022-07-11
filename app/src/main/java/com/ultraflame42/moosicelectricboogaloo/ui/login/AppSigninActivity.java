@@ -14,11 +14,13 @@ import android.widget.Toast;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 
 public class AppSigninActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private EditText pwdInput;
+    private EventListenerGroup eGroup = new EventListenerGroup();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,11 @@ public class AppSigninActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.signInEmailInput);
         pwdInput = findViewById(R.id.signInPasswordInput);
 
-        AccountManager.OnAuthFailureEvent.addListener(data -> {
+        eGroup.subscribe(AccountManager.OnAuthFailureEvent,data -> {
             Log.d("AppSigninActivity", "Auth failure: " + data);
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
+
 
     }
 
@@ -50,4 +53,9 @@ public class AppSigninActivity extends AppCompatActivity {
         AccountManager.SignIn(email, pwd);
     }
 
+    @Override
+    public void finish() {
+        eGroup.unsubscribeAll();
+        super.finish();
+    }
 }

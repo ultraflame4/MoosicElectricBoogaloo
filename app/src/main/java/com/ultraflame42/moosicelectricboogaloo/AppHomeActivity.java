@@ -23,7 +23,7 @@ public class AppHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_app);
+        setContentView(R.layout.activity_app_home);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.NavFragmentContainerView);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.NavMenu);

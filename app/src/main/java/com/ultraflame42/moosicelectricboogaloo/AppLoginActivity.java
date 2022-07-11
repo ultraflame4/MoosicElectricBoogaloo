@@ -1,30 +1,20 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.auth.api.identity.SignInCredential;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.account.GoogleAuthHelper;
 import com.ultraflame42.moosicelectricboogaloo.account.LoginStatus;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSigninActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSignupActivity;
@@ -34,14 +24,14 @@ public class AppLoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     GoogleAuthHelper googleAuthHelper;
-
+    private final EventListenerGroup eGroup = new EventListenerGroup();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Log.d("AppLogin: ", "onCreate() 6");
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_home);
+        setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
 
@@ -49,23 +39,25 @@ public class AppLoginActivity extends AppCompatActivity {
         // Google one tap init
         googleAuthHelper = new GoogleAuthHelper(this);
 
-        AccountManager.LoggedInEvent.addListener((data) -> {
-            Log.d("AppLogin","Switching to home activity");
+        eGroup.subscribe(AccountManager.LoggedInEvent, (data) -> {
+            Log.d("AppLogin", "Switching to home activity");
             Intent intent = new Intent(this, AppHomeActivity.class);
             startActivity(intent);
         });
 
-        AccountManager.AppHomeExitEvent.addListenerOnce((data) -> {
+        eGroup.subscribe(AccountManager.AppHomeExitEvent, (data) -> {
             finish();
         });
 
-        googleAuthHelper.OnAuthSuccessEvent.addListener((data) -> {
-            Log.d("AppLogin","Successfully logged in with Google");
+        eGroup.subscribe(googleAuthHelper.OnAuthSuccessEvent,(data) -> {
+            Log.d("AppLogin", "Successfully logged in with Google");
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         });
-        googleAuthHelper.OnAuthFailureEvent.addListener((data) -> {
+
+        eGroup.subscribe(googleAuthHelper.OnAuthFailureEvent,(data) -> {
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
+
 
     }
 
@@ -77,6 +69,13 @@ public class AppLoginActivity extends AppCompatActivity {
 
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         }
+    }
+
+    @Override
+    public void finish() {
+        // Unsubscribe all event listeners
+        eGroup.unsubscribeAll();
+        super.finish();
     }
 
     public void handleContinueAsGuest(View view) {
