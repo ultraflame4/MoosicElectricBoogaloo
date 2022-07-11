@@ -46,6 +46,7 @@ public class FavouritesGridAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.favourites_griditem, null);
         }
 
+        //todo set image for fav item btn
         ImageButton favGridItemBtn = convertView.findViewById(R.id.favItemImageBtn);
         TextView favGridItemText = convertView.findViewById(R.id.favItemText);
 
