@@ -43,11 +43,11 @@
     </style>
 
     <style name="menuSubTitle" parent="menuTitle">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">24sp</item>
 
     </style>
     <style name="menuCatTitle" parent="menuSubTitle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">21sp</item>
         <item name="fontFamily">@font/poppins_semibold</item>
     </style>
 
