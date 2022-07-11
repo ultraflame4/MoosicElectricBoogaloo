@@ -30,4 +30,5 @@
     <string name="signup_title">Sign Up</string>
     <string name="web_client_id">51515790185-034965cj13q00hh1kvn11cirtc5ups2h.apps.googleusercontent.com</string>
     <string name="app_logo_desc">app logo</string>
+    <string name="library_add_desc">Create playlist or Add song</string>
 </resources>

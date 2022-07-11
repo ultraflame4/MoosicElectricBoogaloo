@@ -43,9 +43,12 @@
     </style>
 
     <style name="menuSubTitle" parent="menuTitle">
-
         <item name="android:textSize">22sp</item>
 
+    </style>
+    <style name="menuCatTitle" parent="menuSubTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
     </style>
 
     <style name="textInputStyle">

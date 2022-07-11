@@ -33,7 +33,7 @@ public class AppSigninActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.signInEmailInput);
         pwdInput = findViewById(R.id.signInPasswordInput);
 
-        eGroup.subscribe(AccountManager.OnAuthFailureEvent,data -> {
+        eGroup.subscribe(AccountManager.OnAuthFailureEvent, data -> {
             Log.d("AppSigninActivity", "Auth failure: " + data);
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
