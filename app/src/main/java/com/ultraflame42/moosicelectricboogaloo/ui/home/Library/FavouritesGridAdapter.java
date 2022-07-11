@@ -37,6 +37,12 @@ public class FavouritesGridAdapter extends BaseAdapter {
         return 0;
     }
 
+    // method to update data
+    public void updateData(String[] favouriteItemNames) {
+        this.favouriteItemNames = favouriteItemNames;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         if (inflater == null) {
