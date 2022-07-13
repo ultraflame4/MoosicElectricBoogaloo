@@ -35,4 +35,6 @@
     <string name="library_playlists_title">Playlists</string>
     <string name="playlist_totallength_text">Total length:</string>
     <string name="playlist_songcount_text">Songs:</string>
+    <string name="library_songs_title">Songs</string>
+    <string name="songList_itemLength_text">Length:</string>
 </resources>

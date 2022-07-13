@@ -41,7 +41,6 @@ public class PlaylistListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        Log.d("AA<", "ADWASDWAD");
 
         if (inflater == null) {
             inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,8 +56,8 @@ public class PlaylistListAdapter extends BaseAdapter {
 
         playlistName.setText(playlists[i].getTitle());
         playlistCreator.setText(playlists[i].getCreator());
-        playlistSongCount.setText(R.string.playlist_songcount_text+" "+playlists[i].getSongCount());
-        playlistTotalLength.setText(R.string.playlist_totallength_text+" "+playlists[i].getLength());
+        playlistSongCount.setText(ctx.getString(R.string.playlist_songcount_text)+" "+playlists[i].getSongCount());
+        playlistTotalLength.setText(ctx.getString(R.string.playlist_totallength_text)+" "+playlists[i].getLength());
 
 
         return convertView;

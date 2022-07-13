@@ -12,9 +12,13 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.FavouritesGridAdapter;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.PlaylistListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.SongsListAdapter;
+
+import java.util.List;
 
 
 public class LibraryFragment extends Fragment {
@@ -49,16 +53,26 @@ public class LibraryFragment extends Fragment {
         favGridView.setAdapter(favouritesGridAdapter);
         // temp values for testing todo remove ltr
 
+        Song[] tempSongList = {
+                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
+                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
+                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
+                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink")
+        };
 
         SongPlaylist[] tempPlaylists = {
                 new SongPlaylist("Creator 1", "Title 1"),
                 new SongPlaylist("Creator 2", "Title 2"),
                 new SongPlaylist("Creator 3", "Title 3"),
         };
+
         PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), tempPlaylists);
         ListView playlistListView = view.findViewById(R.id.playlist_list);
         playlistListView.setAdapter(playlistListAdapter);
 
+        SongsListAdapter songsListAdapter = new SongsListAdapter(getContext(), tempSongList);
+        ListView songsListView = view.findViewById(R.id.songs_list);
+        songsListView.setAdapter(songsListAdapter);
 
         return view;
     }

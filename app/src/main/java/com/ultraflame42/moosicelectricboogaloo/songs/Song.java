@@ -11,6 +11,14 @@ public class Song {
     private String fileLink;
     private String[] tags;
 
+    /**
+     * Constructor for a song.
+     * @param id Song id in registry
+     * @param length Song length in seconds
+     * @param title Song title
+     * @param artist Song artist
+     * @param fileLink Song file link
+     */
     public Song(int id, int length, String title, String artist, String fileLink) {
         this.id = id;
         this.length = length;
@@ -20,6 +28,15 @@ public class Song {
         this.fileLink = fileLink;
     }
 
+    /**
+     * Constructor for a song.
+     * @param id Song id in registry
+     * @param length Song length in seconds
+     * @param title Song title
+     * @param artist Song artist
+     * @param album Album song belongs to.
+     * @param fileLink Song file link
+     */
     public Song(int id, int length, String title, String artist, String album, String fileLink) {
         this.id = id;
         this.length = length;

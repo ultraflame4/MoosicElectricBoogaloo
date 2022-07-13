@@ -52,7 +52,7 @@ public class FavouritesGridAdapter extends BaseAdapter {
         if (convertView == null){
             convertView = inflater.inflate(R.layout.favourites_griditem, null);
         }
-        Log.d("AA<", "ADWASDWAD");
+
 
         //todo set image for fav item btn
         ImageButton favGridItemBtn = convertView.findViewById(R.id.favItemImageBtn);
