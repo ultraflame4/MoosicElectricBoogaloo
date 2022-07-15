@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.account.GoogleAuthHelper;
 import com.ultraflame42.moosicelectricboogaloo.account.LoginStatus;
+import com.ultraflame42.moosicelectricboogaloo.data.DataManager;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.ui.login.AppSigninActivity;
@@ -34,7 +35,7 @@ public class AppLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
-
+        DataManager.init(getApplication());
         AccountManager.init();
         // Google one tap init
         googleAuthHelper = new GoogleAuthHelper(this);
