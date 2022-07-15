@@ -3,6 +3,9 @@ package com.ultraflame42.moosicelectricboogaloo.ui.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.FavouritesGridAdapter;
+import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.GridSpacingItemDecoration;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.PlaylistListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.SongsListAdapter;
 
@@ -49,10 +53,12 @@ public class LibraryFragment extends Fragment {
         // temp values for testing todo remove ltr
         String[] favItemNames = {"A","B","C","D"};
         FavouritesGridAdapter favouritesGridAdapter = new FavouritesGridAdapter(getContext(), favItemNames);
-        GridView favGridView = view.findViewById(R.id.FavouritesGrid);
+        RecyclerView favGridView = view.findViewById(R.id.FavouritesGrid);
+        favGridView.addItemDecoration(new GridSpacingItemDecoration(2,16,false));
+        favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favGridView.setAdapter(favouritesGridAdapter);
-        // temp values for testing todo remove ltr
 
+        // temp values for testing todo remove ltr
         Song[] tempSongList = {
                 new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
                 new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
@@ -67,11 +73,14 @@ public class LibraryFragment extends Fragment {
         };
 
         PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), tempPlaylists);
-        ListView playlistListView = view.findViewById(R.id.playlist_list);
+        RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
+
+        playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
         playlistListView.setAdapter(playlistListAdapter);
 
         SongsListAdapter songsListAdapter = new SongsListAdapter(getContext(), tempSongList);
-        ListView songsListView = view.findViewById(R.id.songs_list);
+        RecyclerView songsListView = view.findViewById(R.id.songs_list);
+        songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);
 
         return view;

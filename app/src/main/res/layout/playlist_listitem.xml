@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     app:layout_constraintDimensionRatio="1">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="96dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         app:cardBackgroundColor="@color/clear"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        app:cardElevation="0dp"
-
         app:layout_constraintTop_toTopOf="parent">
 
 
