@@ -59,13 +59,6 @@ public class LibraryFragment extends Fragment {
         favGridView.setAdapter(favouritesGridAdapter);
 
         // temp values for testing todo remove ltr
-        Song[] tempSongList = {
-                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
-                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
-                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink"),
-                new Song(0, 10, "ExampleSong", "ExampleArtist", "fakelink")
-        };
-
         SongPlaylist[] tempPlaylists = {
                 new SongPlaylist("Creator 1", "Title 1"),
                 new SongPlaylist("Creator 2", "Title 2"),
@@ -78,7 +71,7 @@ public class LibraryFragment extends Fragment {
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
         playlistListView.setAdapter(playlistListAdapter);
 
-        SongsListAdapter songsListAdapter = new SongsListAdapter(getContext(), tempSongList);
+        SongsListAdapter songsListAdapter = new SongsListAdapter(getContext());
         RecyclerView songsListView = view.findViewById(R.id.songs_list);
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);

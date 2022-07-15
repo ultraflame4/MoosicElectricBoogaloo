@@ -16,10 +16,10 @@ public class AccountManager {
     /**
      *  Event fired when status changes to logged in or guest
      */
-    public static final DefaultEvent LoggedInEvent = new DefaultEvent("OnAccLoggedInEvent");
-    public static final DefaultEvent LoggedOutEvent = new DefaultEvent("OnAccLoggedOutEvent");
+    public static final DefaultEvent LoggedInEvent = new DefaultEvent();
+    public static final DefaultEvent LoggedOutEvent = new DefaultEvent();
 
-    public static final DefaultEvent AppHomeExitEvent = new DefaultEvent("OnAppHomeExitEvent");
+    public static final DefaultEvent AppHomeExitEvent = new DefaultEvent();
 
     public static void init() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -42,7 +42,7 @@ public class AccountManager {
     /**
      * When sign in with email and password fails
      */
-    public static CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>("OnAccountAuthFailureEvent");
+    public static CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>();
 
     public static void SignIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)

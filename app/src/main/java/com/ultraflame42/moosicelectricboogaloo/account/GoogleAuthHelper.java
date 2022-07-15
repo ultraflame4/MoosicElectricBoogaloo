@@ -42,8 +42,8 @@ public class GoogleAuthHelper {
 
     private FirebaseAuth mAuth;
 
-    public DefaultEvent OnAuthSuccessEvent = new DefaultEvent("OnGoogleAuthSuccess");
-    public CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>("OnGoogleAuthFailure");
+    public DefaultEvent OnAuthSuccessEvent = new DefaultEvent();
+    public CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>();
 
 
     public GoogleAuthHelper(AppCompatActivity activity) {

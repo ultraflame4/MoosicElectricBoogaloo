@@ -1,7 +1,5 @@
 package com.ultraflame42.moosicelectricboogaloo.tools.events;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,22 +12,22 @@ import javax.annotation.Nullable;
 public class CustomEvents<D> {
     private List<EventFunctionCallback<D>> listeners = new ArrayList<>();
     private List<EventFunctionCallback<D>> onceListeners = new ArrayList<>();
-    public final String name;
 
-    public CustomEvents(String name_) {
-        name = name_;
+
+    public CustomEvents() {
+
     }
 
-    public EventCallbackWrapper<D> addListener(EventFunctionCallback<D> listener) {
+    public EventCallbackListener<D> addListener(EventFunctionCallback<D> listener) {
         listeners.add(listener);
-        Log.d("EventManager", "Listener list" + listeners.toString());
-        return new EventCallbackWrapper<D>(listener, this);
+
+        return new EventCallbackListener<D>(listener, this);
     }
 
-    public EventCallbackWrapper<D> addListenerOnce(EventFunctionCallback<D> listener) {
+    public EventCallbackListener<D> addListenerOnce(EventFunctionCallback<D> listener) {
         listeners.add(listener);
         onceListeners.add(listener);
-        return new EventCallbackWrapper<D>(listener, this);
+        return new EventCallbackListener<D>(listener, this);
     }
 
     public void removeListener(EventFunctionCallback<D> listener) {

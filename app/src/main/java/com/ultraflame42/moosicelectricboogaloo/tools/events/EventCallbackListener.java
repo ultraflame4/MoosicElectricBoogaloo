@@ -6,11 +6,11 @@ package com.ultraflame42.moosicelectricboogaloo.tools.events;
  * 1. Allow easy removal of listeners from the event.
  * @param <D>
  */
-public class EventCallbackWrapper<D> {
+public class EventCallbackListener<D> {
     private EventFunctionCallback<D> cb;
     private CustomEvents<D> manager;
 
-    public EventCallbackWrapper(EventFunctionCallback<D> cb, CustomEvents<D> manager) {
+    public EventCallbackListener(EventFunctionCallback<D> cb, CustomEvents<D> manager) {
         this.cb = cb;
         this.manager = manager;
     }

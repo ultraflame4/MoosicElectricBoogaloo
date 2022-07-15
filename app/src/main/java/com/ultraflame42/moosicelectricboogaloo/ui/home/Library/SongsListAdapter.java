@@ -5,29 +5,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.RegisteredSong;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
 
-import org.w3c.dom.Text;
-
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder>  {
+public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
     Context ctx;
-    Song[] songs;
+    RegisteredSong[] songs;
     LayoutInflater inflater;
 
-    public SongsListAdapter(Context ctx, Song[] songs) {
+    EventCallbackListener<RegisteredSong> onSongAddedListener;
+
+    public SongsListAdapter(Context ctx) {
         this.ctx = ctx;
-        this.songs = songs;
+        songs = SongRegistry.getAllSongs();
+        onSongAddedListener = SongRegistry.OnSongAdded.addListener(song ->{
+            Log.d("SongsListAdapter", "SongRegistry updated, updating list");
+            songs = SongRegistry.getAllSongs();
+            notifyDataSetChanged();
+        });
     }
 
 
@@ -38,10 +44,12 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         private final TextView songName;
         private final TextView songArtist;
         private final TextView songCount;
+        private final CardView cardView;
+
 
         public ViewHolder(View view) {
             super(view);
-            // Define click listener for the ViewHolder's View
+            cardView = view.findViewById(R.id.songlist_itemcard);
             songImg = view.findViewById(R.id.songList_itemImage);
             songName = view.findViewById(R.id.songList_itemTitle);
             songArtist = view.findViewById(R.id.songList_itemArtist);
@@ -63,6 +71,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         public TextView getSongCount() {
             return songCount;
         }
+
+        public CardView getCardView() {
+            return cardView;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return songs.length;
     }
 
     @NonNull
@@ -76,15 +93,22 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Song song = songs[position];
 //        holder.getSongImg().setImageResource(song.getImage()); todo set image
+
         holder.getSongName().setText(song.getTitle());
         holder.getSongArtist().setText(song.getArtist());
         holder.getSongCount().setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLength());
+
+        holder.getCardView().setOnClickListener(view -> {
+            onItemClick(view,position);
+        });
     }
 
-    @Override
-    public int getItemCount() {
-        return songs.length;
+    public void onItemClick(View view, int position) {
+        RegisteredSong song = songs[position];
+        SongPlayer.PlaySong(song.getId());
+
     }
+
 
     //    @Override
 //    public int getCount() {

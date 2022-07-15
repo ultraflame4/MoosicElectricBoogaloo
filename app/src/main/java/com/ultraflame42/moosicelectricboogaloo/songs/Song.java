@@ -3,7 +3,7 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 public class Song {
 
-    private int id;
+
     private int length; // In seconds
     private String title;
     private String artist;
@@ -13,15 +13,12 @@ public class Song {
 
     /**
      * Constructor for a song.
-     * @param id Song id in registry
-     * @param length Song length in seconds
      * @param title Song title
      * @param artist Song artist
      * @param fileLink Song file link
      */
-    public Song(int id, int length, String title, String artist, String fileLink) {
-        this.id = id;
-        this.length = length;
+    public Song(String title, String artist, String fileLink) {
+        this.length = 0;
         this.title = title;
         this.artist = artist;
         this.album= title;
@@ -30,16 +27,14 @@ public class Song {
 
     /**
      * Constructor for a song.
-     * @param id Song id in registry
-     * @param length Song length in seconds
      * @param title Song title
      * @param artist Song artist
      * @param album Album song belongs to.
      * @param fileLink Song file link
      */
-    public Song(int id, int length, String title, String artist, String album, String fileLink) {
-        this.id = id;
-        this.length = length;
+    public Song(String title, String artist, String album, String fileLink) {
+
+        this.length = 0;
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -54,13 +49,15 @@ public class Song {
         this.tags = tags;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public float getLength() {
+
+    public int getLength() {
         return length;
     }
+    public void setLength(int length) {
+        this.length = length;
+    }
+
 
     public String getTitle() {
         return title;
@@ -76,5 +73,9 @@ public class Song {
 
     public String[] getTags() {
         return tags;
+    }
+
+    public String getFileLink() {
+        return fileLink;
     }
 }
