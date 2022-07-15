@@ -8,7 +8,7 @@ public class Song {
     private String title;
     private String artist;
     private String album;
-    private String fileLink;
+    private String fileLink; //todo change to id registry system for fileLink.
     private String[] tags;
 
     /**
