@@ -4,11 +4,18 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.RegisteredSong;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +32,8 @@ public class SongPlayFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EventCallbackListener<RegisteredSong> onSongChangeListener;
 
     public SongPlayFragment() {
         // Required empty public constructor
@@ -48,6 +57,10 @@ public class SongPlayFragment extends Fragment {
         return fragment;
     }
 
+    TextView songTitleView;
+    TextView songArtistView;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +68,38 @@ public class SongPlayFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    }
+
+    public void updateSongInfo(RegisteredSong song) {
+        Log.d("SongPlayer (fragment)", "Updating song information");
+        songTitleView.setText(song.getTitle());
+        songArtistView.setText(song.getArtist());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_song_play, container, false);
+        View view = inflater.inflate(R.layout.fragment_song_play, container, false);
+        songTitleView = view.findViewById(R.id.songPlayTitle);
+        songArtistView = view.findViewById(R.id.songPlayArtist);
+
+        int currentSong = SongPlayer.getCurrentSong();
+        if (currentSong > 0) {
+            updateSongInfo(SongRegistry.getSong(currentSong));
+        }
+
+        onSongChangeListener = SongPlayer.OnSongPlayChange.addListener(song -> {
+            updateSongInfo(song);
+        });
+        return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        onSongChangeListener.remove();
+        super.onDestroy();
     }
 }

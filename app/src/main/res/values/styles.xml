@@ -41,6 +41,11 @@
         <item name="android:letterSpacing">0.06</item>
     </style>
 
+    <style name="SongPlayTitle" parent="menuTitle">
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
     <style name="menuSubTitle" parent="menuTitle">
         <item name="android:textSize">24sp</item>
 
