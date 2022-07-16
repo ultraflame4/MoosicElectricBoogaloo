@@ -19,6 +19,8 @@ import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
 
+import java.time.Instant;
+
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
     Context ctx;
     RegisteredSong[] songs;
@@ -96,7 +98,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
         holder.getSongName().setText(song.getTitle());
         holder.getSongArtist().setText(song.getArtist());
-        holder.getSongCount().setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLength());
+
+        holder.getSongCount().setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());
 
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(view,position);

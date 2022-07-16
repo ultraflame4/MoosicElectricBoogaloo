@@ -65,7 +65,7 @@
     </style>
 
     <style name="listItem_h3" parent="listItem_h2">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="listItem_h4" parent="listItem_h3">
@@ -74,7 +74,7 @@
     </style>
 
     <style name="listItem_h5" parent="listItem_h4">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="textInputStyle">

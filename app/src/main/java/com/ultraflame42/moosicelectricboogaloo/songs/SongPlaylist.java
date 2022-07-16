@@ -6,7 +6,7 @@ public class SongPlaylist {
     private ArrayList<Integer> songs = new ArrayList<>();
     private String creator;
     private String title;
-    private int totalLength=0; // in seconds
+    private int totalLength=0; // in milliseconds
 
     public SongPlaylist(String creator, String title) {
         this.creator = creator;
