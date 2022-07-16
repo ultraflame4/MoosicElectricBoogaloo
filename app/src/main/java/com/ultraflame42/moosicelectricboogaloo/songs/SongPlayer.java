@@ -2,8 +2,7 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-
-import com.ultraflame42.moosicelectricboogaloo.data.DataManager;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class SongPlayer {
         try {
             mediaPlayer.reset();
 
-            mediaPlayer.setDataSource(DataManager.getMediaLocation(song.getPlayable()));
+            mediaPlayer.setDataSource(song.getFileLink());
 
             mediaPlayer.prepare();
 

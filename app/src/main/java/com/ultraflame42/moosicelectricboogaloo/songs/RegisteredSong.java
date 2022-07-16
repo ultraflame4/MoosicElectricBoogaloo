@@ -11,12 +11,12 @@ public class RegisteredSong extends Song{
      * @param album    Album song belongs to.
      * @param fileLink Song file link
      */
-    public RegisteredSong(int id, int length, String title, String artist, String album, int fileLink) {
+    public RegisteredSong(int id, int length, String title, String artist, String album, String fileLink) {
         super(title, artist, album, fileLink);
         this.id = id;
     }
     public RegisteredSong(int id,Song song) {
-        super(song.getTitle(), song.getArtist(), song.getAlbum(), song.getPlayable());
+        super(song.getTitle(), song.getArtist(), song.getAlbum(), song.getFileLink());
         this.id = id;
     }
     public int getId() {

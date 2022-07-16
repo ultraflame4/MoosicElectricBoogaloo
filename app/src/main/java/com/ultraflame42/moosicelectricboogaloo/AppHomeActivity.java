@@ -11,9 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
-import com.ultraflame42.moosicelectricboogaloo.data.DataManager;
 
 
 public class AppHomeActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class AppHomeActivity extends AppCompatActivity {
 
         // register temp playable songs todo remove
         SongRegistry.registerSong(
-                new Song("abcdefu","GAYLE",DataManager.getPlayable("https://www.youtube.com/watch?v=NaFd8ucHLuo"))
+                new Song("abcdefu","GAYLE","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
 
 

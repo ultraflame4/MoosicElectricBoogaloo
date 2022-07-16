@@ -15,7 +15,6 @@ import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
-import com.ultraflame42.moosicelectricboogaloo.data.DataManager;
 
 public class AppSigninActivity extends AppCompatActivity {
 
@@ -33,8 +32,6 @@ public class AppSigninActivity extends AppCompatActivity {
 
         emailInput = findViewById(R.id.signInEmailInput);
         pwdInput = findViewById(R.id.signInPasswordInput);
-
-
 
         eGroup.subscribe(AccountManager.OnAuthFailureEvent, data -> {
             Log.d("AppSigninActivity", "Auth failure: " + data);

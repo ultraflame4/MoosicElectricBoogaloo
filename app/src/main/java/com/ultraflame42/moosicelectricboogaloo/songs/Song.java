@@ -8,21 +8,21 @@ public class Song {
     private String title;
     private String artist;
     private String album;
-    private int playable; //todo change to id registry system for fileLink.
+    private String fileLink; //todo change to id registry system for fileLink.
     private String[] tags;
 
     /**
      * Constructor for a song.
      * @param title Song title
      * @param artist Song artist
-     * @param playable Song file link
+     * @param fileLink Song file link
      */
-    public Song(String title, String artist, int playable) {
+    public Song(String title, String artist, String fileLink) {
         this.length = 0;
         this.title = title;
         this.artist = artist;
         this.album= title;
-        this.playable = playable;
+        this.fileLink = fileLink;
     }
 
     /**
@@ -30,15 +30,15 @@ public class Song {
      * @param title Song title
      * @param artist Song artist
      * @param album Album song belongs to.
-     * @param playable Song file link
+     * @param fileLink Song file link
      */
-    public Song(String title, String artist, String album, int playable) {
+    public Song(String title, String artist, String album, String fileLink) {
 
         this.length = 0;
         this.title = title;
         this.artist = artist;
         this.album = album;
-        this.playable = playable;
+        this.fileLink = fileLink;
     }
 
     public void setTags(String[] tags) {
@@ -75,7 +75,7 @@ public class Song {
         return tags;
     }
 
-    public int getPlayable() {
-        return playable;
+    public String getFileLink() {
+        return fileLink;
     }
 }
