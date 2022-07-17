@@ -172,16 +172,22 @@ public class SongPlayer {
         return currentPlaylistShadow.get(nextPos);
     }
 
+    public static void resetState() {
+        mediaPlayer.reset();
+        pausedPosition = 0;
+
+        OnSongPlayStateChange.pushEvent(false);
+    }
 
     public static void PlayNext() {
         // Play next song in playlist. If -1 no next song.
         int nxtSong = getNextSongInPlaylist();
         if (nxtSong >= 0) {
+
             playSong(nxtSong);
         }
         else {
-            mediaPlayer.stop();
-            OnSongPlayStateChange.pushEvent(false);
+            resetState();
             // no next song. todo handle looping and reshuffling here.
         }
     }
