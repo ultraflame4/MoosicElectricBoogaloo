@@ -154,6 +154,10 @@ public class SongPlayFragment extends Fragment {
                     SongPlayer.Pause();
                 }
             }
+            else {
+                SongPlayer.PlaySong(0);
+            }
+
         });
 
 

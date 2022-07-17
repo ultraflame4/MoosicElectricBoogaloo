@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ultraflame42.moosicelectricboogaloo.AppHomeActivity;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class SongPlayer {
     public static CustomEvents<Boolean> OnSongPlayStateChange = new CustomEvents<>();
 
 
+
     // A copy of the current playlist., hence the name shadow
     private static ArrayList<Integer> currentPlaylistShadow = new ArrayList<Integer>();
 
@@ -43,6 +45,8 @@ public class SongPlayer {
      * @param songId id of song to play
      */
     private static void playSong(int songId) {
+
+
         RegisteredSong song = SongRegistry.getSong(songId);
         try {
             isPaused = false;
