@@ -73,15 +73,52 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            android:background="@drawable/songplay_playbtn"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/songplay_playpause"
             android:scaleType="fitCenter"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintStart_toEndOf="@+id/imageButton3"
             app:layout_constraintTop_toBottomOf="@+id/songPlaySeekBar" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+
+            android:layout_marginBottom="32dp"
+            android:background="@color/clear"
+            android:src="@drawable/skip_prev"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/songPlay_PlayStopBtn"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn"
+
+            android:contentDescription="@string/skip_btn_text" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+
+            android:background="@color/clear"
+            android:clickable="true"
+            android:contentDescription="@string/prev_btn_text"
+            android:rotation="180"
+            android:scaleType="fitCenter"
+            android:src="@drawable/skip_prev"
+            app:layout_constraintBottom_toBottomOf="@+id/songPlay_PlayStopBtn"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

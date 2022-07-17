@@ -39,4 +39,6 @@
     <string name="songList_itemLength_text">Length:</string>
     <string name="song_play_title_default">No Song Playing</string>
     <string name="song_play_artist_default">None</string>
+    <string name="prev_btn_text">Previous</string>
+    <string name="skip_btn_text">Skip</string>
 </resources>

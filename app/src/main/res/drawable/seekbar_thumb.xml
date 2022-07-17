@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/seekbar_thumb_drawable"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="100"
+    android:exitFadeDuration="200">
 
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <size android:height="16dp" android:width="16dp"  />
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
     <item>
         <shape android:shape="oval">
             <size android:height="16dp" android:width="16dp"  />
