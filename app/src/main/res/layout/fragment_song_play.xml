@@ -92,14 +92,14 @@
 
             android:layout_marginBottom="32dp"
             android:background="@color/clear"
-            android:src="@drawable/skip_prev"
+            android:contentDescription="@string/skip_btn_text"
             android:scaleType="fitCenter"
+            android:src="@drawable/skip_prev"
             app:layout_constraintBottom_toBottomOf="@+id/songPlay_PlayStopBtn"
             app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
-            app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn"
 
-            android:contentDescription="@string/skip_btn_text" />
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn" />
 
         <ImageButton
             android:id="@+id/songPlay_PrevBtn"

@@ -36,7 +36,14 @@ public class AppHomeActivity extends AppCompatActivity {
         SongRegistry.registerSong(
                 new Song("abcdefu","GAYLE","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
+        SongRegistry.registerSong(
+                new Song("abcdefuA","GAYLEA","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+        );
+        SongRegistry.registerSong(
+                new Song("abcdefuB","GAYLEB","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+        );
 
+        SongPlayer.init();
 
 
     }

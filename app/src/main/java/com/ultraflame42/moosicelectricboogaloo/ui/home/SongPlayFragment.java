@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,6 +28,7 @@ public class SongPlayFragment extends Fragment {
 
 
     private EventListenerGroup listenerGroup = new EventListenerGroup();
+    private ImageButton skipBtn;
 
     public SongPlayFragment() {
         // Required empty public constructor
@@ -112,13 +114,13 @@ public class SongPlayFragment extends Fragment {
         playStopBtn.setSaveEnabled(false); // Toggle button will save state, so disable it
 
         // If there is a currently playing song, set checked to true
-        playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
+        updatePlayStopBtn();
 
         // Detect check changes on the toggle button. Add listener before setting checked to true, to prevent callback loop
-        playStopBtn.setOnCheckedChangeListener((compoundButton,isChecked) -> {
+        playStopBtn.setOnClickListener((v) -> {
             if (SongPlayer.IsReady()) {
                 // if is checked, music has been paused
-                if (isChecked) {
+                if (playStopBtn.isChecked()) {
                     SongPlayer.Resume();
                 } else {
                     SongPlayer.Pause();
@@ -130,9 +132,23 @@ public class SongPlayFragment extends Fragment {
 
         });
 
+        listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange, song -> {
+            updatePlayStopBtn();
+        });
+
+        skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
+        skipBtn.setOnClickListener(v->{
+            SongPlayer.PlayNext();
+        });
+
 
         return view;
     }
+
+    private void updatePlayStopBtn() {
+        playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
+    }
+
 
     @Override
     public void onDestroy() {

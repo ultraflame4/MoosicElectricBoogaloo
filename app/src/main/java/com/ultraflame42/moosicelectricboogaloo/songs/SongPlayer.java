@@ -29,7 +29,7 @@ public class SongPlayer {
     /**
      * This event fires when the Song Player play state is changed
      * True if the state has changed to playing
-     * False if the state has changed to paused
+     * False if the state has changed to paused/stopped playing
      */
     public static CustomEvents<Boolean> OnSongPlayStateChange = new CustomEvents<>();
 
@@ -37,6 +37,12 @@ public class SongPlayer {
 
     // A copy of the current playlist., hence the name shadow
     private static ArrayList<Integer> currentPlaylistShadow = new ArrayList<Integer>();
+
+    public static void init() {
+        mediaPlayer.setOnCompletionListener(mediaPlayer1 -> {
+            PlayNext();
+        });
+    }
 
 
     /**
@@ -142,6 +148,46 @@ public class SongPlayer {
         pausedPosition = mediaPlayer.getCurrentPosition();
         isPaused = true;
         OnSongPlayStateChange.pushEvent(false);
+    }
+
+    /**
+     * Returns the next song in the playlist
+     *
+     * -1 if there is no next song
+     * @return
+     */
+    public static int getNextSongInPlaylist() {
+        // get current position of song in playlist
+        int pos = currentPlaylistShadow.indexOf(currentSong);
+
+        // if position is -1, tis current not in the playlist. Return start index (0)
+        // Else + 1 to pos.
+        // In either ways, we get what we want (-1+1=0)
+
+        int nextPos = pos+1;
+        // If nextPos is more than playlist size, return -1
+        if (nextPos >= currentPlaylistShadow.size()-1) {
+            return -1;
+        }
+        return currentPlaylistShadow.get(nextPos);
+    }
+
+
+    public static void PlayNext() {
+        // Play next song in playlist. If -1 no next song.
+        int nxtSong = getNextSongInPlaylist();
+        if (nxtSong >= 0) {
+            playSong(nxtSong);
+        }
+        else {
+            mediaPlayer.stop();
+            OnSongPlayStateChange.pushEvent(false);
+            // no next song. todo handle looping and reshuffling here.
+        }
+    }
+
+    public static void PlayPrev() {
+
     }
 
     public static boolean IsPaused() {
