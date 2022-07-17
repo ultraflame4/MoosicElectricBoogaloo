@@ -141,10 +141,10 @@ public class SongPlayFragment extends Fragment {
         playStopBtn = view.findViewById(R.id.songPlay_PlayStopBtn);
         playStopBtn.setSaveEnabled(false); // Toggle button will save state, so disable it
 
-
+        // If there is a currently playing song, set checked to true
         playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
 
-
+        // Detect check changes on the toggle button. Add listener before setting checked to true, to prevent callback loop
         playStopBtn.setOnCheckedChangeListener((compoundButton,isChecked) -> {
             if (SongPlayer.IsReady()) {
                 // if is checked, music has been paused
