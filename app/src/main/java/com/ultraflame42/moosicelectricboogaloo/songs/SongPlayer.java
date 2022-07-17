@@ -81,6 +81,7 @@ public class SongPlayer {
 
     /**
      * Returns the currently playing song
+     *
      * @return
      */
     public static int GetCurrentSong() {
@@ -89,27 +90,32 @@ public class SongPlayer {
 
     /**
      * Returns the current song progress in percentage
+     *
      * @return
      */
     public static float GetCurrentSongProgress() {
         if (mediaPlayer.isPlaying()) {
             return mediaPlayer.getCurrentPosition() / (float) mediaPlayer.getDuration();
-        }
-        else if (isPaused){
+        } else if (isPaused) {
             return pausedPosition / (float) mediaPlayer.getDuration();
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
     /**
      * Sets the current progress of the playlist
+     *
      * @param progressPercent 0-1
      */
     public static void SetCurrentSongProgress(float progressPercent) {
+        int calculatedPosition = Math.round(mediaPlayer.getDuration() * progressPercent);
         if (mediaPlayer.isPlaying()) {
-            mediaPlayer.seekTo(Math.round(mediaPlayer.getDuration() * progressPercent));
+            mediaPlayer.seekTo(calculatedPosition);
+        } else if (isPaused) {
+            // Change the paused position -> when un-paused will seek back to that position
+            // And undo the scrubbing :(
+            pausedPosition = calculatedPosition;
         }
 
     }
@@ -123,6 +129,7 @@ public class SongPlayer {
         isPaused = false;
         OnSongPlayStateChange.pushEvent(true);
     }
+
     /**
      * Pauses playing of song
      */
@@ -139,6 +146,7 @@ public class SongPlayer {
 
     /**
      * Returns true if paused or is playing
+     *
      * @return
      */
     public static boolean IsReady() {
