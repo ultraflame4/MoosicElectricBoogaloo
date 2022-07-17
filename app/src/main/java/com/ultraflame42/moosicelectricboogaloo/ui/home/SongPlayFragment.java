@@ -4,18 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.RegisteredSong;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +35,7 @@ public class SongPlayFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private EventCallbackListener<RegisteredSong> onSongChangeListener;
+    private EventListenerGroup listenerGroup = new EventListenerGroup();
 
     public SongPlayFragment() {
         // Required empty public constructor
@@ -71,12 +73,18 @@ public class SongPlayFragment extends Fragment {
 
     }
 
-    public void updateSongInfo(RegisteredSong song) {
+    public void updateSongInfo(Song song) {
         Log.d("SongPlayer (fragment)", "Updating song information");
         songTitleView.setText(song.getTitle());
         songArtistView.setText(song.getArtist());
 
     }
+
+
+    private Handler seekbarUpdateHandler = new Handler();
+    private SeekBar seekBar;
+    private ToggleButton playStopBtn;
+    private boolean isScrubbing = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,20 +94,75 @@ public class SongPlayFragment extends Fragment {
         songTitleView = view.findViewById(R.id.songPlayTitle);
         songArtistView = view.findViewById(R.id.songPlayArtist);
 
-        int currentSong = SongPlayer.getCurrentSong();
-        if (currentSong > 0) {
+        int currentSong = SongPlayer.GetCurrentSong();
+
+        if (currentSong >= 0) {
             updateSongInfo(SongRegistry.getSong(currentSong));
         }
 
-        onSongChangeListener = SongPlayer.OnSongPlayChange.addListener(song -> {
+        listenerGroup.subscribe(SongPlayer.OnSongPlayChange, song -> {
             updateSongInfo(song);
         });
+
+        // Song progress bar
+        seekBar = view.findViewById(R.id.songPlaySeekBar);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    SongPlayer.SetCurrentSongProgress(progress / 100f);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                isScrubbing = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isScrubbing = false;
+            }
+        });
+
+        // Update progress bar every half a second
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // When scrubbing, stop updating the progress bar
+                if (!isScrubbing) {
+                    seekBar.setProgress(Math.round(SongPlayer.GetCurrentSongProgress() * 100));
+                }
+                seekbarUpdateHandler.postDelayed(this, 500);
+            }
+        });
+        // Play/stop button
+        playStopBtn = view.findViewById(R.id.songPlay_PlayStopBtn);
+        playStopBtn.setSaveEnabled(false); // Toggle button will save state, so disable it
+
+
+        playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
+
+
+        playStopBtn.setOnCheckedChangeListener((compoundButton,isChecked) -> {
+            if (SongPlayer.IsReady()) {
+                // if is checked, music has been paused
+                if (isChecked) {
+                    SongPlayer.Resume();
+                } else {
+                    SongPlayer.Pause();
+                }
+            }
+        });
+
+
         return view;
     }
 
     @Override
     public void onDestroy() {
-        onSongChangeListener.remove();
+        listenerGroup.unsubscribeAll();
         super.onDestroy();
     }
 }

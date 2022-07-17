@@ -30,4 +30,5 @@
     <style name="roundedImageView2" parent="roundedImageView">
         <item name="cornerSize">12dp</item>
     </style>
+
 </resources>

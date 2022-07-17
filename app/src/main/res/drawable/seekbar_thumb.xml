@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/seekbar_thumb_drawable"/>
+
+    <item>
+        <shape android:shape="oval">
+            <size android:height="16dp" android:width="16dp"  />
+            <solid android:color="@color/clear" />
+        </shape>
+    </item>
+</selector>
