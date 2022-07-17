@@ -80,12 +80,12 @@
             android:textOn=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-            app:layout_constraintStart_toEndOf="@+id/imageButton3"
+            app:layout_constraintEnd_toStartOf="@+id/songPlay_SkipBtn"
+            app:layout_constraintStart_toEndOf="@+id/songPlay_PrevBtn"
             app:layout_constraintTop_toBottomOf="@+id/songPlaySeekBar" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/songPlay_SkipBtn"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
@@ -102,7 +102,7 @@
             android:contentDescription="@string/skip_btn_text" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/songPlay_PrevBtn"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
