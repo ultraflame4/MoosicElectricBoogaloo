@@ -19,8 +19,6 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
     Context ctx;
     String[] favouriteItemNames;
     LayoutInflater inflater;
-    //todo refrence from https://stackoverflow.com/questions/33337301/nested-scrollview-inside-gridview-place-is-taking-only-somepart#:~:text=You%20can%20put%20a%20GridView,for%20everything%20to%20display%20properly.
-    //todo refrence from https://stackoverflow.com/questions/40587168/simple-android-grid-example-using-recyclerview-with-gridlayoutmanager-like-the
 
     /*
      * Provide a reference to the type of views that you are using
@@ -61,6 +59,7 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
 
     @Override
     public void onBindViewHolder(@NonNull FavouritesGridAdapter.ViewHolder holder, int position) {
+        // todo do for image also
         holder.getTitleText().setText(favouriteItemNames[position]);
     }
 
@@ -69,43 +68,5 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
         return favouriteItemNames.length;
     }
 
-    //    @Override
-//    public int getCount() {
-//        return favouriteItemNames.length;
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return 0;
-//    }
-//
-//    // method to update data
-//    public void updateData(String[] favouriteItemNames) {
-//        this.favouriteItemNames = favouriteItemNames;
-//        notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public View getView(int i, View convertView, ViewGroup viewGroup) {
-//        if (inflater == null) {
-//            inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        }
-//        if (convertView == null){
-//            convertView = inflater.inflate(R.layout.favourites_griditem, null);
-//        }
-//
-//
-//        //todo set image for fav item btn
-//        ImageButton favGridItemBtn = convertView.findViewById(R.id.favItemImageBtn);
-//        TextView favGridItemText = convertView.findViewById(R.id.favItemText);
-//
-//        favGridItemText.setText(favouriteItemNames[i]);
-//
-//        return convertView;
 //    }
 }
