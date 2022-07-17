@@ -34,6 +34,7 @@ Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
 
 ### Adding of songs from links:
  - This library [here](https://github.com/Litarvan/vget)
+ - Download Album covers [here](https://github.com/square/picasso)
 
 ### Advanced playing of songs and playlist.
  1. New class to wrap around media player and playlists
