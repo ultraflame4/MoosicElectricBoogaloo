@@ -1,22 +1,29 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home.Library;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData;
 
 public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapter.ViewHolder> {
     Context ctx;
-    SongPlaylist[] playlists;
+    RegistryItem<SongPlaylist>[] playlists;
     LayoutInflater inflater;
 
 
@@ -26,6 +33,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
         private final TextView playlistCreator;
         private final TextView playlistSongCount;
         private final TextView playlistLength;
+        private final CardView cardView;
 
         public ViewHolder(View view) {
             super(view);
@@ -35,6 +43,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
             playlistCreator = view.findViewById(R.id.playlist_creator);
             playlistSongCount = view.findViewById(R.id.playlist_songcount);
             playlistLength = view.findViewById(R.id.playlist_totallength);
+            cardView = view.findViewById(R.id.playlist_itemcard);
 
         }
 
@@ -58,12 +67,22 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
         public TextView getPlaylistLength() {
             return playlistLength;
         }
+
+        public CardView getCardView() {
+            return cardView;
+        }
     }
 
+    EventCallbackListener<RegistryUpdateData<SongPlaylist>> onPlaylistAddedListener;
 
-    public PlaylistListAdapter(Context ctx, SongPlaylist[] playlists) {
+    public PlaylistListAdapter(Context ctx) {
         this.ctx = ctx;
-        this.playlists = playlists;
+        this.playlists = SongRegistry.playlists.getAllItems();
+        onPlaylistAddedListener = SongRegistry.playlists.OnItemsUpdate.addListener(playlist -> {
+            Log.d("PlaylistListAdapter", "SongRegistry playlists updated, updating list");
+            playlists = SongRegistry.playlists.getAllItems();
+            notifyDataSetChanged();
+        });
 
     }
 
@@ -76,10 +95,14 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlaylistListAdapter.ViewHolder holder, int i) {
-        holder.getPlaylistName().setText(playlists[i].getTitle());
-        holder.getPlaylistCreator().setText(playlists[i].getCreator());
-        holder.getPlaylistSongCount().setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlists[i].getSongCount());
-        holder.getPlaylistLength().setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlists[i].getLength());
+        SongPlaylist playlist = playlists[i].item;
+        holder.getPlaylistName().setText(playlist.getTitle());
+        holder.getPlaylistCreator().setText(playlist.getCreator());
+        holder.getPlaylistSongCount().setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());
+        holder.getPlaylistLength().setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLength());
+        holder.getCardView().setOnClickListener(view -> {
+            onItemClick(view,i);
+        });
     }
 
     @Override
@@ -87,6 +110,12 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
         return playlists.length;
     }
 
+    public void onItemClick(View view, int position) {
+        // TODO:IMPORTANT NOTE THIS SHOULD NOT PLAY THE PLAYLIST, BUT  OPEN THE PREVIEW PAGE FOR THE PLAYLIST
+        RegistryItem<SongPlaylist> playlist = playlists[position];
+        SongPlayer.PlayPlaylist(playlist.id);
+
+    }
 
     //    @Override
 //    public int getCount() {

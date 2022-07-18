@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
@@ -33,15 +34,20 @@ public class AppHomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // register temp playable songs todo remove
-        SongRegistry.registerSong(
-                new Song("abcdefu","GAYLE","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+        SongRegistry.songs.add(
+                new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
-        SongRegistry.registerSong(
-                new Song("abcdefuA","GAYLEA","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+        SongRegistry.songs.add(
+                new Song("abcdefuA", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
-        SongRegistry.registerSong(
-                new Song("abcdefuB","GAYLEB","https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+        SongRegistry.songs.add(
+                new Song("abcdefuB", "GAYLEB", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
+        // temp values for testing todo remove ltr
+        SongRegistry.playlists.add(
+                new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1,2})
+        );
+
 
         SongPlayer.init();
 

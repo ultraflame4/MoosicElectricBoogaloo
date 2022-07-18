@@ -13,27 +13,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.RegisteredSong;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
-
-import java.time.Instant;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData;
 
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
     Context ctx;
-    RegisteredSong[] songs;
+    RegistryItem<Song>[] songs;
     LayoutInflater inflater;
 
-    EventCallbackListener<RegisteredSong> onSongAddedListener;
+    EventCallbackListener<RegistryUpdateData<Song>> onSongAddedListener;
 
     public SongsListAdapter(Context ctx) {
         this.ctx = ctx;
-        songs = SongRegistry.getAllSongs();
-        onSongAddedListener = SongRegistry.OnSongAdded.addListener(song ->{
+        songs = SongRegistry.songs.getAllItems();
+        onSongAddedListener = SongRegistry.songs.OnItemsUpdate.addListener(song ->{
             Log.d("SongsListAdapter", "SongRegistry updated, updating list");
-            songs = SongRegistry.getAllSongs();
+            songs = SongRegistry.songs.getAllItems();
             notifyDataSetChanged();
         });
     }
@@ -93,7 +92,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Song song = songs[position];
+        Song song = songs[position].item;
 //        holder.getSongImg().setImageResource(song.getImage()); todo set image
 
         holder.getSongName().setText(song.getTitle());
@@ -107,8 +106,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     }
 
     public void onItemClick(View view, int position) {
-        RegisteredSong song = songs[position];
-        SongPlayer.PlaySong(song.getId());
+        RegistryItem<Song> song = songs[position];
+        SongPlayer.PlaySong(song.id);
 
     }
 

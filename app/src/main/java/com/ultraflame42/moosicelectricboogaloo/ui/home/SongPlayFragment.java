@@ -29,6 +29,7 @@ public class SongPlayFragment extends Fragment {
 
     private EventListenerGroup listenerGroup = new EventListenerGroup();
     private ImageButton skipBtn;
+    private ImageButton prevBtn;
 
     public SongPlayFragment() {
         // Required empty public constructor
@@ -57,6 +58,7 @@ public class SongPlayFragment extends Fragment {
     private SeekBar seekBar;
     private ToggleButton playStopBtn;
     private boolean isScrubbing = false;
+    int seekBarProgressResolution = 20000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,11 +71,11 @@ public class SongPlayFragment extends Fragment {
         int currentSong = SongPlayer.GetCurrentSong();
 
         if (currentSong >= 0) {
-            updateSongInfo(SongRegistry.getSong(currentSong));
+            updateSongInfo(SongRegistry.songs.getItem(currentSong));
         }
 
-        listenerGroup.subscribe(SongPlayer.OnSongPlayChange, song -> {
-            updateSongInfo(song);
+        listenerGroup.subscribe(SongPlayer.OnSongPlayChange, regItem -> {
+            updateSongInfo(regItem.item);
         });
 
         // Song progress bar
@@ -83,7 +85,7 @@ public class SongPlayFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    SongPlayer.SetCurrentSongProgress(progress / 100f);
+                    SongPlayer.SetCurrentSongProgress(progress / (float)seekBarProgressResolution);
                 }
             }
 
@@ -98,15 +100,17 @@ public class SongPlayFragment extends Fragment {
             }
         });
 
+
+        seekBar.setMax(seekBarProgressResolution);
         // Update progress bar every half a second
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // When scrubbing, stop updating the progress bar
                 if (!isScrubbing) {
-                    seekBar.setProgress(Math.round(SongPlayer.GetCurrentSongProgress() * 100));
+                    seekBar.setProgress(Math.round(SongPlayer.GetCurrentSongProgress() * seekBarProgressResolution));
                 }
-                seekbarUpdateHandler.postDelayed(this, 500);
+                seekbarUpdateHandler.postDelayed(this, 100);
             }
         });
         // Play/stop button
@@ -125,8 +129,7 @@ public class SongPlayFragment extends Fragment {
                 } else {
                     SongPlayer.Pause();
                 }
-            }
-            else {
+            } else {
                 SongPlayer.PlaySong(0);
             }
 
@@ -137,10 +140,14 @@ public class SongPlayFragment extends Fragment {
         });
 
         skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
-        skipBtn.setOnClickListener(v->{
+        skipBtn.setOnClickListener(v -> {
             SongPlayer.PlayNext();
         });
 
+        prevBtn = view.findViewById(R.id.songPlay_PrevBtn);
+        prevBtn.setOnClickListener(v -> {
+            SongPlayer.PlayPrev();
+        });
 
         return view;
     }

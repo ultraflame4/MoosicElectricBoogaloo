@@ -20,22 +20,24 @@ public class Song {
 
     /**
      * Constructor for a song.
-     * @param title Song title
-     * @param artist Song artist
+     *
+     * @param title    Song title
+     * @param artist   Song artist
      * @param fileLink Song file link
      */
     public Song(String title, String artist, String fileLink) {
         this.title = title;
         this.artist = artist;
-        this.album= title;
+        this.album = title;
         this.fileLink = fileLink;
     }
 
     /**
      * Constructor for a song.
-     * @param title Song title
-     * @param artist Song artist
-     * @param album Album song belongs to.
+     *
+     * @param title    Song title
+     * @param artist   Song artist
+     * @param album    Album song belongs to.
      * @param fileLink Song file link
      */
     public Song(String title, String artist, String album, String fileLink) {
@@ -55,6 +57,7 @@ public class Song {
 
     /**
      * Caculates length of song using media player
+     *
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
@@ -94,6 +97,7 @@ public class Song {
      * @return
      */
     private String formattedLength = "";
+
     public String getLengthFormatted() {
         if (formattedLength.equals("")) {
             long minutes = TimeUnit.MILLISECONDS.toMinutes(getLength());

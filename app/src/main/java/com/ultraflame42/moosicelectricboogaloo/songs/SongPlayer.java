@@ -1,18 +1,15 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
-import android.content.Context;
 import android.media.MediaPlayer;
-import android.widget.Toast;
+import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.ultraflame42.moosicelectricboogaloo.AppHomeActivity;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Handler;
+import java.util.Collections;
+import java.util.List;
 
 public class SongPlayer {
     // If -1, no playlist is playing.
@@ -21,11 +18,14 @@ public class SongPlayer {
     private static MediaPlayer mediaPlayer = new MediaPlayer();
     private static int pausedPosition = 0;
     private static boolean isPaused = false;
-    //events
+    private static boolean isLooping = false;
+    private static boolean isShuffle = false;
+
+
     /**
-     * This event fires when a new song starts playing
+     * This event fires when a new song starts playing or there are no more song playing.
      */
-    public static CustomEvents<RegisteredSong> OnSongPlayChange = new CustomEvents<>();
+    public static CustomEvents<RegistryItem<Song>> OnSongPlayChange = new CustomEvents<>();
     /**
      * This event fires when the Song Player play state is changed
      * True if the state has changed to playing
@@ -34,9 +34,8 @@ public class SongPlayer {
     public static CustomEvents<Boolean> OnSongPlayStateChange = new CustomEvents<>();
 
 
-
     // A copy of the current playlist., hence the name shadow
-    private static ArrayList<Integer> currentPlaylistShadow = new ArrayList<Integer>();
+    private static List<Integer> currentPlaylistShadow = new ArrayList<>();
 
     public static void init() {
         mediaPlayer.setOnCompletionListener(mediaPlayer1 -> {
@@ -53,13 +52,13 @@ public class SongPlayer {
     private static void playSong(int songId) {
 
 
-        RegisteredSong song = SongRegistry.getSong(songId);
+        RegistryItem<Song> song = SongRegistry.songs.get(songId);
         try {
             isPaused = false;
             pausedPosition = 0;
             mediaPlayer.reset();
 
-            mediaPlayer.setDataSource(song.getFileLink());
+            mediaPlayer.setDataSource(song.item.getFileLink());
 
             mediaPlayer.prepare();
 
@@ -85,8 +84,15 @@ public class SongPlayer {
     }
 
 
-    public static void PlayPlaylist() {
-        //todo
+    public static void PlayPlaylist(int playlistId) {
+        currentPlaylist = playlistId;
+        currentPlaylistShadow = SongRegistry.playlists.get(playlistId).item.getSongs();
+        if (isShuffle) {
+            Log.d("SongPlayer", "Shuffling playlist");
+            Collections.shuffle(currentPlaylistShadow);
+        }
+
+        playSong(currentPlaylistShadow.get(0));
     }
 
     /**
@@ -152,8 +158,9 @@ public class SongPlayer {
 
     /**
      * Returns the next song in the playlist
-     *
+     * <p>
      * -1 if there is no next song
+     *
      * @return
      */
     public static int getNextSongInPlaylist() {
@@ -164,9 +171,22 @@ public class SongPlayer {
         // Else + 1 to pos.
         // In either ways, we get what we want (-1+1=0)
 
-        int nextPos = pos+1;
+        int nextPos = pos + 1;
         // If nextPos is more than playlist size, return -1
-        if (nextPos >= currentPlaylistShadow.size()-1) {
+
+        if (nextPos > currentPlaylistShadow.size() - 1) {
+            return -1;
+        }
+        return currentPlaylistShadow.get(nextPos);
+    }
+
+    public static int getPrevSongInPlaylist() {
+        // get current position of song in playlist
+        int pos = currentPlaylistShadow.indexOf(currentSong);
+
+        int nextPos = pos - 1;
+        // If nextPos is more than playlist size, return -1
+        if (nextPos < 0) {
             return -1;
         }
         return currentPlaylistShadow.get(nextPos);
@@ -180,19 +200,41 @@ public class SongPlayer {
     }
 
     public static void PlayNext() {
+        Log.d("SongPlayer", "Playing Next Song");
         // Play next song in playlist. If -1 no next song.
         int nxtSong = getNextSongInPlaylist();
         if (nxtSong >= 0) {
 
             playSong(nxtSong);
-        }
-        else {
+        } else {
             resetState();
-            // no next song. todo handle looping and reshuffling here.
+            Log.d("SongPlayer: WARN but not really", "There is no next song");
+
+            // If looping, replay playlist or song
+            if (isLooping) {
+                Log.d("SongPlayer", "Will loop current song or playlist");
+                // if not playing playlist, replay song
+                if (currentPlaylist < 0) {
+
+                    playSong(currentSong);
+
+                } else {
+                    // Replay current playlist
+                    PlayPlaylist(currentPlaylist);
+                }
+
+            }
         }
     }
 
     public static void PlayPrev() {
+        int prevSong = getPrevSongInPlaylist();
+        if (prevSong < 0) {
+            // no prev song. Replay current song.
+            playSong(currentSong);
+        } else {
+            playSong(prevSong);
+        }
 
     }
 
@@ -207,5 +249,21 @@ public class SongPlayer {
      */
     public static boolean IsReady() {
         return mediaPlayer.isPlaying() || isPaused;
+    }
+
+    public static boolean IsLooping() {
+        return isLooping;
+    }
+
+    public static void SetLooping(boolean isLooping) {
+        SongPlayer.isLooping = isLooping;
+    }
+
+    public static boolean IsShuffle() {
+        return isShuffle;
+    }
+
+    public static void SetShuffle(boolean toShuffle) {
+        SongPlayer.isShuffle = toShuffle;
     }
 }

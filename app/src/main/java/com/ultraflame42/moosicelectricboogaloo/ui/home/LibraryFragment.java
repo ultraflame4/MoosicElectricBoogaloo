@@ -7,22 +7,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ListView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.FavouritesGridAdapter;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.GridSpacingItemDecoration;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.PlaylistListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.SongsListAdapter;
-
-import java.util.List;
 
 
 public class LibraryFragment extends Fragment {
@@ -58,14 +53,8 @@ public class LibraryFragment extends Fragment {
         favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favGridView.setAdapter(favouritesGridAdapter);
 
-        // temp values for testing todo remove ltr
-        SongPlaylist[] tempPlaylists = {
-                new SongPlaylist("Creator 1", "Title 1"),
-                new SongPlaylist("Creator 2", "Title 2"),
-                new SongPlaylist("Creator 3", "Title 3"),
-        };
 
-        PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), tempPlaylists);
+        PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext());
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
 
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
