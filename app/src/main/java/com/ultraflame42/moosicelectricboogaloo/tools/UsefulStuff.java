@@ -1,6 +1,8 @@
 package com.ultraflame42.moosicelectricboogaloo.tools;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,5 +30,22 @@ public class UsefulStuff {
         mp.setDataSource(song.getFileLink());
         mp.prepare();
         return mp.getDuration();
+    }
+
+    public static DisplayMetrics getDisplayMetrics(AppCompatActivity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics;
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public static float convertDpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 }

@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
-            android:letterSpacing="0.06"
             android:text="@string/LibraryMenuTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
