@@ -39,8 +39,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.yausername.youtubedl-android:library:0.13.+'
-    implementation 'com.github.yausername.youtubedl-android:ffmpeg:0.13.+'
+    implementation 'com.github.amarjain07:StickyScrollView:<latest-version>'
 
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-auth'
