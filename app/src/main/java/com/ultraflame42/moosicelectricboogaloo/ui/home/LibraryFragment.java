@@ -1,5 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
-import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.FavouritesGridAdapter;
-import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.GridSpacingItemDecoration;
-import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.PlaylistListAdapter;
-import com.ultraflame42.moosicelectricboogaloo.ui.home.Library.SongsListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.Library.FavouritesGridAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.Library.GridSpacingItemDecoration;
+import com.ultraflame42.moosicelectricboogaloo.adapters.Library.PlaylistListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.Library.SongsListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.ui.playlist.PlaylistActivity;
 
 
 public class LibraryFragment extends Fragment {
@@ -54,7 +54,7 @@ public class LibraryFragment extends Fragment {
         favGridView.setAdapter(favouritesGridAdapter);
 
 
-        PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext());
+        PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
 
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,5 +66,11 @@ public class LibraryFragment extends Fragment {
         songsListView.setAdapter(songsListAdapter);
 
         return view;
+    }
+
+    public void openPlaylist(int playlistId) {
+        Intent intent = new Intent(getActivity(), PlaylistActivity.class);
+        intent.putExtra("playlistId", playlistId);
+        startActivity(intent);
     }
 }

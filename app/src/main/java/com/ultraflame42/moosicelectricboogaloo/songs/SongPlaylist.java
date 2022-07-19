@@ -9,6 +9,7 @@ public class SongPlaylist {
     private String creator;
     private String title;
     private final boolean isAlbum; // if true, this playlist is an album.
+
     private int totalLength=0; // in milliseconds
 
     /**

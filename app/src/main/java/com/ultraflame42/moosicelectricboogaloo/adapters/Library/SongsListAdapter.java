@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.ui.home.Library;
+package com.ultraflame42.moosicelectricboogaloo.adapters.Library;
 
 import android.content.Context;
 import android.util.Log;

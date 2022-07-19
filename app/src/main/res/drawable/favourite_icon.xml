@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="100">
+    <item android:state_checked="true">
+        <inset android:drawable="@drawable/ic_outline_star_border_24" android:inset="4dp" />
+    </item>
+    <item>
+        <inset android:drawable="@drawable/ic_outline_star_border_24" android:inset="4dp" />
+    </item>
+</selector>

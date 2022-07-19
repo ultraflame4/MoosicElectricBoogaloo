@@ -41,4 +41,6 @@
     <string name="song_play_artist_default">None</string>
     <string name="prev_btn_text">Previous</string>
     <string name="skip_btn_text">Skip</string>
+    <string name="playlist_add_song_txt">Add song to playlist</string>
+    <string name="playlist_more_options_txt">More options</string>
 </resources>

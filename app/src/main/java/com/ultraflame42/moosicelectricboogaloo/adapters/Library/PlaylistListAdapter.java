@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.ui.home.Library;
+package com.ultraflame42.moosicelectricboogaloo.adapters.Library;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData;
 
@@ -74,9 +74,11 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
     }
 
     EventCallbackListener<RegistryUpdateData<SongPlaylist>> onPlaylistAddedListener;
+    private EventFunctionCallback<Integer> OnPlaylistClickedCallback;
 
-    public PlaylistListAdapter(Context ctx) {
+    public PlaylistListAdapter(Context ctx, EventFunctionCallback<Integer> onPlaylistClickedCallback) {
         this.ctx = ctx;
+        OnPlaylistClickedCallback = onPlaylistClickedCallback;
         this.playlists = SongRegistry.playlists.getAllItems();
         onPlaylistAddedListener = SongRegistry.playlists.OnItemsUpdate.addListener(playlist -> {
             Log.d("PlaylistListAdapter", "SongRegistry playlists updated, updating list");
@@ -110,10 +112,12 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
         return playlists.length;
     }
 
+
+
     public void onItemClick(View view, int position) {
         // TODO:IMPORTANT NOTE THIS SHOULD NOT PLAY THE PLAYLIST, BUT  OPEN THE PREVIEW PAGE FOR THE PLAYLIST
         RegistryItem<SongPlaylist> playlist = playlists[position];
-        SongPlayer.PlayPlaylist(playlist.id);
+        OnPlaylistClickedCallback.call(playlist.id);
 
     }
 
