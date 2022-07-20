@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.adapters.Library;
+package com.ultraflame42.moosicelectricboogaloo.adapters.library;
 
 import android.graphics.Rect;
 import android.view.View;

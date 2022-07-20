@@ -1,26 +1,25 @@
-package com.ultraflame42.moosicelectricboogaloo.adapters.Library;
+package com.ultraflame42.moosicelectricboogaloo.adapters.library;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.SongListItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData;
 
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
+public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolder> {
     Context ctx;
     RegistryItem<Song>[] songs;
     LayoutInflater inflater;
@@ -35,48 +34,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
             songs = SongRegistry.songs.getAllItems();
             notifyDataSetChanged();
         });
+
     }
 
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-
-        private final ShapeableImageView songImg;
-        private final TextView songName;
-        private final TextView songArtist;
-        private final TextView songCount;
-        private final CardView cardView;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.songlist_itemcard);
-            songImg = view.findViewById(R.id.songList_itemImage);
-            songName = view.findViewById(R.id.songList_itemTitle);
-            songArtist = view.findViewById(R.id.songList_itemArtist);
-            songCount = view.findViewById(R.id.songList_itemLength);
-        }
-
-        public ShapeableImageView getSongImg() {
-            return songImg;
-        }
-
-        public TextView getSongName() {
-            return songName;
-        }
-
-        public TextView getSongArtist() {
-            return songArtist;
-        }
-
-        public TextView getSongCount() {
-            return songCount;
-        }
-
-        public CardView getCardView() {
-            return cardView;
-        }
-    }
 
     @Override
     public int getItemCount() {
@@ -85,13 +45,13 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
     @NonNull
     @Override
-    public SongsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SongListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
-        return new SongsListAdapter.ViewHolder(view);
+        return new SongListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
         Song song = songs[position].item;
 //        holder.getSongImg().setImageResource(song.getImage()); todo set image
 

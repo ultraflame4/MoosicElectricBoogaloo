@@ -10,4 +10,5 @@ import java.util.HashMap;
 public class SongRegistry{
     public static Registry<Song> songs = new Registry<>();
     public static Registry<SongPlaylist> playlists = new Registry<>();
+
 }

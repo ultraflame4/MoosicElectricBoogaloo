@@ -13,10 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.adapters.Library.FavouritesGridAdapter;
-import com.ultraflame42.moosicelectricboogaloo.adapters.Library.GridSpacingItemDecoration;
-import com.ultraflame42.moosicelectricboogaloo.adapters.Library.PlaylistListAdapter;
-import com.ultraflame42.moosicelectricboogaloo.adapters.Library.SongsListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.library.FavouritesGridAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
+import com.ultraflame42.moosicelectricboogaloo.adapters.library.PlaylistListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.ui.playlist.PlaylistActivity;
 
 

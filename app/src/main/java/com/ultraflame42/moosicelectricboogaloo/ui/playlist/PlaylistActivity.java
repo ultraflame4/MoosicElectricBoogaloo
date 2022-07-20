@@ -9,12 +9,17 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.adapters.Playlist.PlaylistRecylerViewAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.playlist.PlaylistRecylerViewAdapter;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 
 public class PlaylistActivity extends AppCompatActivity {
 
@@ -24,6 +29,11 @@ public class PlaylistActivity extends AppCompatActivity {
     private NestedScrollView nestedScroll;
 
     private static final int yOffsetThreshold = 1010; // threshold before the nested scrollview stops scrolling
+    private ToggleButton playlistPlayBtn;
+
+    private EventListenerGroup listenerGroup = new EventListenerGroup();
+    private TextView playlistTitle;
+    private TextView playlistCreator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +46,18 @@ public class PlaylistActivity extends AppCompatActivity {
             playlistId = extras.getInt("playlistId");
         } else {
             Toast.makeText(this, "Error: Could not get playlist index", Toast.LENGTH_SHORT).show();
+            return; // If cannot get playlist index. STOP
         }
+
+        SongPlaylist playlist = SongRegistry.playlists.get(playlistId).item;
+
+        playlistTitle = findViewById(R.id.playlistTitle);
+        playlistCreator = findViewById(R.id.playlistCreator);
+
+        playlistTitle.setText(playlist.getTitle());
+        playlistCreator.setText(playlist.getCreator());
+
+        //todo do image part for playlist
 
         favBtn = findViewById(R.id.favouriteBtn);
         favBtn.setSaveEnabled(false);
@@ -44,8 +65,20 @@ public class PlaylistActivity extends AppCompatActivity {
             handleFavourite();
         });
 
+
+        playlistPlayBtn = findViewById(R.id.playlistPlay);
+        playlistPlayBtn.setSaveEnabled(false);
+        updatePlayStopBtn(!SongPlayer.IsPaused());
+        playlistPlayBtn.setOnClickListener(view -> {
+            handlePlaylistPlayStop();
+        });
+        listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange,this::updatePlayStopBtn);
+
+
+        // -----UI Scrolling stuff---------
+
         recyclerView = findViewById(R.id.scollCtn);
-        recyclerView.setAdapter(new PlaylistRecylerViewAdapter());
+        recyclerView.setAdapter(new PlaylistRecylerViewAdapter(playlistId,this));
 
         nestedScroll = findViewById(R.id.nestedScrollCtn);
 
@@ -70,10 +103,29 @@ public class PlaylistActivity extends AppCompatActivity {
                 recyclerView.setNestedScrollingEnabled(false);
             }
 
-
-
         });
 
+        // -----END---------
+
+
+    }
+
+    private void handlePlaylistPlayStop() {
+        Log.d("PlaylistActivity","Playlist play button clicked");
+        if (!playlistPlayBtn.isChecked()) {
+            SongPlayer.Pause();
+        } else {
+            if (SongPlayer.getCurrentPlaylist() == playlistId) {
+                SongPlayer.Resume();
+            } else {
+                SongPlayer.PlayPlaylist(playlistId, 0);
+            }
+        }
+    }
+
+    private void updatePlayStopBtn(Boolean isPlaying) {
+        Log.d("PlaylistActivity","Updating Play/Stop button");
+        playlistPlayBtn.setChecked(!SongPlayer.IsPaused()&&SongPlayer.getCurrentPlaylist()==playlistId);
     }
 
     public void handleBack(View view) {

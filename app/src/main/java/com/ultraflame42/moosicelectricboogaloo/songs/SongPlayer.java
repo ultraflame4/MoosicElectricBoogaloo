@@ -51,7 +51,6 @@ public class SongPlayer {
      */
     private static void playSong(int songId) {
 
-
         RegistryItem<Song> song = SongRegistry.songs.get(songId);
         try {
             isPaused = false;
@@ -83,16 +82,29 @@ public class SongPlayer {
         playSong(songId);
     }
 
-
-    public static void PlayPlaylist(int playlistId) {
+    /**
+     * Plays a playlist.
+     * @param playlistId The playlist id
+     * @param startPosition Which song to start playing from.
+     */
+    public static void PlayPlaylist(int playlistId,int startPosition) {
         currentPlaylist = playlistId;
         currentPlaylistShadow = SongRegistry.playlists.get(playlistId).item.getSongs();
         if (isShuffle) {
             Log.d("SongPlayer", "Shuffling playlist");
             Collections.shuffle(currentPlaylistShadow);
         }
-
+        // using collections rotate, shift the song at startPosition to first position.
+        Collections.rotate(currentPlaylistShadow,startPosition);
+        // now play the first song.
         playSong(currentPlaylistShadow.get(0));
+    }
+    /**
+     * Plays a playlist.
+     * @param playlistId The playlist id
+     */
+    public static void PlayPlaylist(int playlistId) {
+        PlayPlaylist(playlistId,0);
     }
 
     /**
@@ -117,6 +129,10 @@ public class SongPlayer {
         } else {
             return 0;
         }
+    }
+
+    public static int getCurrentPlaylist() {
+        return currentPlaylist;
     }
 
     /**

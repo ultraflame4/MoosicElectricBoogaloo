@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.adapters.Library;
+package com.ultraflame42.moosicelectricboogaloo.adapters.library;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;

@@ -48,11 +48,11 @@ public class SongPlaylist {
         this.isAlbum = isAlbum;
     }
 
-
     public void addSong(int songId) {
         songs.add(songId);
         totalLength+=SongRegistry.songs.get(songId).item.getLength();
     }
+
     public void removeSongAtIndex(int index) {
         songs.remove(index);
         totalLength-=SongRegistry.songs.get(songs.get(index)).item.getLength();

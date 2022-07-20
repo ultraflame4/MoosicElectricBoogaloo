@@ -101,7 +101,7 @@
                     app:srcCompat="@drawable/ic_launcher_background" />
 
                 <TextView
-                    android:id="@+id/itemTitle"
+                    android:id="@+id/playlistTitle"
                     style="@style/menuTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/shapeableImageView3" />
 
                 <TextView
-                    android:id="@+id/itemCreator"
+                    android:id="@+id/playlistCreator"
                     style="@style/listItem_h2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/playlistTitle" />
 
                 <ToggleButton
                     android:id="@+id/playlistPlay"
@@ -137,7 +137,7 @@
                     android:textOn=""
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/itemTitle" />
+                    app:layout_constraintTop_toTopOf="@+id/playlistTitle" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/scollCtn"
@@ -149,7 +149,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/itemCreator">
+                    app:layout_constraintTop_toBottomOf="@+id/playlistCreator">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </androidx.constraintlayout.widget.ConstraintLayout>
