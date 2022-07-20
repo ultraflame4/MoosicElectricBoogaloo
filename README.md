@@ -10,19 +10,17 @@ A music app created for a school project
 - [x] Implement playlists
 - [x] Implement basic playlist ui
 - 
-### common features (must have)
-- [ ] Implement searching of songs
+### core features (must have)
+- [ ] Implement searching of songs 
 - [ ] Implement removal songs
 - [ ] Implement removal of playlists
 - [ ] basic settings page (for logout, changing password & clearing of data)
+- [ ] Implement adding of songs through links (web audio links only for now) & local files
+- [ ] Implement creation of playlist
 
 #### data stuff
 - [ ] Implement local data storage
 - [ ] Implement cloud data storage for logged in users
-
-### core features 
-- [ ] Implement adding of songs through links (web audio links only for now) & local files
-- [ ] Implement creation of playlist
 
 ### common features pt.2
 - [ ] Implement editing of song information
