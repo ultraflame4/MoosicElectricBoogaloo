@@ -17,6 +17,7 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.library.FavouritesGridAd
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.PlaylistListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter;
+import com.ultraflame42.moosicelectricboogaloo.ui.others.SearchActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.playlist.PlaylistActivity;
 
 
@@ -71,6 +72,11 @@ public class LibraryFragment extends Fragment {
     public void openPlaylist(int playlistId) {
         Intent intent = new Intent(getActivity(), PlaylistActivity.class);
         intent.putExtra("playlistId", playlistId);
+        startActivity(intent);
+    }
+
+    public void handleSearchBtn(View view) {
+        Intent intent = new Intent(getActivity(), SearchActivity.class);
         startActivity(intent);
     }
 }

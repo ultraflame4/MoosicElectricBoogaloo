@@ -43,4 +43,5 @@
     <string name="skip_btn_text">Skip</string>
     <string name="playlist_add_song_txt">Add song to playlist</string>
     <string name="playlist_more_options_txt">More options</string>
+    <string name="library_search_hint">Search in the library</string>
 </resources>

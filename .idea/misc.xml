@@ -7,9 +7,11 @@
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_add_fill0_wght400_grad0_opsz48.xml" value="0.3255" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.3255" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.3255" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.332" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.2325" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_logo.xml" value="0.205" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_outline_more_horiz_24.xml" value="0.3255" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_outline_star_border_24.xml" value="0.332" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_play_circle_fill1_wght400_grad_25_opsz48.xml" value="0.254" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_playcircleandroid.xml" value="0.254" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/ic_skip_next_fill1_wght400_grad0_opsz48.xml" value="0.1915" />
@@ -19,6 +21,7 @@
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/more_options_icon.xml" value="0.3255" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/playlist_header.xml" value="0.3255" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/rounded_corner.xml" value="0.248" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/search_icon.xml" value="0.332" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/seekbar_drawable.xml" value="0.2465" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/seekbar_thumb.xml" value="0.2465" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/drawable/seekbar_thumb_drawable.xml" value="0.296" />
@@ -38,10 +41,12 @@
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_login_home.xml" value="0.33" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_login_home_menu.xml" value="0.2552083333333333" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_playlist.xml" value="0.2" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_playlist.xml" value="0.33" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_search.xml" value="0.5" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/activity_searchable.xml" value="0.2975630611372381" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/comp_nav_button.xml" value="0.33" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/favourites_griditem.xml" value="0.5" />
-        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/fragment_library.xml" value="0.33" />
+        <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/fragment_library.xml" value="0.67" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/fragment_notifications.xml" value="0.3625" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/fragment_search.xml" value="0.3484375" />
         <entry key="..\:/SchoolStuff/COMT/AndroidStudio/MoosicElectricBoogaloo/app/src/main/res/layout/fragment_settings.xml" value="0.35507246376811596" />
