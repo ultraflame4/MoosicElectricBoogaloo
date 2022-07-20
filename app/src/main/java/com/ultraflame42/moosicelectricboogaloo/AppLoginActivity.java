@@ -66,16 +66,16 @@ public class AppLoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         }
     }
 
     @Override
-    public void finish() {
+    public void onDestroy() {
         // Unsubscribe all event listeners
+        Log.d("AppLogin", "Unsubscribing all event listeners");
         eGroup.unsubscribeAll();
-        super.finish();
+        super.onDestroy();
     }
 
     public void handleContinueAsGuest(View view) {
