@@ -50,4 +50,7 @@ public class Registry<D> {
     public RegistryItem<D>[] getAllItems() {
         return items.values().toArray(new RegistryItem[0]);
     }
+    public int count() {
+        return items.size();
+    }
 }

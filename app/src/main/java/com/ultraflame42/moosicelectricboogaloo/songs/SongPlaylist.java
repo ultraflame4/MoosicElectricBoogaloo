@@ -22,7 +22,11 @@ public class SongPlaylist {
         this.creator = creator;
         this.title = title;
         this.songs= Arrays.asList(songs);
-        isAlbum = false;
+       isAlbum = false;
+
+       this.songs.forEach(integer -> {
+           totalLength+=SongRegistry.songs.get(integer).item.getLength();
+       });
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.FavouritesGridAdapter;
@@ -66,6 +68,8 @@ public class LibraryFragment extends Fragment {
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);
 
+        ImageButton imgBtn = view.findViewById(R.id.libSearchBtn);
+        imgBtn.setOnClickListener(view1 -> handleSearchBtn());
         return view;
     }
 
@@ -75,8 +79,9 @@ public class LibraryFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void handleSearchBtn(View view) {
+    public void handleSearchBtn() {
         Intent intent = new Intent(getActivity(), SearchActivity.class);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+
     }
 }
