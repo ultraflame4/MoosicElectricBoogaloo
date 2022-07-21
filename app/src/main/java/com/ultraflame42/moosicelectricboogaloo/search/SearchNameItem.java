@@ -1,5 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo.search;
 
+import android.util.Log;
+
 /**
  * This class represent the various names that can be searched for.
  *
@@ -32,7 +34,7 @@ public class SearchNameItem {
      * Ensures that a song and playlist with the same name will show up as different results.
      */
     public String getUniqueFilterTargetString() {
-        return type.toString() + ":" + name;
+        return type.ordinal() + ":" + targetRegId;
     }
 
 }
