@@ -47,10 +47,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHo
     @Override
     public void onBindViewHolder(@NonNull PlaylistItemViewHolder holder, int i) {
         SongPlaylist playlist = playlists[i].item;
-        holder.getPlaylistName().setText(playlist.getTitle());
-        holder.getPlaylistCreator().setText(playlist.getCreator());
-        holder.getPlaylistSongCount().setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());
-        holder.getPlaylistLength().setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLength());
+        holder.setPlaylist(playlist, ctx);
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(view,i);
         });

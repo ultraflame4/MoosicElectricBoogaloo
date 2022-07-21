@@ -61,11 +61,7 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
 
         Song song = SongRegistry.songs.get(position).item;
-        holder.getSongName().setText(song.getTitle());
-        holder.getSongArtist().setText(song.getArtist());
-
-        holder.getSongCount().setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());
-
+        holder.setSong(song, ctx);
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(position);
         });

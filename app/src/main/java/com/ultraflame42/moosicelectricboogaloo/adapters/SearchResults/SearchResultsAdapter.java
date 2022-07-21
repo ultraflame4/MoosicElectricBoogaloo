@@ -14,18 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.PlaylistItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.SongListItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -37,9 +40,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     Handler mHandler = new Handler(Looper.getMainLooper());
     private Activity activity;
 
+    private EventFunctionCallback<SearchNameItem> OnResultItemClicked;
 
-    public SearchResultsAdapter(Activity activity) {
+    public SearchResultsAdapter(Activity activity, EventFunctionCallback<SearchNameItem> onResultItemClicked) {
         this.activity = activity;
+        OnResultItemClicked = onResultItemClicked;
         searchNames = SongRegistry.GetSearchNames();
         updateQuery("");
     }
@@ -87,13 +92,47 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_listitem, parent, false);
-        return new PlaylistItemViewHolder(view);
+        if (viewType == 0) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
+            return new SongListItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_listitem, parent, false);
+            return new PlaylistItemViewHolder(view);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof SongListItemViewHolder) {
+            SongListItemViewHolder viewHolder = (SongListItemViewHolder) holder;
+            RegistryItem<Song> song = SongRegistry.songs.get(searchResults[position].targetRegId);
 
+            viewHolder.setSong(song.item,activity);
+            viewHolder.getCardView().setOnClickListener(v -> {
+                OnResultItemClicked.call(searchResults[position]);
+            });
+
+        } else if (holder instanceof PlaylistItemViewHolder) {
+            PlaylistItemViewHolder playlistItemViewHolder = (PlaylistItemViewHolder) holder;
+            RegistryItem<SongPlaylist> playlist = SongRegistry.playlists.get(searchResults[position].targetRegId);
+
+            playlistItemViewHolder.setPlaylist(playlist.item, activity);
+            playlistItemViewHolder.getCardView().setOnClickListener(v -> {
+                OnResultItemClicked.call(searchResults[position]);
+            });
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        switch (searchResults[position].type) {
+            case SONG:
+                return 0;
+            case PLAYLIST:
+                return 1;
+            default:
+                return -1;
+        }
     }
 
     @Override

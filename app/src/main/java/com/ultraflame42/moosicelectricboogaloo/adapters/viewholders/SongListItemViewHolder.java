@@ -1,5 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo.adapters.viewholders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 
 public class SongListItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,23 +30,15 @@ public class SongListItemViewHolder extends RecyclerView.ViewHolder {
         songCount = view.findViewById(R.id.songList_itemLength);
     }
 
-    public ShapeableImageView getSongImg() {
-        return songImg;
-    }
-
-    public TextView getSongName() {
-        return songName;
-    }
-
-    public TextView getSongArtist() {
-        return songArtist;
-    }
-
-    public TextView getSongCount() {
-        return songCount;
-    }
-
     public CardView getCardView() {
         return cardView;
+    }
+
+    public void setSong(Song song, Context ctx){
+//        songImg.setImage(song.getImage) todo: set image
+        songName.setText(song.getTitle());
+        songArtist.setText(song.getArtist());
+        songCount.setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());
+
     }
 }

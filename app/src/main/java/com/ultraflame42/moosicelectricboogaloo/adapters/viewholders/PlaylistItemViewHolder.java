@@ -1,5 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo.adapters.viewholders;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 
 public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
     private final ShapeableImageView playlistImg;
@@ -29,28 +31,16 @@ public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public ShapeableImageView getPlaylistImg() {
-        return playlistImg;
-    }
-
-
-    public TextView getPlaylistName() {
-        return playlistName;
-    }
-
-    public TextView getPlaylistCreator() {
-        return playlistCreator;
-    }
-
-    public TextView getPlaylistSongCount() {
-        return playlistSongCount;
-    }
-
-    public TextView getPlaylistLength() {
-        return playlistLength;
-    }
 
     public CardView getCardView() {
         return cardView;
+    }
+
+    public void setPlaylist(SongPlaylist playlist, Context ctx) {
+        //todo set playlist image also
+        playlistName.setText(playlist.getTitle());
+        playlistCreator.setText(playlist.getCreator());
+        playlistSongCount.setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());
+        playlistLength.setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLength());
     }
 }

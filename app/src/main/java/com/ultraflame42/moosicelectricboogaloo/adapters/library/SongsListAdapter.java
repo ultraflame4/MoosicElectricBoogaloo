@@ -53,13 +53,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolde
     @Override
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
         Song song = songs[position].item;
-//        holder.getSongImg().setImageResource(song.getImage()); todo set image
-
-        holder.getSongName().setText(song.getTitle());
-        holder.getSongArtist().setText(song.getArtist());
-
-        holder.getSongCount().setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());
-
+        holder.setSong(song,ctx);
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(view,position);
         });

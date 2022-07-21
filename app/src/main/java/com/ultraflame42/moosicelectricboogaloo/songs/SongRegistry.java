@@ -30,8 +30,8 @@ public class SongRegistry{
 
             for (RegistryItem<Song> item : songs.getAllItems()) {
 
-                searhNamesCache[counter] = new SearchNameItem(ResultItemType.PLAYLIST, item.item.getTitle(), item.id);
-                searhNamesCache[counter+1] = new SearchNameItem(ResultItemType.PLAYLIST, item.item.getArtist(), item.id);
+                searhNamesCache[counter] = new SearchNameItem(ResultItemType.SONG, item.item.getTitle(), item.id);
+                searhNamesCache[counter+1] = new SearchNameItem(ResultItemType.SONG, item.item.getArtist(), item.id);
                 counter+=2;
             }
         }

@@ -55,4 +55,9 @@ public class CustomEvents<D> {
     public List<EventFunctionCallback<D>> getAllListener() {
         return listeners;
     }
+
+    public void clearListeners() {
+        listeners.clear();
+        onceListeners.clear();
+    }
 }
