@@ -46,6 +46,7 @@ public class SearchActivity extends AppCompatActivity {
         resultsList.setAdapter(adapter);
 
         searchQueryInput = findViewById(R.id.searchQueryInput);
+        // Detect when the user enter characters
         searchQueryInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
