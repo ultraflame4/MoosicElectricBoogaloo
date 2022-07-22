@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
@@ -15,15 +17,17 @@ import java.util.Set;
 public class PlaylistRegistry extends Registry<SongPlaylist> {
     private static PlaylistRegistry instance = null;
 
-    public Set<Integer> favourites = new HashSet<>();
+    private HashSet<Integer> favourites = new HashSet<>();
+    public DefaultEvent OnFavouritesUpdate = new DefaultEvent();
 
     // Singleton pattern
     public static PlaylistRegistry getInstance() {
         if (instance == null) {
             instance = new PlaylistRegistry();
+            // Liked songs will be stored as playlist
             SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
-            pl.isSystem=true;
-            instance.add(pl); // Liked songs will be stored as playlist
+            pl.isSystem = true;
+            instance.add(pl);
         }
         return instance;
     }
@@ -51,5 +55,22 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
             return;
         }
         super.remove(itemId);
+    }
+
+    public HashSet<Integer> getFavourites() {
+        return (HashSet<Integer>) favourites.clone();
+    }
+
+    public void addToFavourites(int playlistId) {
+        favourites.add(playlistId);
+        OnFavouritesUpdate.pushEvent(null);
+    }
+    public void removeFromFavourites(int playlistId) {
+        favourites.remove(playlistId);
+        OnFavouritesUpdate.pushEvent(null);
+    }
+
+    public boolean favouritesHas(int playlistId) {
+        return favourites.contains(playlistId);
     }
 }

@@ -148,13 +148,13 @@ public class PlaylistActivity extends AppCompatActivity {
         Log.d("PlaylistActivity", "Toggling favourite for playlistId " + playlistId);
         if (!favBtn.isChecked()) {
             Log.d("PlaylistActivity", "un-favourited for playlistId " + playlistId);
-            if (playlistRegistry.favourites.contains(playlistId)) {
-                playlistRegistry.favourites.remove(playlistId);
+            if (playlistRegistry.favouritesHas(playlistId)) {
+                playlistRegistry.removeFromFavourites(playlistId);
             }
         } else {
             Log.d("PlaylistActivity", "favourited for playlistId " + playlistId);
-            if (!playlistRegistry.favourites.contains(playlistId)) {
-                playlistRegistry.favourites.add(playlistId);
+            if (!playlistRegistry.favouritesHas(playlistId)) {
+                playlistRegistry.addToFavourites(playlistId);
             }
         }
         updateFavButton();
@@ -162,7 +162,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
     private void updateFavButton() {
         Log.d("PlaylistActivity", "Updating favourite button");
-        favBtn.setChecked(playlistRegistry.favourites.contains(playlistId));
+        favBtn.setChecked(playlistRegistry.favouritesHas(playlistId));
     }
 
     public void handleAddSongs(View view) {

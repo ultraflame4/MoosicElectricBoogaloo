@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
+import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 
 public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAdapter.ViewHolder> {
 
     Context ctx;
-    String[] favouriteItemNames;
-    LayoutInflater inflater;
+    Integer[] favourites;
 
     /*
      * Provide a reference to the type of views that you are using
@@ -43,9 +45,14 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
         }
     }
 
-    public FavouritesGridAdapter(Context ctx, String[] favouriteItemNames) {
+    public FavouritesGridAdapter(Context ctx) {
         this.ctx = ctx;
-        this.favouriteItemNames = favouriteItemNames;
+        favourites = new Integer[0];
+    }
+
+    public void updateData(Integer[] favourites) {
+        this.favourites = favourites;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -57,13 +64,14 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
 
     @Override
     public void onBindViewHolder(@NonNull FavouritesGridAdapter.ViewHolder holder, int position) {
+        SongPlaylist playlist = PlaylistRegistry.getInstance().getItem(favourites[position]);
         // todo do for image also
-        holder.getTitleText().setText(favouriteItemNames[position]);
+        holder.getTitleText().setText(playlist.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return favouriteItemNames.length;
+        return favourites.length;
     }
 
 //    }

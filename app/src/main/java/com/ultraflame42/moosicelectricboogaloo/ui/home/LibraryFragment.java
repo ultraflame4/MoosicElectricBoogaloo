@@ -22,12 +22,18 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemD
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.PlaylistListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.SearchActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.PlaylistActivity;
 
 
 public class LibraryFragment extends Fragment {
+
+    private PlaylistRegistry playlistRegistry;
+    private EventListenerGroup listenerGroup = new EventListenerGroup();
+    private FavouritesGridAdapter favouritesGridAdapter;
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -39,6 +45,7 @@ public class LibraryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         // Called everytime the fragment is navigated to
         super.onCreate(savedInstanceState);
+        playlistRegistry = PlaylistRegistry.getInstance();
         SearchActivityIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Intent data = result.getData();
             if (data == null) {
@@ -74,14 +81,16 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        // temp values for testing todo remove ltr
-        String[] favItemNames = {"A", "B", "C", "D"};
-        FavouritesGridAdapter favouritesGridAdapter = new FavouritesGridAdapter(getContext(), favItemNames);
+        favouritesGridAdapter = new FavouritesGridAdapter(getContext());
         RecyclerView favGridView = view.findViewById(R.id.FavouritesGrid);
         favGridView.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
         favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favGridView.setAdapter(favouritesGridAdapter);
 
+        favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
+        listenerGroup.subscribe(playlistRegistry.OnFavouritesUpdate,data -> {
+            favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
+        });
 
         PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
