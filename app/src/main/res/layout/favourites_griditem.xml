@@ -19,7 +19,7 @@
             android:id="@+id/favItemImageBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_launcher_background"
+            android:background="@drawable/ic_default_background"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:insetTop="0dp"
             android:insetBottom="0dp"

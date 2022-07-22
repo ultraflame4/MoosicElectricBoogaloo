@@ -28,7 +28,7 @@
                 android:id="@+id/songList_itemImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/ic_launcher_background"
+                android:background="@drawable/ic_default_background"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
