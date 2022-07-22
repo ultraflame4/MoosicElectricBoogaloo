@@ -27,7 +27,12 @@ public class Song {
      *
      * All listeners are removed after each firing
      */
-    public DefaultEvent OnSongInfoUpdate = new DefaultEvent();
+    public DefaultEvent OnSongInfoUpdate = new DefaultEvent();    /**
+     * This event fires when the Song is verified
+     *
+     * called before info update
+     */
+    public DefaultEvent OnSongVerified = new DefaultEvent();
 
     /**
      * Constructor for a song.
@@ -41,7 +46,6 @@ public class Song {
         this.artist = artist;
         this.album = title;
         this.fileLink = fileLink;
-        updateAndRetrieveSongInfo();
     }
 
     /**
@@ -57,7 +61,6 @@ public class Song {
         this.artist = artist;
         this.album = album;
         this.fileLink = fileLink;
-        updateAndRetrieveSongInfo();
     }
 
     public void setTags(String[] tags) {
@@ -73,14 +76,15 @@ public class Song {
      *
      * also checks if the song is playable.
      */
-    private void updateAndRetrieveSongInfo() {
+    public void updateAndRetrieveSongInfo() {
 
         UsefulStuff.GetInfoAndVerifyMediaPlayable(fileLink, new OnMediaVerificationListener() {
             @Override
             public void onMediaVerified(boolean playable_) {
                 playable=playable_;
                 Log.d("Song", "Title:"+title+" Verified Playable: " + playable);
-
+                OnSongVerified.pushEvent(null);
+                OnSongVerified.clearListeners();
             }
 
             @Override

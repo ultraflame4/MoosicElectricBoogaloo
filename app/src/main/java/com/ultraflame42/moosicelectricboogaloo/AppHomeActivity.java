@@ -40,6 +40,10 @@ public class AppHomeActivity extends AppCompatActivity {
         SongRegistry songRegistry = SongRegistry.getInstance();
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
 
+        listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {
+            Toast.makeText(this, warning, Toast.LENGTH_LONG).show();
+        });
+
         // register temp playable songs todo remove
         songRegistry.add(
                 new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
