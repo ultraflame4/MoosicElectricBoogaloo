@@ -118,8 +118,10 @@ public class LibraryFragment extends Fragment {
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);
         listenerGroup.subscribe(songRegistry.OnItemsUpdate, data -> {
+            Log.d("LibraryFragment", "Song list updating...");
             songsListAdapter.updateData();
         });
+
         songsListAdapter.updateData();
 
         // Search button
@@ -145,7 +147,6 @@ public class LibraryFragment extends Fragment {
 
     public void showAddToLibDialog() {
         NavHostFragment.findNavController(this).navigate(R.id.action_libraryFragment_to_libAddItemDialog);
-
     }
 
     @Override

@@ -59,6 +59,10 @@ public class SongRegistry extends Registry<Song> {
                         "\n2. The web link being invalid" +
                         "\n3. Network errors");
             }
+            else{
+                OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() +" added successfully");
+            }
+            OnItemsUpdate.pushEvent(null);
         });
         item.updateAndRetrieveSongInfo();
         super.add(item);

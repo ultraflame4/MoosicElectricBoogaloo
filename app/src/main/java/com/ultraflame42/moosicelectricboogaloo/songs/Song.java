@@ -90,6 +90,7 @@ public class Song {
             @Override
             public void setSongInfo(int songDuration) {
                 length=songDuration;
+                formattedLength = ""; // invalidate formmateLength cache
                 OnSongInfoUpdate.pushEvent(null);
                 OnSongInfoUpdate.clearListeners();
             }
@@ -103,6 +104,7 @@ public class Song {
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
+        Log.d("Song", "Title:"+title+" Length: " + length);
         return length;
     }
 

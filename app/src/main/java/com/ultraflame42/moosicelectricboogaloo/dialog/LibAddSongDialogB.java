@@ -50,6 +50,7 @@ public class LibAddSongDialogB extends DialogFragment {
         });
         // todo Add in browse local file for images
 
+
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(view1 -> {
             navigateBack();
