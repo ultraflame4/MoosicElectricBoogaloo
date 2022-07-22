@@ -14,34 +14,34 @@
         style="@style/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Library Add Item"
+        android:text="@string/library_add_item_dialog_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createPlaylistBtn"
         style="@style/PrimaryStyle2"
         android:layout_marginTop="16dp"
-        android:text="Create Playlist"
+        android:text="@string/lib_add_dialog_create_playlist_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addSongBtn"
         style="@style/SecondaryButtonStyle"
-        android:text="Button"
+        android:text="@string/lib_add_dialog_add_song_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/createPlaylistBtn" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/cancelBtn"
         style="@style/LinkButtonStyle"
         android:text="@string/cancel_link"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/addSongBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

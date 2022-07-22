@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/songPlayFragment">
+
+    <dialog
+        android:id="@+id/libAddItemDialog"
+        android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddItemDialog"
+        android:label="LibAddItemDialog" />
+
     <fragment
         android:id="@+id/songPlayFragment"
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.SongPlayFragment"
@@ -13,7 +19,11 @@
         android:id="@+id/libraryFragment"
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_libraryFragment_to_libAddItemDialog"
+            app:destination="@id/libAddItemDialog" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.SearchFragment"
@@ -24,4 +34,5 @@
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+
 </navigation>

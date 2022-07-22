@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -127,7 +128,7 @@ public class LibraryFragment extends Fragment {
 
         // AddToLib btn
         ImageButton addToLibBtn = view.findViewById(R.id.addToLibBtn);
-        addToLibBtn.setOnClickListener(view1 -> handleAddToLibBtn());
+        addToLibBtn.setOnClickListener(view1 -> showAddToLibDialog());
 
         return view;
     }
@@ -142,20 +143,9 @@ public class LibraryFragment extends Fragment {
         SearchActivityIntentLauncher.launch(new Intent(getActivity(), SearchActivity.class));
     }
 
-    public void handleAddToLibBtn() {
-        final Dialog dialog = new Dialog(getContext());
-        // Disable the default title bar
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // Allow user to tap outside and cancel
-        dialog.setCancelable(true);
-        // Set layout
-        dialog.setContentView(R.layout.library_add_dialog);
-        // make bg transparent
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    public void showAddToLibDialog() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_libraryFragment_to_libAddItemDialog);
 
-        //todo bind buttons
-
-        dialog.show();
     }
 
     @Override
