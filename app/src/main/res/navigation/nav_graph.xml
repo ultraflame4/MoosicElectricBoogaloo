@@ -9,9 +9,6 @@
         android:id="@+id/libAddItemDialog"
         android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddItemDialog"
         android:label="LibAddItemDialog">
-        <action
-            android:id="@+id/action_libAddItemDialog_to_libAddSongDialog"
-            app:destination="@id/libAddSongDialog" />
     </dialog>
 
     <fragment
@@ -27,6 +24,12 @@
         <action
             android:id="@+id/action_libraryFragment_to_libAddItemDialog"
             app:destination="@id/libAddItemDialog" />
+        <action
+            android:id="@+id/action_libraryFragment_to_libAddSongDialog"
+            app:destination="@id/libAddSongDialog" />
+        <action
+            android:id="@+id/action_libraryFragment_to_libAddSongDialogB"
+            app:destination="@id/libAddSongDialogB" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -43,7 +46,11 @@
         android:id="@+id/libAddSongDialog"
         android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddSongDialog"
         android:label="LibAddSongDialog">
-
     </dialog>
+
+    <dialog
+        android:id="@+id/libAddSongDialogB"
+        android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddSongDialogB"
+        android:label="LibAddSongDialogB" />
 
 </navigation>

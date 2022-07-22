@@ -1,20 +1,15 @@
 package com.ultraflame42.moosicelectricboogaloo.dialog;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -34,20 +29,9 @@ public class LibAddItemDialog extends DialogFragment {
         Button addSongBtn = view.findViewById(R.id.addSongBtn);
 
 
-        MutableLiveData<String> liveData = controller.getCurrentBackStackEntry()
-                .getSavedStateHandle()
-                .getLiveData("back");
-        liveData.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                // Next thingy canceled.
-                navigateBack();
-            }
-        });
-
-
         addSongBtn.setOnClickListener(view1 -> {
-            controller.navigate(R.id.action_libAddItemDialog_to_libAddSongDialog);
+            navigateBack();
+            controller.navigate(R.id.action_libraryFragment_to_libAddSongDialog);
         });
 
         Button cancelBtn = view.findViewById(R.id.cancelBtn);

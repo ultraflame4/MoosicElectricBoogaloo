@@ -101,10 +101,9 @@
 
     <style name="textInputStyle">
         <item name="android:background">@drawable/rounded_corner</item>
-        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">218dp</item>
-
 
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/poppins_bold</item>

@@ -105,4 +105,6 @@ public class UsefulStuff {
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
+
+
 }
