@@ -40,19 +40,21 @@
             <TextView
                 android:id="@+id/playlist_title"
                 style="@style/listItem_h1"
-                android:layout_width="214dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="24dp"
                 android:text="ExamplePlaylistTitle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/playlistItem_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/playlist_creator"
                 style="@style/listItem_h3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
                 android:text="Creator"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/playlist_title"
                 app:layout_constraintTop_toBottomOf="@+id/playlist_title" />
 
@@ -60,7 +62,7 @@
                 android:id="@+id/playlist_songcount"
                 style="@style/listItem_h5"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="18dp"
                 android:text="@string/playlist_songcount_text"
                 app:layout_constraintBottom_toTopOf="@+id/playlist_totallength"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +72,7 @@
                 android:id="@+id/playlist_totallength"
                 style="@style/listItem_h5"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="18dp"
                 android:text="@string/playlist_totallength_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
