@@ -24,7 +24,7 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.SearchActivity;
-import com.ultraflame42.moosicelectricboogaloo.ui.playlist.PlaylistActivity;
+import com.ultraflame42.moosicelectricboogaloo.ui.others.PlaylistActivity;
 
 
 public class LibraryFragment extends Fragment {

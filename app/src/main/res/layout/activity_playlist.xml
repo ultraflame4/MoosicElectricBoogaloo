@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:background="@color/color_b"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ui.playlist.PlaylistActivity">
+    tools:context=".ui.others.PlaylistActivity">
 
 
     <ImageButton

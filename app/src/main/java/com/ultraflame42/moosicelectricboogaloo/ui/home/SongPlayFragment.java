@@ -15,10 +15,14 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
+import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +34,9 @@ public class SongPlayFragment extends Fragment {
     private EventListenerGroup listenerGroup = new EventListenerGroup();
     private ImageButton skipBtn;
     private ImageButton prevBtn;
+    private ToggleButton likedBtn;
+    private PlaylistRegistry playlistRegistry;
+    private RegistryItem<SongPlaylist> likedSongs;
 
     public SongPlayFragment() {
         // Required empty public constructor
@@ -43,6 +50,8 @@ public class SongPlayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playlistRegistry = PlaylistRegistry.getInstance();
+        likedSongs = playlistRegistry.get(0);
 
     }
 
@@ -50,6 +59,7 @@ public class SongPlayFragment extends Fragment {
         Log.d("SongPlayer (fragment)", "Updating song information");
         songTitleView.setText(song.getTitle());
         songArtistView.setText(song.getArtist());
+        updateLikedBtn();
 
     }
 
@@ -67,6 +77,29 @@ public class SongPlayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_song_play, container, false);
         songTitleView = view.findViewById(R.id.songPlayTitle);
         songArtistView = view.findViewById(R.id.songPlayArtist);
+
+
+        // song liked button
+        likedBtn = view.findViewById(R.id.likeSongBtn);
+        likedBtn.setSaveEnabled(false);
+        likedBtn.setOnClickListener((v) -> {
+            onSongLikeBtnClicked();
+        });
+
+        listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange, song -> {
+            updatePlayStopBtn();
+        });
+
+        skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
+        skipBtn.setOnClickListener(v -> {
+            SongPlayer.PlayNext();
+        });
+
+        prevBtn = view.findViewById(R.id.songPlay_PrevBtn);
+        prevBtn.setOnClickListener(v -> {
+            SongPlayer.PlayPrev();
+        });
+
 
         int currentSong = SongPlayer.GetCurrentSong();
 
@@ -135,25 +168,44 @@ public class SongPlayFragment extends Fragment {
 
         });
 
-        listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange, song -> {
-            updatePlayStopBtn();
-        });
-
-        skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
-        skipBtn.setOnClickListener(v -> {
-            SongPlayer.PlayNext();
-        });
-
-        prevBtn = view.findViewById(R.id.songPlay_PrevBtn);
-        prevBtn.setOnClickListener(v -> {
-            SongPlayer.PlayPrev();
-        });
-
         return view;
     }
 
     private void updatePlayStopBtn() {
+        Log.d("SongPlayer (fragment)", "Updating play/stop button");
         playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
+    }
+
+    private void onSongLikeBtnClicked() {
+        int currentSong = SongPlayer.GetCurrentSong();
+        if (currentSong < 0) {
+            return;
+        }
+
+        Log.d("SongPlay (fragment)", "Toggling liked for songid " + currentSong);
+        if (!likedBtn.isChecked()) {
+            Log.d("SongPlay (fragment)", "un-liked for songid " + currentSong);
+            if (likedSongs.item.hasSong(currentSong)) {
+                likedSongs.item.removeSong(currentSong);
+            }
+        }
+        else{
+            Log.d("SongPlay (fragment)", "liked for songid " + currentSong);
+            if (!likedSongs.item.hasSong(currentSong)) {
+                likedSongs.item.addSong(currentSong);
+            }
+        }
+        updateLikedBtn();
+    }
+
+    private void updateLikedBtn() {
+        int currentSong = SongPlayer.GetCurrentSong();
+        boolean isLiked = likedSongs.item.hasSong(currentSong);
+        Log.d("SongPlayer (fragment)", "Updating liked button. CurrentLiked: " + isLiked);
+        if (currentSong < 0) {
+            return;
+        }
+        likedBtn.setChecked(isLiked);
     }
 
 

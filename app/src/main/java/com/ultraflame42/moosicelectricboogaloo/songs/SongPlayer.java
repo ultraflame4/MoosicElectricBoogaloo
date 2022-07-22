@@ -108,8 +108,9 @@ public class SongPlayer {
     }
 
     /**
-     * Returns the currently playing song
+     * Returns the currently playing song id.
      *
+     * Returns -1 if there are no currently playing songs
      * @return
      */
     public static int GetCurrentSong() {

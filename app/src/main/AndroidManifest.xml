@@ -19,7 +19,7 @@
             android:name=".ui.others.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.playlist.PlaylistActivity"
+            android:name=".ui.others.PlaylistActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.AppSignupActivity"

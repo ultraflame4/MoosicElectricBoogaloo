@@ -84,6 +84,22 @@
             app:layout_constraintStart_toEndOf="@+id/songPlay_PrevBtn"
             app:layout_constraintTop_toBottomOf="@+id/songPlaySeekBar" />
 
+        <ToggleButton
+
+            android:id="@+id/likeSongBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/liked_icon"
+            android:scaleType="fitCenter"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="@+id/songPlayArtist"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="@+id/songPlayTitle" />
+
         <ImageButton
             android:id="@+id/songPlay_SkipBtn"
             android:layout_width="0dp"

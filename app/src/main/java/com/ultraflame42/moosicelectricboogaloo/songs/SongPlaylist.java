@@ -14,43 +14,42 @@ public class SongPlaylist {
      */
     public boolean isSystem = false;
 
-    private int totalLength=0; // in milliseconds
+    private int totalLength = 0; // in milliseconds
 
     SongRegistry songRegistry;
 
     /**
-     *
      * @param creator Playlist creator name
-     * @param title Playlis title
-     * @param songs initial list of songs to add to the playlist
+     * @param title   Playlis title
+     * @param songs   initial list of songs to add to the playlist
      */
-    public SongPlaylist(String creator, String title,Integer[] songs) {
+    public SongPlaylist(String creator, String title, Integer[] songs) {
         this.creator = creator;
         this.title = title;
-        this.songs= Arrays.asList(songs);
+        this.songs = Arrays.asList(songs);
         songRegistry = SongRegistry.getInstance();
         isAlbum = false;
 
-       this.songs.forEach(integer -> {
-           totalLength+=songRegistry.get(integer).item.getLength();
-       });
+        this.songs.forEach(integer -> {
+            totalLength += songRegistry.get(integer).item.getLength();
+        });
     }
 
     /**
-     *
      * @param creator Playlist creator name
-     * @param title Playlist title
+     * @param title   Playlist title
      */
     public SongPlaylist(String creator, String title) {
         this.creator = creator;
         this.title = title;
         isAlbum = false;
+        songRegistry = SongRegistry.getInstance();
+
     }
 
     /**
-     *
      * @param creator Playlist creator name
-     * @param title Playlist title
+     * @param title   Playlist title
      * @param isAlbum True if this playlist is an album, false if it is a playlist.
      */
     public SongPlaylist(String creator, String title, boolean isAlbum) {
@@ -62,13 +61,21 @@ public class SongPlaylist {
     public void addSong(int songId) {
         songs.add(songId);
         // add to total Length
-        totalLength+=songRegistry.get(songId).item.getLength();
+        totalLength += songRegistry.get(songId).item.getLength();
     }
 
     public void removeSongAtIndex(int index) {
         songs.remove(index);
         // remove from total Length
-        totalLength-=songRegistry.get(songs.get(index)).item.getLength();
+        totalLength -= songRegistry.get(songs.get(index)).item.getLength();
+    }
+
+    public void removeSong(int songId) {
+        removeSongAtIndex(songs.indexOf(songId));
+    }
+
+    public boolean hasSong(int songId) {
+        return songs.contains(songId);
     }
 
     /**
@@ -77,6 +84,7 @@ public class SongPlaylist {
     public List<Integer> getSongs() {
         return songs;
     }
+
     public int getSongCount() {
         return songs.size();
     }
