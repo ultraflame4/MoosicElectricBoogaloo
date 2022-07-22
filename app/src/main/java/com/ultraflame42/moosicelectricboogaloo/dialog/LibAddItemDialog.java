@@ -14,15 +14,17 @@ import androidx.fragment.app.DialogFragment;
 
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class LibAddItemDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        UsefulStuff.setupDialogFragment(this);
         return inflater.inflate(R.layout.library_add_dialog, container, false);
     }
+
+
 
 }
 

@@ -1,11 +1,14 @@
 package com.ultraflame42.moosicelectricboogaloo.tools;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 
@@ -47,5 +50,10 @@ public class UsefulStuff {
      */
     public static float convertDpToPx(Context context, float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
+    }
+
+    public static void setupDialogFragment(DialogFragment fragment) {
+        fragment.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }
