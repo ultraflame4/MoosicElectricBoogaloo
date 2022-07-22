@@ -60,7 +60,7 @@ public class SongRegistry extends Registry<Song> {
                         "\n3. Network errors");
             }
             else{
-                OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() +" added successfully");
+                OnRegistryWarningsUI.pushEvent("Song " + item.getTitle() +" added successfully");
             }
             OnItemsUpdate.pushEvent(null);
         });
