@@ -28,7 +28,7 @@ public class AppLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("AppLogin: ", "onCreate() 6");
+        Log.d("AppLogin: ", "onCreate()");
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -40,14 +40,12 @@ public class AppLoginActivity extends AppCompatActivity {
         googleAuthHelper = new GoogleAuthHelper(this);
 
         eGroup.subscribe(AccountManager.LoggedInEvent, (data) -> {
-            Log.d("AppLogin", "Switching to home activity");
-            Intent intent = new Intent(this, AppHomeActivity.class);
-            startActivity(intent);
+            gotoHomeActivity();
         });
 
         eGroup.subscribe(AccountManager.AppHomeExitEvent, (data) -> {
-            finish();
-        });
+            startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+    });
 
         eGroup.subscribe(googleAuthHelper.OnAuthSuccessEvent,(data) -> {
             Log.d("AppLogin", "Successfully logged in with Google");
@@ -61,9 +59,21 @@ public class AppLoginActivity extends AppCompatActivity {
 
     }
 
+    private void gotoHomeActivity() {
+        Log.d("AppLogin", "Switching to home activity");
+        Intent intent = new Intent(this, AppHomeActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        if (AccountManager.getAuthStatus() == LoginStatus.GUEST) {
+            Log.d("AppLogin", "Already logged in as guest");
+            gotoHomeActivity();
+
+        }
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
@@ -72,6 +82,8 @@ public class AppLoginActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        Log.d("AppLogin", "Forced exit");
+        AccountManager.setAuthStatus(LoginStatus.NOT_LOGGED_IN);
         // Unsubscribe all event listeners
         Log.d("AppLogin", "Unsubscribing all event listeners");
         eGroup.unsubscribeAll();
@@ -79,6 +91,7 @@ public class AppLoginActivity extends AppCompatActivity {
     }
 
     public void handleContinueAsGuest(View view) {
+        Log.d("AppLogin", "Continue as guest");
         AccountManager.setAuthStatus(LoginStatus.GUEST);
     }
 
