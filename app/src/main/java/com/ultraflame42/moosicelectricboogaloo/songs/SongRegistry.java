@@ -13,36 +13,34 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SongRegistry{
-    public static Registry<Song> songs = new Registry<>();
-    public static Registry<SongPlaylist> playlists = new Registry<>();
+public class SongRegistry extends Registry<Song> {
+    private static SongRegistry instance = new SongRegistry();
 
-    public static Set<Integer> favouritePlaylists = new HashSet<>();
-    public static Set<Integer> likedSongs = new HashSet<>();
+    public static SongRegistry getInstance() {
+        return instance;
+    }
 
-    private static SearchNameItem[] searhNamesCache = new SearchNameItem[0];
+    // Cache search names for faster lookup
+    private List<SearchNameItem> searchNamesCache = new ArrayList<>();
 
-    public static SearchNameItem[] GetSearchNames() {
-        int totalSize = 2 * (playlists.count() + songs.count()); // each for loop has 2 entries
-        if (searhNamesCache.length != totalSize){
-            searhNamesCache = new SearchNameItem[totalSize];
-            int counter = 0;
+    public List<SearchNameItem> getSearchNames() {
+        int totalSize = count() * 2;
+        // Invalidate cache if size changed
+        if (searchNamesCache.size() != totalSize) {
+            searchNamesCache.clear();
 
-            for (RegistryItem<SongPlaylist> item : playlists.getAllItems()) {
+            for (RegistryItem<Song> item : getAllItems()) {
 
-                searhNamesCache[counter] = new SearchNameItem(ResultItemType.PLAYLIST, item.item.getTitle(), item.id);
-                searhNamesCache[counter+1] = new SearchNameItem(ResultItemType.PLAYLIST, item.item.getCreator(), item.id);
-                counter+=2;
-            }
+                searchNamesCache.add(new SearchNameItem(ResultItemType.SONG, item.item.getTitle(), item.id));
+                searchNamesCache.add(new SearchNameItem(ResultItemType.SONG, item.item.getArtist(), item.id));
 
-            for (RegistryItem<Song> item : songs.getAllItems()) {
-
-                searhNamesCache[counter] = new SearchNameItem(ResultItemType.SONG, item.item.getTitle(), item.id);
-                searhNamesCache[counter+1] = new SearchNameItem(ResultItemType.SONG, item.item.getArtist(), item.id);
-                counter+=2;
             }
         }
-        return searhNamesCache;
+        return searchNamesCache;
+    }
+
+    public RegistryItem<SongPlaylist> getLikedSongs() {
+        return PlaylistRegistry.getInstance().get(0);
     }
 
 }

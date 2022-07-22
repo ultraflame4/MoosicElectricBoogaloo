@@ -26,12 +26,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolde
 
     EventCallbackListener<RegistryUpdateData<Song>> onSongAddedListener;
 
+    SongRegistry songRegistry;
+
     public SongsListAdapter(Context ctx) {
         this.ctx = ctx;
-        songs = SongRegistry.songs.getAllItems();
-        onSongAddedListener = SongRegistry.songs.OnItemsUpdate.addListener(song ->{
+        songRegistry = SongRegistry.getInstance();
+        songs = songRegistry.getAllItems();
+        onSongAddedListener = songRegistry.OnItemsUpdate.addListener(song -> {
             Log.d("SongsListAdapter", "SongRegistry updated, updating list");
-            songs = SongRegistry.songs.getAllItems();
+            songs = songRegistry.getAllItems();
             notifyDataSetChanged();
         });
 
@@ -53,9 +56,9 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolde
     @Override
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
         Song song = songs[position].item;
-        holder.setSong(song,ctx);
+        holder.setSong(song, ctx);
         holder.getCardView().setOnClickListener(view -> {
-            onItemClick(view,position);
+            onItemClick(view, position);
         });
     }
 

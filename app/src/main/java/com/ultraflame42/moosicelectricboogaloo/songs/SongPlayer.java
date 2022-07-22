@@ -51,7 +51,7 @@ public class SongPlayer {
      */
     private static void playSong(int songId) {
 
-        RegistryItem<Song> song = SongRegistry.songs.get(songId);
+        RegistryItem<Song> song = SongRegistry.getInstance().get(songId);
         try {
             isPaused = false;
             pausedPosition = 0;
@@ -89,7 +89,7 @@ public class SongPlayer {
      */
     public static void PlayPlaylist(int playlistId,int startPosition) {
         currentPlaylist = playlistId;
-        currentPlaylistShadow = SongRegistry.playlists.get(playlistId).item.getSongs();
+        currentPlaylistShadow = PlaylistRegistry.getInstance().get(playlistId).item.getSongs();
         if (isShuffle) {
             Log.d("SongPlayer", "Shuffling playlist");
             Collections.shuffle(currentPlaylistShadow);

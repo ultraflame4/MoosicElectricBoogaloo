@@ -71,7 +71,7 @@ public class SongPlayFragment extends Fragment {
         int currentSong = SongPlayer.GetCurrentSong();
 
         if (currentSong >= 0) {
-            updateSongInfo(SongRegistry.songs.getItem(currentSong));
+            updateSongInfo(SongRegistry.getInstance().getItem(currentSong));
         }
 
         listenerGroup.subscribe(SongPlayer.OnSongPlayChange, regItem -> {

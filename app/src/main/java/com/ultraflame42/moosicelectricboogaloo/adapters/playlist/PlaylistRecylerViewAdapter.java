@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.SongListItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
@@ -30,14 +31,14 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
         }
     }
 
-    public PlaylistRecylerViewAdapter(int playlistId ,Context ctx) {
+    public PlaylistRecylerViewAdapter(int playlistId, Context ctx) {
         this.playlistId = playlistId;
         this.ctx = ctx;
         updatePlaylistInfo(true);
     }
 
     public void updatePlaylistInfo(boolean supressUpdate) {
-        RegistryItem<SongPlaylist> playlist = SongRegistry.playlists.get(playlistId);
+        RegistryItem<SongPlaylist> playlist = PlaylistRegistry.getInstance().get(playlistId);
         playlistSongs = playlist.item.getSongs().toArray(new Integer[0]);
         if (!supressUpdate) {
             notifyDataSetChanged();
@@ -60,7 +61,7 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     @Override
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
 
-        Song song = SongRegistry.songs.get(position).item;
+        Song song = SongRegistry.getInstance().get(position).item;
         holder.setSong(song, ctx);
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(position);

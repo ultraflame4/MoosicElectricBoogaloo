@@ -9,8 +9,14 @@ public class SongPlaylist {
     private String creator;
     private String title;
     private final boolean isAlbum; // if true, this playlist is an album.
+    /**
+     * if true, this playlist is created by the system and is should not be deletable by the user. eg. Liked Songs
+     */
+    public boolean isSystem = false;
 
     private int totalLength=0; // in milliseconds
+
+    SongRegistry songRegistry;
 
     /**
      *
@@ -22,10 +28,11 @@ public class SongPlaylist {
         this.creator = creator;
         this.title = title;
         this.songs= Arrays.asList(songs);
-       isAlbum = false;
+        songRegistry = SongRegistry.getInstance();
+        isAlbum = false;
 
        this.songs.forEach(integer -> {
-           totalLength+=SongRegistry.songs.get(integer).item.getLength();
+           totalLength+=songRegistry.get(integer).item.getLength();
        });
     }
 
@@ -54,12 +61,14 @@ public class SongPlaylist {
 
     public void addSong(int songId) {
         songs.add(songId);
-        totalLength+=SongRegistry.songs.get(songId).item.getLength();
+        // add to total Length
+        totalLength+=songRegistry.get(songId).item.getLength();
     }
 
     public void removeSongAtIndex(int index) {
         songs.remove(index);
-        totalLength-=SongRegistry.songs.get(songs.get(index)).item.getLength();
+        // remove from total Length
+        totalLength-=songRegistry.get(songs.get(index)).item.getLength();
     }
 
     /**

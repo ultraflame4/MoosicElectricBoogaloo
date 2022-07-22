@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.util.ArrayUtils;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.PlaylistItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.SongListItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
@@ -23,16 +25,18 @@ import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private SearchNameItem[] searchNames;
+    private List<SearchNameItem> searchNames;
 
     private SearchNameItem[] searchResults = new SearchNameItem[0];
 
@@ -42,10 +46,21 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private EventFunctionCallback<SearchNameItem> OnResultItemClicked;
 
+    public static boolean INCLUDE_PLAYLIST = true;
+    public static boolean INCLUDE_SONGS = true;
+
     public SearchResultsAdapter(Activity activity, EventFunctionCallback<SearchNameItem> onResultItemClicked) {
         this.activity = activity;
         OnResultItemClicked = onResultItemClicked;
-        searchNames = SongRegistry.GetSearchNames();
+        searchNames = new ArrayList<>();
+        if (INCLUDE_PLAYLIST) {
+            searchNames = Stream.concat(searchNames.stream(), PlaylistRegistry.getInstance().getSearchNames().stream())
+                    .collect(Collectors.toList());
+        }
+        if (INCLUDE_SONGS) {
+            searchNames = Stream.concat(searchNames.stream(), SongRegistry.getInstance().getSearchNames().stream())
+                    .collect(Collectors.toList());
+        }
         updateQuery("");
     }
 
@@ -54,7 +69,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         protected SearchNameItem[] doInBackground(String... strings) {
             String query = strings[0];
             Log.d("SearchResultsAdapter", "Searching for " + query);
-            List<SearchNameItem> results = Arrays.stream(searchNames)
+            List<SearchNameItem> results = searchNames.stream()
                     .filter(item ->
                             // substring matching
                             // force lowercase for case insensitivity
@@ -105,7 +120,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SongListItemViewHolder) {
             SongListItemViewHolder viewHolder = (SongListItemViewHolder) holder;
-            RegistryItem<Song> song = SongRegistry.songs.get(searchResults[position].targetRegId);
+            RegistryItem<Song> song = SongRegistry.getInstance().get(searchResults[position].targetRegId);
 
             viewHolder.setSong(song.item,activity);
             viewHolder.getCardView().setOnClickListener(v -> {
@@ -114,7 +129,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         } else if (holder instanceof PlaylistItemViewHolder) {
             PlaylistItemViewHolder playlistItemViewHolder = (PlaylistItemViewHolder) holder;
-            RegistryItem<SongPlaylist> playlist = SongRegistry.playlists.get(searchResults[position].targetRegId);
+            RegistryItem<SongPlaylist> playlist = PlaylistRegistry.getInstance().get(searchResults[position].targetRegId);
 
             playlistItemViewHolder.setPlaylist(playlist.item, activity);
             playlistItemViewHolder.getCardView().setOnClickListener(v -> {

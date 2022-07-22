@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.PlaylistItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
@@ -24,14 +25,16 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHo
 
     EventCallbackListener<RegistryUpdateData<SongPlaylist>> onPlaylistAddedListener;
     private EventFunctionCallback<Integer> OnPlaylistClickedCallback;
+    PlaylistRegistry playlistRegistry;
 
     public PlaylistListAdapter(Context ctx, EventFunctionCallback<Integer> onPlaylistClickedCallback) {
         this.ctx = ctx;
         OnPlaylistClickedCallback = onPlaylistClickedCallback;
-        this.playlists = SongRegistry.playlists.getAllItems();
-        onPlaylistAddedListener = SongRegistry.playlists.OnItemsUpdate.addListener(playlist -> {
+        playlistRegistry = PlaylistRegistry.getInstance();
+        this.playlists = playlistRegistry.getAllItems();
+        onPlaylistAddedListener = playlistRegistry.OnItemsUpdate.addListener(playlist -> {
             Log.d("PlaylistListAdapter", "SongRegistry playlists updated, updating list");
-            playlists = SongRegistry.playlists.getAllItems();
+            playlists = playlistRegistry.getAllItems();
             notifyDataSetChanged();
         });
 

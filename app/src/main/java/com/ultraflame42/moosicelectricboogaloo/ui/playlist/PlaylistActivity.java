@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.playlist.PlaylistRecylerViewAdapter;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
@@ -35,11 +36,15 @@ public class PlaylistActivity extends AppCompatActivity {
     private TextView playlistTitle;
     private TextView playlistCreator;
 
+    PlaylistRegistry playlistRegistry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
+
+        playlistRegistry = PlaylistRegistry.getInstance();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -49,7 +54,8 @@ public class PlaylistActivity extends AppCompatActivity {
             return; // If cannot get playlist index. STOP
         }
 
-        SongPlaylist playlist = SongRegistry.playlists.get(playlistId).item;
+
+        SongPlaylist playlist = playlistRegistry.get(playlistId).item;
 
         playlistTitle = findViewById(R.id.playlistTitle);
         playlistCreator = findViewById(R.id.playlistCreator);
@@ -142,13 +148,13 @@ public class PlaylistActivity extends AppCompatActivity {
         Log.d("PlaylistActivity", "Toggling favourite for playlistId " + playlistId);
         if (!favBtn.isChecked()) {
             Log.d("PlaylistActivity", "un-favourited for playlistId " + playlistId);
-            if (SongRegistry.favouritePlaylists.contains(playlistId)) {
-                SongRegistry.favouritePlaylists.remove(playlistId);
+            if (playlistRegistry.favourites.contains(playlistId)) {
+                playlistRegistry.favourites.remove(playlistId);
             }
         } else {
             Log.d("PlaylistActivity", "favourited for playlistId " + playlistId);
-            if (!SongRegistry.favouritePlaylists.contains(playlistId)) {
-                SongRegistry.favouritePlaylists.add(playlistId);
+            if (!playlistRegistry.favourites.contains(playlistId)) {
+                playlistRegistry.favourites.add(playlistId);
             }
         }
         updateFavButton();
@@ -156,7 +162,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
     private void updateFavButton() {
         Log.d("PlaylistActivity", "Updating favourite button");
-        favBtn.setChecked(SongRegistry.favouritePlaylists.contains(playlistId));
+        favBtn.setChecked(playlistRegistry.favourites.contains(playlistId));
     }
 
     public void handleAddSongs(View view) {
