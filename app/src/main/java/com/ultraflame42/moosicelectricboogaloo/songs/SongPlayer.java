@@ -89,13 +89,21 @@ public class SongPlayer {
      */
     public static void PlayPlaylist(int playlistId,int startPosition) {
         currentPlaylist = playlistId;
-        currentPlaylistShadow = PlaylistRegistry.getInstance().get(playlistId).item.getSongs();
+        SongPlaylist playlist = PlaylistRegistry.getInstance().getItem(playlistId);
+
+        if (playlist.getLength()<1) {
+            Log.w("SongPlayer", "Playlist does not have sufficient song <1!");
+            return;
+        }
+
+        currentPlaylistShadow = playlist.getSongs();
         if (isShuffle) {
             Log.d("SongPlayer", "Shuffling playlist");
             Collections.shuffle(currentPlaylistShadow);
         }
         // using collections rotate, shift the song at startPosition to first position.
         Collections.rotate(currentPlaylistShadow,startPosition);
+
         // now play the first song.
         playSong(currentPlaylistShadow.get(0));
     }
