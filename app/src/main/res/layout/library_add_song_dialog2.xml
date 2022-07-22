@@ -16,7 +16,7 @@
         android:text="Supported images: png,jpg,bitmap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/songImageInput" />
 
     <Button
         android:id="@+id/cancelBtn"
@@ -26,7 +26,7 @@
         android:text="@string/cancel_link"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
+        app:layout_constraintTop_toBottomOf="@+id/finalAddSongBtn" />
 
     <TextView
         android:id="@+id/textView4"
@@ -39,20 +39,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/songTitleInput"
         style="@style/textInputStyle"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Song title"
-        android:inputType="textPersonName"
+        android:inputType="textShortMessage|textAutoCorrect|textAutoComplete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/songArtistInput"
         style="@style/textInputStyle"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -63,23 +63,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/songTitleInput" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/songImageInput"
         style="@style/textInputStyle"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Image link"
-        android:inputType="textPersonName"
+        android:hint="Image link ( optional )"
+        android:inputType="textUri"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/songArtistInput" />
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/finalAddSongBtn"
         style="@style/PrimaryStyle2"
         android:text="Add Song"
         app:layout_constraintEnd_toEndOf="parent"

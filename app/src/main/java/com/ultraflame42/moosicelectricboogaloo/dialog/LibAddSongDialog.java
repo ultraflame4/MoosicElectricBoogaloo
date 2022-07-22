@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class LibAddSongDialog extends DialogFragment {
     private NavController controller;
+    private EditText txtLinkInput;
 
     @Nullable
     @Override
@@ -26,12 +29,24 @@ public class LibAddSongDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.library_add_song_dialog, container, false);
         controller = NavHostFragment.findNavController(this);
 
+        txtLinkInput = view.findViewById(R.id.songTitleInput);
         // On Next Button
         Button nxtButton = view.findViewById(R.id.nextButton);
         nxtButton.setOnClickListener(view1 -> {
-            navigateBack();
-            controller.navigate(R.id.action_libraryFragment_to_libAddSongDialogB);
+            String s = txtLinkInput.getText().toString();
+            if (s.length() < 1) {
+                Toast.makeText(getContext(), "Song url  / file link Cannot be empty!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Bundle bundle = new Bundle();
+                bundle.putString("songMediaLink",s);
+                navigateBack();
+                controller.navigate(R.id.action_libraryFragment_to_libAddSongDialogB,bundle);
+            }
         });
+
+        // todo Add in browse local file for songs
+
         // On Cancel
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(view1 -> {

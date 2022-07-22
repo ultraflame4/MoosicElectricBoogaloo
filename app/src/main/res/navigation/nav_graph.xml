@@ -51,6 +51,8 @@
     <dialog
         android:id="@+id/libAddSongDialogB"
         android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddSongDialogB"
-        android:label="LibAddSongDialogB" />
+        android:label="LibAddSongDialogB" >
+        <argument android:name="songMediaLink" app:argType="string" />
+    </dialog>
 
 </navigation>
