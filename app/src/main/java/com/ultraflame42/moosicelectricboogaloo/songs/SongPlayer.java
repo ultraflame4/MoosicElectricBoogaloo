@@ -32,6 +32,11 @@ public class SongPlayer {
      * False if the state has changed to paused/stopped playing
      */
     public static CustomEvents<Boolean> OnSongPlayStateChange = new CustomEvents<>();
+    /*
+     * This event fires when the Song Player tries to play a song that is not playable.
+     * data contains error message for toast
+     */
+    public static CustomEvents<String> OnSongPlayError = new CustomEvents<>();
 
 
     // A copy of the current playlist., hence the name shadow
@@ -51,7 +56,13 @@ public class SongPlayer {
      */
     private static void playSong(int songId) {
 
+        currentSong = songId;
         RegistryItem<Song> song = SongRegistry.getInstance().get(songId);
+        if (!song.item.isPlayable()){
+            OnSongPlayError.pushEvent("This Song is not playable. The url or file may be broken. Skipping to next song.");
+            PlayNext();
+            return;
+        }
         try {
             isPaused = false;
             pausedPosition = 0;
@@ -62,7 +73,6 @@ public class SongPlayer {
             mediaPlayer.prepare();
 
             mediaPlayer.start();
-            currentSong = songId;
             OnSongPlayChange.pushEvent(song);
             OnSongPlayStateChange.pushEvent(true);
         } catch (IOException e) {
@@ -84,14 +94,15 @@ public class SongPlayer {
 
     /**
      * Plays a playlist.
-     * @param playlistId The playlist id
+     *
+     * @param playlistId    The playlist id
      * @param startPosition Which song to start playing from.
      */
-    public static void PlayPlaylist(int playlistId,int startPosition) {
+    public static void PlayPlaylist(int playlistId, int startPosition) {
         currentPlaylist = playlistId;
         SongPlaylist playlist = PlaylistRegistry.getInstance().getItem(playlistId);
 
-        if (playlist.getLength()<1) {
+        if (playlist.getLength() < 1) {
             Log.w("SongPlayer", "Playlist does not have sufficient song <1!");
             return;
         }
@@ -102,23 +113,26 @@ public class SongPlayer {
             Collections.shuffle(currentPlaylistShadow);
         }
         // using collections rotate, shift the song at startPosition to first position.
-        Collections.rotate(currentPlaylistShadow,startPosition);
+        Collections.rotate(currentPlaylistShadow, startPosition);
 
         // now play the first song.
         playSong(currentPlaylistShadow.get(0));
     }
+
     /**
      * Plays a playlist.
+     *
      * @param playlistId The playlist id
      */
     public static void PlayPlaylist(int playlistId) {
-        PlayPlaylist(playlistId,0);
+        PlayPlaylist(playlistId, 0);
     }
 
     /**
      * Returns the currently playing song id.
-     *
+     * <p>
      * Returns -1 if there are no currently playing songs
+     *
      * @return
      */
     public static int GetCurrentSong() {
@@ -228,6 +242,7 @@ public class SongPlayer {
         Log.d("SongPlayer", "Playing Next Song");
         // Play next song in playlist. If -1 no next song.
         int nxtSong = getNextSongInPlaylist();
+
         if (nxtSong >= 0) {
 
             playSong(nxtSong);

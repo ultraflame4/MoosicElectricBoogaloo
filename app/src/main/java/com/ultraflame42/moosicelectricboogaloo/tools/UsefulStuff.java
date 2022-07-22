@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,19 +41,52 @@ public class UsefulStuff {
         fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    /**
-     * Caculates the duration of the song using media player
-     *
-     * @param song
-     * @return The length of the song in ms
-     * @throws IOException MediaPlayer Exceptions
-     */
-    public static int getSongDuration(Song song) throws IOException {
-        MediaPlayer mp = new MediaPlayer();
-        mp.setDataSource(song.getFileLink());
-        mp.prepare();
-        return mp.getDuration();
+    private static class VerifyMediaPlayable extends AsyncTask<String, Integer, MediaPlayer> {
+        private OnMediaVerificationListener callback;
+        @Override
+        protected MediaPlayer doInBackground(String... strings) {
+            String media = strings[0];
+            MediaPlayer mp = new MediaPlayer();
+            try {
+                mp.setDataSource(media);
+                mp.prepare();
+                mp.setOnBufferingUpdateListener((mediaPlayer, i) -> {
+                    Log.d("VerifyMediaPlayer", "Buffering: " + i);
+                });
+            } catch (IOException e) {
+                Log.e("VerifyMediaPlayable", "Error: " + e.getMessage());
+                return null;
+            }
+            return mp;
+        }
+
+        protected void onPostExecute(MediaPlayer result) {
+            if (result != null) {
+                callback.onMediaVerified(true);
+                callback.setSongInfo(result.getDuration());
+            }
+            else{
+                callback.onMediaVerified(false);
+            }
+        }
+
+        public void setCallback(OnMediaVerificationListener callback) {
+            this.callback = callback;
+        }
     }
+
+    /**
+     * Verifies that a media is playable by media player
+     * @param medialocation
+     */
+    public static void GetInfoAndVerifyMediaPlayable(String medialocation,OnMediaVerificationListener callback) {
+        Log.d("GetInfoAndVerifyMediaPlayable", "Verifying media: " + medialocation);
+        VerifyMediaPlayable task = new VerifyMediaPlayable();
+        task.setCallback(callback);
+        task.execute(medialocation);
+
+    }
+
 
     public static DisplayMetrics getDisplayMetrics(AppCompatActivity activity) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -69,4 +104,5 @@ public class UsefulStuff {
     public static float convertDpToPx(Context context, float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
     }
+
 }

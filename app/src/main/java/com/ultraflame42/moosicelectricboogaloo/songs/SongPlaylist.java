@@ -31,7 +31,15 @@ public class SongPlaylist {
         isAlbum = false;
 
         this.songs.forEach(integer -> {
-            totalLength += songRegistry.get(integer).item.getLength();
+            Song song = songRegistry.getItem(integer);
+            if (song.isPlayable()){
+                totalLength += song.getLength();
+            }
+            else{
+                song.OnSongInfoUpdate.addListener(data -> {
+                    totalLength += song.getLength();
+                });
+            }
         });
     }
 
@@ -43,8 +51,6 @@ public class SongPlaylist {
         this.creator = creator;
         this.title = title;
         isAlbum = false;
-        songRegistry = SongRegistry.getInstance();
-
     }
 
     /**
@@ -61,12 +67,29 @@ public class SongPlaylist {
     public void addSong(int songId) {
         songs.add(songId);
         // add to total Length
-        totalLength += songRegistry.get(songId).item.getLength();
+        Song song = songRegistry.getItem(songId);
+        if (song.isPlayable()){
+            totalLength += song.getLength();
+        }
+        else{
+            song.OnSongInfoUpdate.addListener(data -> {
+                totalLength += song.getLength();
+            });
+        }
     }
 
     public void removeSongAtIndex(int index) {
         // remove from total Length
-        totalLength -= songRegistry.get(songs.get(index)).item.getLength();
+
+        Song song = songRegistry.getItem(index);
+        if (song.isPlayable()){
+            totalLength -= song.getLength();
+        }
+        else{
+            song.OnSongInfoUpdate.addListener(data -> {
+                totalLength -= song.getLength();
+            });
+        }
         // do this part aft else the index will be out of bounds.
         songs.remove(index);
     }

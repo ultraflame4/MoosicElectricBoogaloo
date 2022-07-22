@@ -1,6 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -16,11 +17,13 @@ import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 
 
 public class AppHomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private EventListenerGroup listenerGroup = new EventListenerGroup();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class AppHomeActivity extends AppCompatActivity {
                 new Song("abcdefuA", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
         songRegistry.add(
-                new Song("abcdefuB", "GAYLEB", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+                new Song("abcdefuB", "GAYLEB", "https://p.scdn.co/mp3-preview/83dc53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
         // temp values for testing todo remove ltr
         playlistRegistry.add(
@@ -54,14 +57,14 @@ public class AppHomeActivity extends AppCompatActivity {
 
 
         SongPlayer.init();
-
+        listenerGroup.subscribe(SongPlayer.OnSongPlayError,data -> {
+            Toast.makeText(this, "SongPlayer: "+data, Toast.LENGTH_SHORT).show();
+        });
 
     }
 
     public void onBackPressed() {
-
         AccountManager.AppHomeExitEvent.pushEvent(null);
-
     }
 
     public void handleGoogleSignIn() {

@@ -38,6 +38,8 @@ public class LibAddSongDialog extends DialogFragment {
     }
 
     private void navigateBack() {
+        // send message to back stack
+        controller.getPreviousBackStackEntry().getSavedStateHandle().set("back", "canceled");
         controller.navigateUp();
     }
 }

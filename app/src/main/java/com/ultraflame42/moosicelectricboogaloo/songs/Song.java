@@ -3,7 +3,11 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 import android.util.Log;
 
+import com.ultraflame42.moosicelectricboogaloo.tools.OnMediaVerificationListener;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
+import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +21,13 @@ public class Song {
     private String album;
     private String fileLink; //todo change to id registry system for fileLink.
     private String[] tags;
+    private boolean playable=false; // if false, link is broken and song is not playable
+    /**
+     * This event fires when the Song information is updated.
+     *
+     * All listeners are removed after each firing
+     */
+    public DefaultEvent OnSongInfoUpdate = new DefaultEvent();
 
     /**
      * Constructor for a song.
@@ -30,6 +41,7 @@ public class Song {
         this.artist = artist;
         this.album = title;
         this.fileLink = fileLink;
+        updateAndRetrieveSongInfo();
     }
 
     /**
@@ -45,6 +57,7 @@ public class Song {
         this.artist = artist;
         this.album = album;
         this.fileLink = fileLink;
+        updateAndRetrieveSongInfo();
     }
 
     public void setTags(String[] tags) {
@@ -56,18 +69,36 @@ public class Song {
     }
 
     /**
+     * Updates and retrieve vital song information such as song duration
+     *
+     * also checks if the song is playable.
+     */
+    private void updateAndRetrieveSongInfo() {
+
+        UsefulStuff.GetInfoAndVerifyMediaPlayable(fileLink, new OnMediaVerificationListener() {
+            @Override
+            public void onMediaVerified(boolean playable_) {
+                playable=playable_;
+                Log.d("Song", "Title:"+title+" Verified Playable: " + playable);
+
+            }
+
+            @Override
+            public void setSongInfo(int songDuration) {
+                length=songDuration;
+                OnSongInfoUpdate.pushEvent(null);
+                OnSongInfoUpdate.clearListeners();
+            }
+        });
+
+    }
+
+    /**
      * Caculates length of song using media player
      *
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
-        if (length == -1) {
-            try {
-                length = UsefulStuff.getSongDuration(this);
-            } catch (IOException e) {
-                Log.e("SongGetLength", "Fatal Error: Could not calculate song length: Mediaplayer Error", e);
-            }
-        }
         return length;
     }
 
@@ -105,5 +136,9 @@ public class Song {
             formattedLength = minutes + " : " + seconds;
         }
         return formattedLength;
+    }
+
+    public boolean isPlayable() {
+        return playable;
     }
 }
