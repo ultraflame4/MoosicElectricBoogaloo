@@ -7,11 +7,18 @@ import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SongRegistry{
     public static Registry<Song> songs = new Registry<>();
     public static Registry<SongPlaylist> playlists = new Registry<>();
+
+    public static Set<Integer> favouritePlaylists = new HashSet<>();
+    public static Set<Integer> likedSongs = new HashSet<>();
 
     private static SearchNameItem[] searhNamesCache = new SearchNameItem[0];
 

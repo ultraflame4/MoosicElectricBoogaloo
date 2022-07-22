@@ -60,6 +60,7 @@ public class PlaylistActivity extends AppCompatActivity {
         //todo do image part for playlist
 
         favBtn = findViewById(R.id.favouriteBtn);
+        updateFavButton();
         favBtn.setSaveEnabled(false);
         favBtn.setOnClickListener(view -> {
             handleFavourite();
@@ -134,14 +135,32 @@ public class PlaylistActivity extends AppCompatActivity {
 
     public void handleMore(View view) {
         Log.d("PlaylistActivity", "Opening more options menu");
-
+        //todo playlist options menu
     }
 
     public void handleFavourite() {
         Log.d("PlaylistActivity", "Toggling favourite for playlistId " + playlistId);
+        if (!favBtn.isChecked()) {
+            Log.d("PlaylistActivity", "un-favourited for playlistId " + playlistId);
+            if (SongRegistry.favouritePlaylists.contains(playlistId)) {
+                SongRegistry.favouritePlaylists.remove(playlistId);
+            }
+        } else {
+            Log.d("PlaylistActivity", "favourited for playlistId " + playlistId);
+            if (!SongRegistry.favouritePlaylists.contains(playlistId)) {
+                SongRegistry.favouritePlaylists.add(playlistId);
+            }
+        }
+        updateFavButton();
+    }
+
+    private void updateFavButton() {
+        Log.d("PlaylistActivity", "Updating favourite button");
+        favBtn.setChecked(SongRegistry.favouritePlaylists.contains(playlistId));
     }
 
     public void handleAddSongs(View view) {
         Log.d("PlaylistActivity", "Opening add songs menu");
+        //todo playlist add songs menu
     }
 }

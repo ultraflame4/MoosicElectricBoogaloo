@@ -53,4 +53,12 @@ public class Registry<D> {
     public int count() {
         return items.size();
     }
+
+    public boolean contains(int itemId) {
+        return items.containsKey(itemId);
+    }
+    public boolean containsItem(RegistryItem<D> registryItem) {
+        return items.containsValue(registryItem);
+    }
+
 }

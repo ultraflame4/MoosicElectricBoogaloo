@@ -42,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, intent);
             finish();
         });
+
         resultsList.setLayoutManager(new LinearLayoutManager(this));
         resultsList.setAdapter(adapter);
 
