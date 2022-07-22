@@ -50,6 +50,7 @@ public class SongPlaylist {
     public SongPlaylist(String creator, String title) {
         this.creator = creator;
         this.title = title;
+        songRegistry = SongRegistry.getInstance();
         isAlbum = false;
     }
 
