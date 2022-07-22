@@ -65,9 +65,10 @@ public class SongPlaylist {
     }
 
     public void removeSongAtIndex(int index) {
-        songs.remove(index);
         // remove from total Length
         totalLength -= songRegistry.get(songs.get(index)).item.getLength();
+        // do this part aft else the index will be out of bounds.
+        songs.remove(index);
     }
 
     public void removeSong(int songId) {
