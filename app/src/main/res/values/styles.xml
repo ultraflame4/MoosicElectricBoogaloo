@@ -114,4 +114,11 @@
         <item name="android:layout_width">250dp</item>
     </style>
 
+    <style name="dialogWindow">
+        <item name="android:background">@drawable/dialog_bg</item>
+        <item name="android:paddingHorizontal">@dimen/dialog_padding_side</item>
+        <item name="android:paddingTop">@dimen/dialog_padding_top</item>
+        <item name="android:paddingBottom">@dimen/dialog_padding_bottom</item>
+    </style>
+
 </resources>

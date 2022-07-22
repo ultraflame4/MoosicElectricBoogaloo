@@ -2,12 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/dialogWindow"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/dialog_bg"
-    android:paddingHorizontal="@dimen/dialog_padding_side"
-    android:paddingTop="@dimen/dialog_padding_top"
-    android:paddingBottom="@dimen/dialog_padding_bottom">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView3"
