@@ -8,7 +8,11 @@
     <dialog
         android:id="@+id/libAddItemDialog"
         android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddItemDialog"
-        android:label="LibAddItemDialog" />
+        android:label="LibAddItemDialog">
+        <action
+            android:id="@+id/action_libAddItemDialog_to_libAddSongDialog"
+            app:destination="@id/libAddSongDialog" />
+    </dialog>
 
     <fragment
         android:id="@+id/songPlayFragment"
@@ -19,7 +23,7 @@
         android:id="@+id/libraryFragment"
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" >
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_libraryFragment_to_libAddItemDialog"
             app:destination="@id/libAddItemDialog" />
@@ -34,5 +38,12 @@
         android:name="com.ultraflame42.moosicelectricboogaloo.ui.home.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <dialog
+        android:id="@+id/libAddSongDialog"
+        android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibAddSongDialog"
+        android:label="LibAddSongDialog">
+
+    </dialog>
 
 </navigation>

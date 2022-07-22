@@ -15,10 +15,28 @@ import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import java.io.IOException;
 
 public class UsefulStuff {
-
+    /**
+     * This method exists solely to make my life easier.
+     *
+     * Removes title bar from activity.
+     * @param activity
+     */
     public static void setupActivity(AppCompatActivity activity) {
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.getSupportActionBar().hide();
+    }
+
+    /**
+     * This method exists solely to make my life easier.
+     *
+     * Makes dialog window background transparent. and titleless.
+     *
+     * (So i can have rounded corners)
+     * @param fragment
+     */
+    public static void setupDialogFragment(DialogFragment fragment) {
+        fragment.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     /**
@@ -50,10 +68,5 @@ public class UsefulStuff {
      */
     public static float convertDpToPx(Context context, float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
-    }
-
-    public static void setupDialogFragment(DialogFragment fragment) {
-        fragment.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }
