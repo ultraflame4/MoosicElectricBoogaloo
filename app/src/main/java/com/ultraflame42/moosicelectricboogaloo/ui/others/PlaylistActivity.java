@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.ui.playlist;
+package com.ultraflame42.moosicelectricboogaloo.ui.others;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
