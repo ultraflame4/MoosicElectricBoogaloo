@@ -24,6 +24,7 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.SearchActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.PlaylistActivity;
@@ -34,6 +35,9 @@ public class LibraryFragment extends Fragment {
     private PlaylistRegistry playlistRegistry;
     private EventListenerGroup listenerGroup = new EventListenerGroup();
     private FavouritesGridAdapter favouritesGridAdapter;
+    private PlaylistListAdapter playlistListAdapter;
+    private SongsListAdapter songsListAdapter;
+    private SongRegistry songRegistry;
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -41,11 +45,13 @@ public class LibraryFragment extends Fragment {
 
 
     ActivityResultLauncher<Intent> SearchActivityIntentLauncher;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // Called everytime the fragment is navigated to
         super.onCreate(savedInstanceState);
         playlistRegistry = PlaylistRegistry.getInstance();
+        songRegistry = SongRegistry.getInstance();
         SearchActivityIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Intent data = result.getData();
             if (data == null) {
@@ -53,8 +59,8 @@ public class LibraryFragment extends Fragment {
                 return;
             }
 
-            int itemType = data.getIntExtra("itemType",-1);
-            int itemId = data.getIntExtra("itemId",-1);
+            int itemType = data.getIntExtra("itemType", -1);
+            int itemId = data.getIntExtra("itemId", -1);
             if (itemType < 0 || itemId < 0) {
                 Log.w("LibraryFragment", "WARNING Search activity returned invalid data");
                 return;
@@ -86,22 +92,28 @@ public class LibraryFragment extends Fragment {
         favGridView.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
         favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favGridView.setAdapter(favouritesGridAdapter);
-
-        favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
-        listenerGroup.subscribe(playlistRegistry.OnFavouritesUpdate,data -> {
+        listenerGroup.subscribe(playlistRegistry.OnFavouritesUpdate, data -> {
             favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
         });
+        favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
 
-        PlaylistListAdapter playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
+        playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
-
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
         playlistListView.setAdapter(playlistListAdapter);
+        listenerGroup.subscribe(playlistRegistry.OnItemsUpdate, data -> {
+            playlistListAdapter.updateData();
+        });
+        playlistListAdapter.updateData();
 
-        SongsListAdapter songsListAdapter = new SongsListAdapter(getContext());
+        songsListAdapter = new SongsListAdapter(getContext());
         RecyclerView songsListView = view.findViewById(R.id.songs_list);
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);
+        listenerGroup.subscribe(songRegistry.OnItemsUpdate, data -> {
+            songsListAdapter.updateData();
+        });
+        songsListAdapter.updateData();
 
         ImageButton imgBtn = view.findViewById(R.id.libSearchBtn);
         imgBtn.setOnClickListener(view1 -> handleSearchBtn());
@@ -117,9 +129,15 @@ public class LibraryFragment extends Fragment {
     public void handleSearchBtn() {
 
 
+        SearchActivityIntentLauncher.launch(new Intent(getActivity(), SearchActivity.class));
 
-        SearchActivityIntentLauncher.launch( new Intent(getActivity(), SearchActivity.class));
 
+    }
 
+    @Override
+    public void onDestroy() {
+        Log.d("LibraryFragment", "onDestroy: unsubbing all listeners");
+        listenerGroup.unsubscribeAll();
+        super.onDestroy();
     }
 }

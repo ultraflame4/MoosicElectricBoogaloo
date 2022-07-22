@@ -24,22 +24,21 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolde
     RegistryItem<Song>[] songs;
     LayoutInflater inflater;
 
-    EventCallbackListener<RegistryUpdateData<Song>> onSongAddedListener;
-
     SongRegistry songRegistry;
 
     public SongsListAdapter(Context ctx) {
         this.ctx = ctx;
         songRegistry = SongRegistry.getInstance();
-        songs = songRegistry.getAllItems();
-        onSongAddedListener = songRegistry.OnItemsUpdate.addListener(song -> {
-            Log.d("SongsListAdapter", "SongRegistry updated, updating list");
-            songs = songRegistry.getAllItems();
-            notifyDataSetChanged();
-        });
+        songs=new RegistryItem[0];
 
     }
 
+
+    public void updateData() {
+        Log.d("SongsListAdapter", "SongRegistry updated, updating list");
+        songs = songRegistry.getAllItems();
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {

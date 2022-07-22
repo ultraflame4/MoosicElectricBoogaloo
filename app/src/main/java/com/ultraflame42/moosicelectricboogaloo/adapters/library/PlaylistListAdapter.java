@@ -23,7 +23,6 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHo
     Context ctx;
     RegistryItem<SongPlaylist>[] playlists;
 
-    EventCallbackListener<RegistryUpdateData<SongPlaylist>> onPlaylistAddedListener;
     private EventFunctionCallback<Integer> OnPlaylistClickedCallback;
     PlaylistRegistry playlistRegistry;
 
@@ -31,13 +30,15 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHo
         this.ctx = ctx;
         OnPlaylistClickedCallback = onPlaylistClickedCallback;
         playlistRegistry = PlaylistRegistry.getInstance();
-        this.playlists = playlistRegistry.getAllItems();
-        onPlaylistAddedListener = playlistRegistry.OnItemsUpdate.addListener(playlist -> {
-            Log.d("PlaylistListAdapter", "SongRegistry playlists updated, updating list");
-            playlists = playlistRegistry.getAllItems();
-            notifyDataSetChanged();
-        });
+        playlists= new RegistryItem[0];
 
+
+    }
+
+    public void updateData() {
+        Log.d("PlaylistListAdapter", "SongRegistry playlists updated, updating list");
+        playlists = playlistRegistry.getAllItems();
+        notifyDataSetChanged();
     }
 
     @NonNull
