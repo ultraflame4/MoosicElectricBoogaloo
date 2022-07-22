@@ -80,8 +80,6 @@
             <Button
                 android:id="@+id/btnLogin"
                 style="@style/PrimaryButtonStyle"
-                android:layout_width="192dp"
-                android:layout_height="54dp"
                 android:onClick="handleLogin"
                 android:text="Login" />
 
@@ -90,7 +88,6 @@
                 android:id="@+id/GoogleSignInBtn"
                 style="@style/PrimaryButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
                 android:backgroundTint="@android:color/background_light"
                 android:fontFamily="@font/poppins"
                 android:letterSpacing="0.05"
@@ -106,7 +103,6 @@
                 android:id="@+id/btnRegister"
                 style="@style/SecondaryButtonStyle"
                 android:layout_width="192dp"
-                android:layout_height="54dp"
                 android:onClick="handleSignUp"
                 android:text="Sign Up" />
 
@@ -114,7 +110,6 @@
                 android:id="@+id/btnContinueAsGuest"
                 style="@style/LinkButtonStyle"
                 android:layout_width="192dp"
-                android:layout_height="wrap_content"
                 android:onClick="handleContinueAsGuest"
                 android:text="@string/continue_as_guest" />
 

@@ -1,6 +1,9 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -14,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
@@ -97,6 +101,7 @@ public class LibraryFragment extends Fragment {
         });
         favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
 
+        // Playlist
         playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -106,6 +111,7 @@ public class LibraryFragment extends Fragment {
         });
         playlistListAdapter.updateData();
 
+        // Songlist
         songsListAdapter = new SongsListAdapter(getContext());
         RecyclerView songsListView = view.findViewById(R.id.songs_list);
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -115,8 +121,14 @@ public class LibraryFragment extends Fragment {
         });
         songsListAdapter.updateData();
 
-        ImageButton imgBtn = view.findViewById(R.id.libSearchBtn);
-        imgBtn.setOnClickListener(view1 -> handleSearchBtn());
+        // Search button
+        ImageButton libSearchBtn = view.findViewById(R.id.libSearchBtn);
+        libSearchBtn.setOnClickListener(view1 -> handleSearchBtn());
+
+        // AddToLib btn
+        ImageButton addToLibBtn = view.findViewById(R.id.addToLibBtn);
+        addToLibBtn.setOnClickListener(view1 -> handleAddToLibBtn());
+
         return view;
     }
 
@@ -127,11 +139,23 @@ public class LibraryFragment extends Fragment {
     }
 
     public void handleSearchBtn() {
-
-
         SearchActivityIntentLauncher.launch(new Intent(getActivity(), SearchActivity.class));
+    }
 
+    public void handleAddToLibBtn() {
+        final Dialog dialog = new Dialog(getContext());
+        // Disable the default title bar
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // Allow user to tap outside and cancel
+        dialog.setCancelable(true);
+        // Set layout
+        dialog.setContentView(R.layout.library_add_dialog);
+        // make bg transparent
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        //todo bind buttons
+
+        dialog.show();
     }
 
     @Override
