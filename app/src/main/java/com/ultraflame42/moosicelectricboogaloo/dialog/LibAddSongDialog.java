@@ -39,7 +39,7 @@ public class LibAddSongDialog extends DialogFragment {
             }
             else{
                 Bundle bundle = new Bundle();
-                bundle.putString("songMediaLink",s);
+                bundle.putString("songMediaLink",s.trim()); // also trim leading and trailing white space :)
                 navigateBack();
                 controller.navigate(R.id.action_libraryFragment_to_libAddSongDialogB,bundle);
             }
