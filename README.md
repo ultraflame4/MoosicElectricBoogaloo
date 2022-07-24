@@ -11,7 +11,7 @@ A music app created for a school project
 - [x] Implement basic playlist ui
 - 
 ### core features (must have)
-- [ ] Implement searching of songs 
+- [x] Implement searching of songs in lib 
 - [ ] Implement removal songs
 - [ ] Implement removal of playlists
 - [ ] basic settings page (for logout, changing password & clearing of data)

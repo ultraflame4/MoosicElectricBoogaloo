@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_libraryFragment_to_libAddSongDialogB"
             app:destination="@id/libAddSongDialogB" />
+        <action
+            android:id="@+id/action_libraryFragment_to_createPlaylistDialog"
+            app:destination="@id/libCreatePlaylistDialog" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -54,5 +57,10 @@
         android:label="LibAddSongDialogB" >
         <argument android:name="songMediaLink" app:argType="string" />
     </dialog>
+
+    <dialog
+        android:id="@+id/libCreatePlaylistDialog"
+        android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibCreatePlaylistDialog"
+        android:label="LibCreatePlaylistDialog" />
 
 </navigation>

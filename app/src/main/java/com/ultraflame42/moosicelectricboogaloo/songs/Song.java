@@ -82,7 +82,7 @@ public class Song {
             @Override
             public void onMediaVerified(boolean playable_) {
                 playable=playable_;
-                Log.d("Song", "Title:"+title+" Verified Playable: " + playable);
+                Log.i("Song", "Title:"+title+" Verified Playable: " + playable);
                 OnSongVerified.pushEvent(null);
                 OnSongVerified.clearListeners();
             }
