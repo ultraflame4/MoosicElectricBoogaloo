@@ -82,8 +82,6 @@ public class AppLoginActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        Log.d("AppLogin", "Forced exit");
-        AccountManager.setAuthStatus(LoginStatus.NOT_LOGGED_IN);
         // Unsubscribe all event listeners
         Log.d("AppLogin", "Unsubscribing all event listeners");
         eGroup.unsubscribeAll();
@@ -115,8 +113,5 @@ public class AppLoginActivity extends AppCompatActivity {
     public void handleGoogleSignIn(View view) {
         googleAuthHelper.oneTapSignIn();
     }
-
-    private static final int REQ_ONE_TAP = 2;
-    private boolean showOneTapUI = true;
 
 }
