@@ -42,5 +42,7 @@
     <string name="library_add_item_dialog_txt">Library Add Item</string>
     <string name="lib_add_dialog_create_playlist_btn">Create Playlist</string>
     <string name="lib_add_dialog_add_song_btn">Add Song</string>
+    <string name="SettingsMenuTitle">Settings</string>
+    <string name="accountSettingsTitle">Account</string>
 
 </resources>

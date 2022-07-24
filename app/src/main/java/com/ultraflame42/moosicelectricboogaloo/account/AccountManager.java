@@ -30,14 +30,32 @@ public class AccountManager {
     }
 
     public static void setAuthStatus(LoginStatus authStatus) {
-        if (AccountManager.authStatus == LoginStatus.NOT_LOGGED_IN && authStatus != LoginStatus.NOT_LOGGED_IN) {
-            Log.d("AccountManager", "Logged in with mode    " + authStatus.toString());
-            // Only push event if previous status was not logged in
-            LoggedInEvent.pushEvent(null);
+        if (authStatus == AccountManager.authStatus) {
+            Log.w("AccountManager", "Attempted to set auth status to same value. Ignoring...");
+            return;
         }
+
+        switch (authStatus) {
+
+            case NOT_LOGGED_IN:
+                Log.i("AccountManager", "Logging out ...");
+                firebaseAuth.signOut();
+                LoggedOutEvent.pushEvent(null);
+                break;
+            case LOGGED_IN:
+                Log.i("AccountManager", "Logged in with mode    " + authStatus);
+                LoggedInEvent.pushEvent(null);
+                break;
+            case GUEST:
+                Log.i("AccountManager", "Logged in with mode    " + authStatus);
+                LoggedInEvent.pushEvent(null);
+                break;
+        }
+
 
         AccountManager.authStatus = authStatus;
     }
+
 
     /**
      * When sign in with email and password fails
@@ -74,4 +92,5 @@ public class AccountManager {
                     }
                 });
     }
+
 }

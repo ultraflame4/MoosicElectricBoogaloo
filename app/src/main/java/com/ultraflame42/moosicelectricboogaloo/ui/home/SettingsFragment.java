@@ -7,16 +7,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.account.AccountManager;
+import com.ultraflame42.moosicelectricboogaloo.account.LoginStatus;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment {
 
+
+    private TextView settingsAccountEmailText;
+    private TextView settingsCreatedDateText;
+
+    private Button settingsAccountChangePasswordBtn;
+    private Button settingsAccountSignOutBtn;
+    private Button settingsAccountDeleteBtn;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -26,13 +32,26 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        settingsAccountEmailText = view.findViewById(R.id.settingsAccountEmailText);
+        settingsCreatedDateText = view.findViewById(R.id.settingsCreatedDateText);
+
+        settingsAccountChangePasswordBtn = view.findViewById(R.id.settingsAccountChangePassword);
+        settingsAccountSignOutBtn = view.findViewById(R.id.settingsAccountSignOutBtn);
+
+        settingsAccountDeleteBtn = view.findViewById(R.id.settingsAccountDeleteBtn);
+
+        settingsAccountSignOutBtn.setOnClickListener(view1 -> {
+            AccountManager.setAuthStatus(LoginStatus.NOT_LOGGED_IN);
+        });
+
+
+        return view;
     }
 }

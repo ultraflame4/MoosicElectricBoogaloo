@@ -25,6 +25,12 @@
     <style name="SecondaryButtonStyle" parent="@style/ButtonStyle">
         <item name="backgroundTint">@color/color_c</item>
     </style>
+    <style name="SignOutButtonStyle" parent="@style/ButtonStyle">
+        <item name="backgroundTint">@color/signout</item>
+    </style>
+    <style name="DangerButtonStyle" parent="@style/ButtonStyle">
+        <item name="backgroundTint">@color/danger</item>
+    </style>
 
     <style name="LinkButtonStyle" parent="@style/ButtonStyle">
         <item name="backgroundTint">@color/clear</item>

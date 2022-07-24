@@ -1,14 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Settings Fragment" />
+        android:background="@color/color_b"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
+        <ImageButton
+            android:id="@+id/settingsSearchBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/library_add_desc"
+            android:padding="0dp"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/search_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/SettingsMenuTitle"
+            style="@style/menuTitle"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/SettingsMenuTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="Settings content scroll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SettingsMenuTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp">
+
+                    <TextView
+                        android:id="@+id/accountSettingsTitle"
+                        style="@style/menuCatTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:text="@string/accountSettingsTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/settingsAccountEmailText"
+                        style="@style/listItem_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/settingsAccountEmailTitle" />
+
+                    <TextView
+                        android:id="@+id/settingsAccountEmailTitle"
+                        style="@style/listItem_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Email :"
+                        app:layout_constraintTop_toBottomOf="@+id/accountSettingsTitle"
+                        tools:fontFamily="@font/poppins_medium"
+                        tools:layout_editor_absoluteX="0dp" />
+
+                    <TextView
+                        android:id="@+id/settingsCreatedDateText"
+                        style="@style/listItem_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/settingsCreatedDateTitle" />
+
+                    <TextView
+                        android:id="@+id/settingsCreatedDateTitle"
+                        style="@style/listItem_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Created on"
+                        app:layout_constraintTop_toBottomOf="@+id/settingsAccountEmailText"
+                        tools:fontFamily="@font/poppins_medium"
+                        tools:layout_editor_absoluteX="0dp" />
+
+                    <Button
+                        android:id="@+id/settingsAccountChangePassword"
+                        style="@style/SecondaryButtonStyle"
+                        android:layout_width="256dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Change password"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settingsCreatedDateText" />
+
+                    <Button
+                        android:id="@+id/settingsAccountSignOutBtn"
+                        style="@style/SignOutButtonStyle"
+                        android:layout_width="256dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Sign Out"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settingsAccountChangePassword" />
+
+                    <Button
+                        android:id="@+id/settingsAccountDeleteBtn"
+                        style="@style/DangerButtonStyle"
+                        android:layout_marginTop="16dp"
+                        android:text="Delete Account"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settingsAccountSignOutBtn" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

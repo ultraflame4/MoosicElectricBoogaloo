@@ -19,4 +19,7 @@
     <color name="color_c">#707070</color>
     <color name="clear">#00000000</color>
 
+    <color name="signout">#FA3636</color>
+    <color name="danger">#AA0303</color>
+
 </resources>

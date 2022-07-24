@@ -32,14 +32,22 @@ public class AppHomeActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_app_home);
+
+
+        listenerGroup.subscribe(AccountManager.LoggedOutEvent,data -> {
+            finish();
+        });
+
+        // Set up bottom navigation
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.NavFragmentContainerView);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.NavMenu);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        // Get registries
         SongRegistry songRegistry = SongRegistry.getInstance();
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
-
+        // Toast any errors from songRegistry
         listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {
             Toast.makeText(this, warning, Toast.LENGTH_LONG).show();
         });
