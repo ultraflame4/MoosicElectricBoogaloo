@@ -41,11 +41,11 @@
             android:layout_height="48dp"
             android:background="@color/clear"
             android:scaleType="fitCenter"
-            android:tint="@color/gray_white"
             app:layout_constraintBottom_toBottomOf="@+id/searchQueryInput"
             app:layout_constraintEnd_toEndOf="@+id/searchQueryInput"
             app:layout_constraintTop_toTopOf="@+id/searchQueryInput"
-            app:srcCompat="@drawable/close_icon" />
+            app:srcCompat="@drawable/close_icon"
+            app:tint="@color/gray_white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

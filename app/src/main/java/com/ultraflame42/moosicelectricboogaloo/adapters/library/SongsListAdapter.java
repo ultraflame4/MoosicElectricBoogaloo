@@ -22,7 +22,6 @@ import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData
 public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolder> {
     Context ctx;
     RegistryItem<Song>[] songs;
-    LayoutInflater inflater;
 
     SongRegistry songRegistry;
 

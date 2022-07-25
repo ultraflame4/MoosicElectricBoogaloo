@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_libraryFragment_to_createPlaylistDialog"
             app:destination="@id/libCreatePlaylistDialog" />
+        <action
+            android:id="@+id/action_libraryFragment_to_addSongsActivity"
+            app:destination="@id/addSongsActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -62,5 +65,10 @@
         android:id="@+id/libCreatePlaylistDialog"
         android:name="com.ultraflame42.moosicelectricboogaloo.dialog.LibCreatePlaylistDialog"
         android:label="LibCreatePlaylistDialog" />
+    <activity
+        android:id="@+id/addSongsActivity"
+        android:name="com.ultraflame42.moosicelectricboogaloo.ui.others.AddSongsActivity"
+        android:label="activity_edit_playlist"
+        tools:layout="@layout/activity_add_songs" />
 
 </navigation>

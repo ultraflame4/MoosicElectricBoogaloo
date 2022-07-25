@@ -46,8 +46,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private EventFunctionCallback<SearchNameItem> OnResultItemClicked;
 
-    public static boolean INCLUDE_PLAYLIST = true;
-    public static boolean INCLUDE_SONGS = true;
+    public boolean INCLUDE_PLAYLIST = true;
+    public boolean INCLUDE_SONGS = true;
 
     public SearchResultsAdapter(Activity activity, EventFunctionCallback<SearchNameItem> onResultItemClicked) {
         this.activity = activity;

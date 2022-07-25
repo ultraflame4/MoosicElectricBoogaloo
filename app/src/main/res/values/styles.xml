@@ -15,7 +15,7 @@
 
 
     <style name="PrimaryButtonStyle" parent="@style/ButtonStyle">
-
+        <item name="backgroundTint">@color/color_a</item>
     </style>
 
     <style name="PrimaryStyle2" parent="@style/PrimaryButtonStyle">
