@@ -28,6 +28,7 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
             SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
             pl.isSystem = true;
             instance.add(pl);
+            instance.addToFavourites(0);
         }
         return instance;
     }
