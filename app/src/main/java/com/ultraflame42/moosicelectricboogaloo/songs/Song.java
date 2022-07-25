@@ -22,6 +22,7 @@ public class Song {
     private String fileLink; //todo change to id registry system for fileLink.
     private String[] tags;
     private boolean playable=false; // if false, link is broken and song is not playable
+    //todo implement picasso for image loading
     /**
      * This event fires when the Song information is updated.
      *
