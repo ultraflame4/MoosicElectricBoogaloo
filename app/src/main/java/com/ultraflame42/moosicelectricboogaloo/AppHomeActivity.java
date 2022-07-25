@@ -81,9 +81,4 @@ public class AppHomeActivity extends AppCompatActivity {
         AccountManager.AppHomeExitEvent.pushEvent(null);
     }
 
-    public void handleGoogleSignIn() {
-
-    }
-
-
 }
