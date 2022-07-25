@@ -40,8 +40,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private SearchNameItem[] searchResults = new SearchNameItem[0];
 
-    ExecutorService mExecutor = Executors.newSingleThreadExecutor();
-    Handler mHandler = new Handler(Looper.getMainLooper());
     private Activity activity;
 
     private EventFunctionCallback<SearchNameItem> OnResultItemClicked;
