@@ -48,20 +48,6 @@ public class Song {
         this.fileLink = fileLink;
     }
 
-    /**
-     * Constructor for a song.
-     *
-     * @param title    Song title
-     * @param artist   Song artist
-     * @param album    Album song belongs to.
-     * @param fileLink Song file link
-     */
-    public Song(String title, String artist, String album, String fileLink) {
-        this.title = title;
-        this.artist = artist;
-        this.album = album;
-        this.fileLink = fileLink;
-    }
 
     public void setTags(String[] tags) {
         this.tags = tags;
