@@ -13,12 +13,7 @@ import android.widget.EditText;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.SearchResults.SearchResultsAdapter;
-import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
-import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
 public class SearchActivity extends AppCompatActivity {
 

@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/songTitleInput"
+        android:id="@+id/songUriInput"
         style="@style/textInputStyle"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -46,10 +46,10 @@
         android:text="Next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/browseFileBtn" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/browseFileBtn"
         style="@style/SecondaryButtonStyle"
         android:layout_marginTop="32dp"
         android:text="Browse Files"
@@ -66,6 +66,6 @@
         android:text="Supported formats: web audio, mp3 files"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/songTitleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/songUriInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

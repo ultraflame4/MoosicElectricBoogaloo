@@ -79,7 +79,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             // Filter duplicate results. (Results that point to same target)
             HashSet<String> seen=new HashSet<>();
             results.removeIf(e->!seen.add(e.getUniqueFilterTargetString()));
-
+            // return results that matches query
             return results.toArray(new SearchNameItem[0]);
         }
 

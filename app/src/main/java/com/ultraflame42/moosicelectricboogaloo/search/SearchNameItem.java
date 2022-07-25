@@ -21,7 +21,6 @@ public class SearchNameItem {
 
     public boolean IsPlaylist() {
         return type == ResultItemType.PLAYLIST;
-
    }
     public boolean IsSong() {
         return type == ResultItemType.SONG;

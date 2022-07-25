@@ -1,7 +1,10 @@
 package com.ultraflame42.moosicelectricboogaloo.dialog;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -20,7 +25,8 @@ import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class LibAddSongDialog extends DialogFragment {
     private NavController controller;
-    private EditText txtLinkInput;
+    private EditText uriInput;
+    ActivityResultLauncher<Intent> OpenFileDialogIntentLauncher;
 
     @Nullable
     @Override
@@ -29,11 +35,11 @@ public class LibAddSongDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.library_add_song_dialog, container, false);
         controller = NavHostFragment.findNavController(this);
 
-        txtLinkInput = view.findViewById(R.id.songTitleInput);
+        uriInput = view.findViewById(R.id.songUriInput);
         // On Next Button
         Button nxtButton = view.findViewById(R.id.nextButton);
         nxtButton.setOnClickListener(view1 -> {
-            String s = txtLinkInput.getText().toString();
+            String s = uriInput.getText().toString();
             if (s.length() < 1) {
                 Toast.makeText(getContext(), "Song url  / file link Cannot be empty!", Toast.LENGTH_SHORT).show();
             }
@@ -45,7 +51,25 @@ public class LibAddSongDialog extends DialogFragment {
             }
         });
 
-        // todo Add in browse local file for songs
+        OpenFileDialogIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Intent data = result.getData();
+            if (data == null) {
+                Log.d("LibAddSongDialog", "File picking canceled");
+                return;
+            }
+            Uri uri = data.getData();
+
+            Log.d("LibAddSongDialog", "Uri picked: " + uri.toString());
+            uriInput.setText(uri.toString());
+
+        });
+        Button browseFilesBtn = view.findViewById(R.id.browseFileBtn);
+        browseFilesBtn.setOnClickListener(view1 -> {
+            OpenFilePicker();
+        });
+
+
+
 
         // On Cancel
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
@@ -58,6 +82,12 @@ public class LibAddSongDialog extends DialogFragment {
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
         navigateBack();
+    }
+
+    public void OpenFilePicker(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        OpenFileDialogIntentLauncher.launch(intent);
     }
 
     private void navigateBack() {
