@@ -15,12 +15,14 @@ import androidx.fragment.app.DialogFragment;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class UsefulStuff {
     /**
      * This method exists solely to make my life easier.
-     *
+     * <p>
      * Removes title bar from activity.
+     *
      * @param activity
      */
     public static void setupActivity(AppCompatActivity activity) {
@@ -30,10 +32,11 @@ public class UsefulStuff {
 
     /**
      * This method exists solely to make my life easier.
-     *
+     * <p>
      * Makes dialog window background transparent. and titleless.
-     *
+     * <p>
      * (So i can have rounded corners)
+     *
      * @param fragment
      */
     public static void setupDialogFragment(DialogFragment fragment) {
@@ -43,6 +46,7 @@ public class UsefulStuff {
 
     private static class VerifyMediaPlayable extends AsyncTask<String, Integer, MediaPlayer> {
         private OnMediaVerificationListener callback;
+
         @Override
         protected MediaPlayer doInBackground(String... strings) {
             String media = strings[0];
@@ -64,8 +68,7 @@ public class UsefulStuff {
             if (result != null) {
                 callback.onMediaVerified(true);
                 callback.setSongInfo(result.getDuration());
-            }
-            else{
+            } else {
                 callback.onMediaVerified(false);
             }
         }
@@ -77,9 +80,10 @@ public class UsefulStuff {
 
     /**
      * Verifies that a media is playable by media player
+     *
      * @param medialocation
      */
-    public static void GetInfoAndVerifyMediaPlayable(String medialocation,OnMediaVerificationListener callback) {
+    public static void GetInfoAndVerifyMediaPlayable(String medialocation, OnMediaVerificationListener callback) {
         Log.d("GetInfoAndVerifyMediaPlayable", "Verifying media: " + medialocation);
         VerifyMediaPlayable task = new VerifyMediaPlayable();
         task.setCallback(callback);
@@ -105,6 +109,10 @@ public class UsefulStuff {
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
-
+    public static String formatMilliseconds(Integer time) {
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
+        return minutes + " : " + seconds;
+    }
 
 }

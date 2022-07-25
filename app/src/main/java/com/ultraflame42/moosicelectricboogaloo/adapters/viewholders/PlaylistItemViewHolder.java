@@ -41,6 +41,6 @@ public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
         playlistName.setText(playlist.getTitle());
         playlistCreator.setText(playlist.getCreator());
         playlistSongCount.setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());
-        playlistLength.setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLength());
+        playlistLength.setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLengthFormatted());
     }
 }

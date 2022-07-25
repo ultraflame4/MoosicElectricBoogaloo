@@ -128,18 +128,16 @@ public class Song {
         return fileLink;
     }
 
+
+    private String formattedLength = "";
     /**
      * Returns formatted length of song in format minutes:seconds
      *
      * @return
      */
-    private String formattedLength = "";
-
     public String getLengthFormatted() {
         if (formattedLength.equals("")) {
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(getLength());
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(getLength());
-            formattedLength = minutes + " : " + seconds;
+            formattedLength = UsefulStuff.formatMilliseconds(getLength());
         }
         return formattedLength;
     }

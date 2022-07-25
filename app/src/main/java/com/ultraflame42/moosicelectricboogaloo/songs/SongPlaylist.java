@@ -1,5 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -124,10 +126,23 @@ public class SongPlaylist {
 
 
     /**
-     * Returns the total length of the playlist in seconds
+     * Returns the total length of the playlist in milliseconds
      */
     public int getLength() {
         return totalLength;
+    }
+
+    private String formattedLength = "";
+
+    /**
+     *  Returns formatted length of playlist in minutes and seconds
+     * @return
+     */
+    public String getLengthFormatted() {
+        if (formattedLength.equals("")) {
+            formattedLength = UsefulStuff.formatMilliseconds(getLength());
+        }
+        return formattedLength;
     }
 
 }
