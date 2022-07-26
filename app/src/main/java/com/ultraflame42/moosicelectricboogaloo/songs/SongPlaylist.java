@@ -16,8 +16,6 @@ public class SongPlaylist {
      */
     public boolean isSystem = false;
 
-    private int totalLength = 0; // in milliseconds
-
     SongRegistry songRegistry;
 
     /**
@@ -32,17 +30,6 @@ public class SongPlaylist {
         songRegistry = SongRegistry.getInstance();
         isAlbum = false;
 
-        this.songs.forEach(integer -> {
-            Song song = songRegistry.getItem(integer);
-            if (song.isPlayable()){
-                totalLength += song.getLength();
-            }
-            else{
-                song.OnSongInfoUpdate.addListener(data -> {
-                    totalLength += song.getLength();
-                });
-            }
-        });
     }
 
     /**
@@ -69,31 +56,10 @@ public class SongPlaylist {
 
     public void addSong(int songId) {
         songs.add(songId);
-        // add to total Length
-        Song song = songRegistry.getItem(songId);
-        if (song.isPlayable()){
-            totalLength += song.getLength();
-        }
-        else{
-            song.OnSongInfoUpdate.addListener(data -> {
-                totalLength += song.getLength();
-            });
-        }
+
     }
 
     public void removeSongAtIndex(int index) {
-        // remove from total Length
-
-        Song song = songRegistry.getItem(index);
-        if (song.isPlayable()){
-            totalLength -= song.getLength();
-        }
-        else{
-            song.OnSongInfoUpdate.addListener(data -> {
-                totalLength -= song.getLength();
-            });
-        }
-        // do this part aft else the index will be out of bounds.
         songs.remove(index);
     }
 
@@ -129,7 +95,8 @@ public class SongPlaylist {
      * Returns the total length of the playlist in milliseconds
      */
     public int getLength() {
-        return totalLength;
+        int length = songs.stream().mapToInt(integer -> songRegistry.getItem(integer).getLength()).sum();
+        return length;
     }
 
     private String formattedLength = "";

@@ -1,19 +1,17 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.tools.VerifyMediaPlayable;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class SongRegistry extends Registry<Song> {
     private static SongRegistry instance = new SongRegistry();
@@ -21,6 +19,7 @@ public class SongRegistry extends Registry<Song> {
      * This event is fired when the song registry wants to send a warning to ui
      */
     public CustomEvents<String> OnRegistryWarningsUI=new CustomEvents<>();
+    private Context homeContext;
 
     public static SongRegistry getInstance() {
         return instance;
@@ -49,19 +48,42 @@ public class SongRegistry extends Registry<Song> {
         return PlaylistRegistry.getInstance().get(0);
     }
 
-    @Override
+
     public void add(Song item) {
-        item.OnSongVerified.addListener(data -> {
-            if (!item.isPlayable()){
+        if (homeContext == null) {
+            Log.e("SongRegistry", "Context is null");
+            throw new NullPointerException("Context is null");
+        }
+
+        VerifyMediaPlayable.GetInfoAndVerifyMediaPlayable(homeContext, item.getFileLink(),(playable, songLength) -> {
+            if (!playable) {
                 OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() +" unplayable." +
                         "\nThis may be due to:" +
                         "\n1. audio file is missing / broken" +
                         "\n2. The web link being invalid" +
                         "\n3. Network errors");
             }
+            item.setRuntimeInfo(playable, songLength);
             OnItemsUpdate.pushEvent(null);
         });
-        item.updateAndRetrieveSongInfo();
+
         super.add(item);
+    }
+
+    public void setHomeContext(Context homeContext) {
+        this.homeContext = homeContext;
+    }
+
+    public void removeHomeContext() {
+        this.homeContext= null;
+    }
+
+    /**
+     * Warning:
+     * Do not assign this value returned to any variable.
+     * It will cause a memory leak
+     */
+    public Context getHomeContext() {
+        return homeContext;
     }
 }

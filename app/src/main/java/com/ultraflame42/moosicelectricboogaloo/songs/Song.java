@@ -3,14 +3,9 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 import android.util.Log;
 
-import com.ultraflame42.moosicelectricboogaloo.tools.OnMediaVerificationListener;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
+import com.ultraflame42.moosicelectricboogaloo.tools.VerifyMediaPlayable;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class Song {
 
@@ -20,27 +15,16 @@ public class Song {
     private String artist;
     private String album;
     private String fileLink; //todo change to id registry system for fileLink.
-    private String[] tags;
+
     private boolean playable=false; // if false, link is broken and song is not playable
     //todo implement picasso for image loading
-    /**
-     * This event fires when the Song information is updated.
-     *
-     * All listeners are removed after each firing
-     */
-    public DefaultEvent OnSongInfoUpdate = new DefaultEvent();    /**
-     * This event fires when the Song is verified
-     *
-     * called before info update
-     */
-    public DefaultEvent OnSongVerified = new DefaultEvent();
 
     /**
      * Constructor for a song.
      *
      * @param title    Song title
      * @param artist   Song artist
-     * @param fileLink Song file link
+     * @param fileLink Song file link. can be either a url or a uri file path.
      */
     public Song(String title, String artist, String fileLink) {
         this.title = title;
@@ -49,40 +33,9 @@ public class Song {
         this.fileLink = fileLink;
     }
 
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
-
-    public void addTags(String[] tags) {
-        this.tags = tags;
-    }
-
-    /**
-     * Updates and retrieve vital song information such as song duration
-     *
-     * also checks if the song is playable.
-     */
-    public void updateAndRetrieveSongInfo() {
-
-        UsefulStuff.GetInfoAndVerifyMediaPlayable(fileLink, new OnMediaVerificationListener() {
-            @Override
-            public void onMediaVerified(boolean playable_) {
-                playable=playable_;
-                Log.i("Song", "Title:"+title+" Verified Playable: " + playable);
-                OnSongVerified.pushEvent(null);
-                OnSongVerified.clearListeners();
-            }
-
-            @Override
-            public void setSongInfo(int songDuration) {
-                length=songDuration;
-                formattedLength = ""; // invalidate formmateLength cache
-                OnSongInfoUpdate.pushEvent(null);
-                OnSongInfoUpdate.clearListeners();
-            }
-        });
-
+    public void setRuntimeInfo(boolean playable,int length) {
+        this.playable = playable;
+        this.length = length;
     }
 
     /**
@@ -91,7 +44,6 @@ public class Song {
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
-        Log.d("Song", "Title:"+title+" Length: " + length);
         return length;
     }
 
@@ -107,10 +59,10 @@ public class Song {
         return album;
     }
 
-    public String[] getTags() {
-        return tags;
-    }
-
+    /**
+     * Returns either URI or url link of song.
+     * @return
+     */
     public String getFileLink() {
         return fileLink;
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -44,53 +45,6 @@ public class UsefulStuff {
         fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    private static class VerifyMediaPlayable extends AsyncTask<String, Integer, MediaPlayer> {
-        private OnMediaVerificationListener callback;
-
-        @Override
-        protected MediaPlayer doInBackground(String... strings) {
-            String media = strings[0];
-            MediaPlayer mp = new MediaPlayer();
-            try {
-                mp.setDataSource(media);
-                mp.prepare();
-                mp.setOnBufferingUpdateListener((mediaPlayer, i) -> {
-                    Log.d("VerifyMediaPlayer", "Buffering: " + i);
-                });
-            } catch (IOException e) {
-                Log.e("VerifyMediaPlayable", "Error: " + e.getMessage());
-                return null;
-            }
-            return mp;
-        }
-
-        protected void onPostExecute(MediaPlayer result) {
-            if (result != null) {
-                callback.onMediaVerified(true);
-                callback.setSongInfo(result.getDuration());
-            } else {
-                callback.onMediaVerified(false);
-            }
-        }
-
-        public void setCallback(OnMediaVerificationListener callback) {
-            this.callback = callback;
-        }
-    }
-
-    /**
-     * Verifies that a media is playable by media player
-     *
-     * @param medialocation
-     */
-    public static void GetInfoAndVerifyMediaPlayable(String medialocation, OnMediaVerificationListener callback) {
-        Log.d("GetInfoAndVerifyMediaPlayable", "Verifying media: " + medialocation);
-        VerifyMediaPlayable task = new VerifyMediaPlayable();
-        task.setCallback(callback);
-        task.execute(medialocation);
-
-    }
-
 
     public static DisplayMetrics getDisplayMetrics(AppCompatActivity activity) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -115,4 +69,8 @@ public class UsefulStuff {
         return minutes + " : " + seconds;
     }
 
+    public static void setMediaPlayerDataSource(MediaPlayer mediaPlayer, String source, Context context) throws IOException {
+        mediaPlayer.setDataSource(context, Uri.parse(source));
+
+    }
 }

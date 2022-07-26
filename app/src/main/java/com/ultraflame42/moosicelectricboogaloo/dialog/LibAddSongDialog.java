@@ -25,7 +25,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class LibAddSongDialog extends DialogFragment {
     private NavController controller;
-    private EditText uriInput;
+    private EditText songLocationInput;
     ActivityResultLauncher<Intent> OpenFileDialogIntentLauncher;
 
     @Nullable
@@ -35,11 +35,11 @@ public class LibAddSongDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.library_add_song_dialog, container, false);
         controller = NavHostFragment.findNavController(this);
 
-        uriInput = view.findViewById(R.id.songUriInput);
+        songLocationInput = view.findViewById(R.id.songUriInput);
         // On Next Button
         Button nxtButton = view.findViewById(R.id.nextButton);
         nxtButton.setOnClickListener(view1 -> {
-            String s = uriInput.getText().toString();
+            String s = songLocationInput.getText().toString();
             if (s.length() < 1) {
                 Toast.makeText(getContext(), "Song url  / file link Cannot be empty!", Toast.LENGTH_SHORT).show();
             }
@@ -60,7 +60,7 @@ public class LibAddSongDialog extends DialogFragment {
             Uri uri = data.getData();
 
             Log.d("LibAddSongDialog", "Uri picked: " + uri.toString());
-            uriInput.setText(uri.toString());
+            songLocationInput.setText(uri.toString());
 
         });
         Button browseFilesBtn = view.findViewById(R.id.browseFileBtn);

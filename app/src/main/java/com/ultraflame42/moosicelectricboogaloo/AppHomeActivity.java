@@ -24,6 +24,7 @@ public class AppHomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EventListenerGroup listenerGroup = new EventListenerGroup();
+    private SongRegistry songRegistry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class AppHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_home);
 
 
-        listenerGroup.subscribe(AccountManager.LoggedOutEvent,data -> {
+        listenerGroup.subscribe(AccountManager.LoggedOutEvent, data -> {
             finish();
         });
 
@@ -45,12 +46,13 @@ public class AppHomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         // Get registries
-        SongRegistry songRegistry = SongRegistry.getInstance();
+        songRegistry = SongRegistry.getInstance();
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
         // Toast any errors from songRegistry
         listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {
             Toast.makeText(this, warning, Toast.LENGTH_LONG).show();
         });
+        songRegistry.setHomeContext(this);
 
         // register temp playable songs todo remove
         songRegistry.add(
@@ -66,13 +68,13 @@ public class AppHomeActivity extends AppCompatActivity {
         );
         // temp values for testing todo remove ltr
         playlistRegistry.add(
-                new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1,2})
+                new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1, 2})
         );
 
 
         SongPlayer.init();
-        listenerGroup.subscribe(SongPlayer.OnSongPlayError,data -> {
-            Toast.makeText(this, "SongPlayer: "+data, Toast.LENGTH_SHORT).show();
+        listenerGroup.subscribe(SongPlayer.OnSongPlayError, data -> {
+            Toast.makeText(this, "SongPlayer: " + data, Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -81,4 +83,10 @@ public class AppHomeActivity extends AppCompatActivity {
         AccountManager.AppHomeExitEvent.pushEvent(null);
     }
 
+    @Override
+    protected void onDestroy() {
+        listenerGroup.unsubscribeAll();
+        songRegistry.removeHomeContext();
+        super.onDestroy();
+    }
 }

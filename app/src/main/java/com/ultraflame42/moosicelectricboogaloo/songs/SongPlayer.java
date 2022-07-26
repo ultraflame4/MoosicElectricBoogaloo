@@ -3,6 +3,7 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
@@ -68,7 +69,7 @@ public class SongPlayer {
             pausedPosition = 0;
             mediaPlayer.reset();
 
-            mediaPlayer.setDataSource(song.item.getFileLink());
+            UsefulStuff.setMediaPlayerDataSource(mediaPlayer, song.item.getFileLink(),SongRegistry.getInstance().getHomeContext());
 
             mediaPlayer.prepare();
 

@@ -1,6 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo.dialog;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,6 @@ public class LibAddSongDialogB extends DialogFragment {
 
         finalAddSongBtn.setOnClickListener(view1 -> {
             HandleAddSong();
-            navigateBack();// done
         });
         // todo Add in browse local file for images
 
@@ -80,6 +80,7 @@ public class LibAddSongDialogB extends DialogFragment {
             return;
         }
         // todo Set the song image link
-        SongRegistry.getInstance().add(new Song(songTitle,songArtist,mediaLink));
+        SongRegistry.getInstance().add(new Song(songTitle,songArtist, mediaLink));
+        navigateBack();
     }
 }
