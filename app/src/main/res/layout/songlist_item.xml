@@ -39,7 +39,7 @@
                 android:id="@+id/songList_itemTitle"
                 style="@style/listItem_h1"
                 android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="24dp"
                 android:text="ExampleSongTitle"
                 app:layout_constraintEnd_toEndOf="parent"
