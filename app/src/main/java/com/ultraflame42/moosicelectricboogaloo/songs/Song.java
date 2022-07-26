@@ -34,6 +34,8 @@ public class Song {
     }
 
     public void setRuntimeInfo(boolean playable,int length) {
+        Log.d("Song","setRuntimeInfo for song: "+title + " playable: "+playable+" length: "+length);
+        formattedLength = ""; // invalidate formatted length cache
         this.playable = playable;
         this.length = length;
     }
@@ -44,6 +46,7 @@ public class Song {
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
+        Log.d("Song","get length "+title + " playable: "+playable+" length: "+length);
         return length;
     }
 

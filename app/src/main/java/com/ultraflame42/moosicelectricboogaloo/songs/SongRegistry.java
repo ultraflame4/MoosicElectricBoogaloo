@@ -63,8 +63,12 @@ public class SongRegistry extends Registry<Song> {
                         "\n2. The web link being invalid" +
                         "\n3. Network errors");
             }
-            item.setRuntimeInfo(playable, songLength);
-            OnItemsUpdate.pushEvent(null);
+            else{
+                item.setRuntimeInfo(playable, songLength);
+                OnItemsUpdate.pushEvent(null);
+                OnRegistryWarningsUI.pushEvent(" Song " + item.getTitle() +" added successfully.");
+            }
+
         });
 
         super.add(item);
