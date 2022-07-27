@@ -100,16 +100,13 @@ public class AccountManager {
                         try {
                             // rethrow and catch the various possible exceptions
                             throw e;
-                        } catch (FirebaseAuthInvalidCredentialsException e1) {
-                            // Invalid email/password
-                            OnAuthFailureEvent.pushEvent("Invalid email or password");
-                        } catch (FirebaseAuthInvalidUserException e1) {
+                        } catch (FirebaseAuthInvalidCredentialsException | FirebaseAuthInvalidUserException e1) {
                             // Invalid email/password
                             OnAuthFailureEvent.pushEvent("Invalid email or password");
                         } catch (Exception e2) {
                             // unknown failure
                             OnAuthFailureEvent.pushEvent("Sign in failed! Check Logs");
-                            Log.e("AccountManager", "signInWithEmail:unkownFailure", e);
+                            Log.e("AccountManager", "signInWithEmail:unknownFailure", e);
                         }
 
                         // set status to not logged in
