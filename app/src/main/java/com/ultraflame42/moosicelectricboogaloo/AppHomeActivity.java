@@ -64,7 +64,8 @@ public class AppHomeActivity extends AppCompatActivity {
         );
         songRegistry.add(
                 // song with broken link
-                new Song("abcdefuB", "GAYLEB", "https://p.scdn.co/mp3-preview/83dc53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+                new Song("abcdefuB Intentionally broken" +
+                        "", "GAYLEB", "https://p.scdn.co/mp3-preview/83dc53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
         );
         // temp values for testing todo remove ltr
         playlistRegistry.add(

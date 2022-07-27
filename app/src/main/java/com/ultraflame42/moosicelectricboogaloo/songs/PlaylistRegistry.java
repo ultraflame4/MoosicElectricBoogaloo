@@ -17,40 +17,63 @@ import java.util.Set;
 public class PlaylistRegistry extends Registry<SongPlaylist> {
     private static PlaylistRegistry instance = null;
 
+    // HashSet to store favourites playlists.
     private HashSet<Integer> favourites = new HashSet<>();
+    // Event to be fired when a playlist is added or removed favourites.
     public DefaultEvent OnFavouritesUpdate = new DefaultEvent();
 
     // Singleton pattern
     public static PlaylistRegistry getInstance() {
         if (instance == null) {
             instance = new PlaylistRegistry();
-            // Liked songs will be stored as playlist
+            // Create system playlist liked songs
             SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
+            // make it a system playlist
             pl.isSystem = true;
+            // add it to the registry
             instance.add(pl);
+            // add it to the favourites list
             instance.addToFavourites(0);
         }
         return instance;
     }
 
+    // Cache so we do not need to recreate the list of search names every time it used
     private List<SearchNameItem> searchNamesCache = new ArrayList<>();
 
+    /**
+     * Returns a list of SearchNameItems for use in the SearchResultsAdapter
+     * @return
+     */
     public List<SearchNameItem> getSearchNames() {
         int totalSize = count() * 2;
+        // Invalidate cache if the total items is more than the names in the cache
         if (totalSize != searchNamesCache.size()) {
+            // clear cache
             searchNamesCache.clear();
+            // regenerate the cache
             for (RegistryItem<SongPlaylist> item : getAllItems()) {
-
+                // Name of playlist so tat it shows up in the search results
                 searchNamesCache.add(new SearchNameItem(ResultItemType.PLAYLIST, item.item.getTitle(), item.id));
+                // Creator of playlist so tat it shows up in the search results
                 searchNamesCache.add(new SearchNameItem(ResultItemType.PLAYLIST, item.item.getCreator(), item.id));
             }
         }
+        // return cache. invalid cache would have been caught and regenerated above.
         return searchNamesCache;
     }
 
+    /**
+     * Remove a playlist from the registry
+     *
+     * Note: playlist with attribute isSystem = true will not be removed because it is a system playlist created by the app
+     * @param itemId
+     */
     @Override
     public void remove(int itemId) {
+        // get playlist from registry
         SongPlaylist s = get(itemId).item;
+        // Check if system
         if (s.isSystem) {
             Log.w("PlaylistRegistry", "Tried to remove system playlist id: " + itemId + " name: " + s.getTitle() + " creator:" + s.getCreator());
             return;
@@ -58,19 +81,24 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
         super.remove(itemId);
     }
 
+    // Get the favourite playlists
     public HashSet<Integer> getFavourites() {
+        // clone it so we don't modify the original
         return (HashSet<Integer>) favourites.clone();
     }
-
+    // Add playlist to favourites
     public void addToFavourites(int playlistId) {
         favourites.add(playlistId);
+        // push favourite update event
         OnFavouritesUpdate.pushEvent(null);
     }
+    // Remove playlist from favourites
     public void removeFromFavourites(int playlistId) {
         favourites.remove(playlistId);
+        // push favourite update event
         OnFavouritesUpdate.pushEvent(null);
     }
-
+    // Check if playlist is in favourites
     public boolean favouritesHas(int playlistId) {
         return favourites.contains(playlistId);
     }

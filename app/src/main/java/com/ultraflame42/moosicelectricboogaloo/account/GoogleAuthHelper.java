@@ -27,9 +27,20 @@ import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
-
+/**
+ * This class helps with firebase google authentication for logging in with google.
+ *
+ * For google authentication, there is two methods:
+ *
+ * 1. Google One-Tap Sign-In
+ *
+ * 2. Google Sign-In
+ *
+ * Google recommends one tap to sign in. However it does not work if the user is not signed in on the device
+ *
+ * So we use the second method to sign in as a fallback
+ */
 public class GoogleAuthHelper {
-
 
     private SignInClient oneTapClient;
     private BeginSignInRequest oneTapSignInRequest;
@@ -48,8 +59,8 @@ public class GoogleAuthHelper {
 
     public GoogleAuthHelper(AppCompatActivity activity) {
         mAuth = FirebaseAuth.getInstance();
-        oneTapClient = Identity.getSignInClient(activity);
 
+        // Configure settings for Google one tap sign in
         oneTapSignInRequest = BeginSignInRequest.builder()
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
@@ -58,17 +69,24 @@ public class GoogleAuthHelper {
                         .build()
                 ).build();
 
+        // Configure settings for Google Sign-In
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(activity.getString(R.string.web_client_id))
                 .build();
 
+        // get the one tap sign in client
+        oneTapClient = Identity.getSignInClient(activity);
+
+        // get the google sign in client
         googleSignInClient = GoogleSignIn.getClient(activity, googleSignInOptions);
 
+        // create activity intent launcher for google one tap
         onetapSignInUiResultLauncher = activity.registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), (result) -> {
             OnOneTapResult(result.getResultCode(), result.getData());
         });
 
+        // create activity intent launcher for google sign in
         googleSignInUiResultLauncher = activity.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (result) -> {
             OnGoogleSignInResult(result.getResultCode(),result.getData());
         });
@@ -76,26 +94,31 @@ public class GoogleAuthHelper {
     }
 
     /**
-     * Authenticate with firebase using the google id token given by both one tap and google sign in
+     * Authenticate with firebase using the google id token returned by both one tap and google sign in
      * @param googleIdToken
      */
     private void AuthenticateWithFirebase(String googleIdToken) {
         Log.d("GoogleAuthHelper:FirebaseAuth", "Beginning sign in with firebase");
         if (googleIdToken != null) {
-            // Got an ID token from Google. Use it to authenticate
-            // with Firebase.
+            // Got an ID token from Google. Use it to authenticate with Firebase.
+
+            // first get the credential using the id token
             AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null);
+            // sign in to firebase with the credential
             mAuth.signInWithCredential(firebaseCredential)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleAuthHelper:OneTap", "signInWithCredential:success");
+                            // Push google auth success event
                             OnAuthSuccessEvent.pushEvent(null);
 
                         } else {
                             // If sign in fails
                             Exception e = task.getException();
+                            // log exception
                             Log.w("GoogleAuthHelper", "signInWithCredential:failure", e);
+                            // Push google auth failed event
                             OnAuthFailureEvent.pushEvent("Firebase Authentication failed: " + e.getClass() + ":" +e.getMessage());
                         }
                     });
@@ -107,30 +130,45 @@ public class GoogleAuthHelper {
 
     /**
      * The old way for signing in with Google. Exists as a fallback for one tap
+     *
+     * method launches the activity for google sign in
      */
     private void GoogleFallbackSignIn() {
         Log.d("GoogleAuthHelper:GoogleSignIn", "Launching Google Sign In Ui");
+        // Launch the Google Sign-In activity
         googleSignInUiResultLauncher.launch(googleSignInClient.getSignInIntent());
     }
 
-
+    /**
+     * Listener for the google sign in
+     * @param resultCode
+     * @param data
+     */
     private void OnGoogleSignInResult(int resultCode, @Nullable Intent data) {
+        // get google sign in result
         Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
         try{
+            // try to get the account from google sign in result
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             AuthenticateWithFirebase(account.getIdToken());
         }
         catch (ApiException e) {
+            // if failed, log exception
             Log.w("GoogleAuthHelper:GoogleSignIn", "Api Error, Google sign in failed. code="+e.getStatusCode(), e);
+            // push failure event
             OnAuthFailureEvent.pushEvent("Google sign in failed, Api Error Code: "+e.getStatusCode());
         }
     }
 
-
+    /**
+     * Starts activity for GoogleOneTapSignIn
+     */
     public void oneTapSignIn() {
         oneTapClient.beginSignIn(oneTapSignInRequest)
+
                 .addOnSuccessListener(result -> {
                     try {
+                        // On success start the activity for google one tap sign in
                         onetapSignInUiResultLauncher.launch(
                                 new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build()
                         );
