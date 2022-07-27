@@ -20,6 +20,7 @@ import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
@@ -37,9 +38,13 @@ public class SongPlayFragment extends Fragment {
     private ToggleButton likedBtn;
     private PlaylistRegistry playlistRegistry;
     private RegistryItem<SongPlaylist> likedSongs;
+    private TextView songCurrentTime;
+    private TextView songTotalTime;
+    private SongRegistry songRegistry;
 
     public SongPlayFragment() {
-        // Required empty public constructor
+
+        songRegistry = SongRegistry.getInstance();
     }
 
 
@@ -111,6 +116,9 @@ public class SongPlayFragment extends Fragment {
             updateSongInfo(regItem.item);
         });
 
+        songCurrentTime = view.findViewById(R.id.songTimeCurrent);
+        songTotalTime = view.findViewById(R.id.songTimeTotal);
+
         // Song progress bar
         seekBar = view.findViewById(R.id.songPlaySeekBar);
 
@@ -118,7 +126,7 @@ public class SongPlayFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    SongPlayer.SetCurrentSongProgress(progress / (float)seekBarProgressResolution);
+                    SongPlayer.SetCurrentSongProgress(progress / (float) seekBarProgressResolution);
                 }
             }
 
@@ -140,9 +148,20 @@ public class SongPlayFragment extends Fragment {
             @Override
             public void run() {
                 // When scrubbing, stop updating the progress bar
+                float progress = SongPlayer.GetCurrentSongProgress();
                 if (!isScrubbing) {
-                    seekBar.setProgress(Math.round(SongPlayer.GetCurrentSongProgress() * seekBarProgressResolution));
+                    seekBar.setProgress(Math.round(progress * seekBarProgressResolution));
                 }
+                int songId = SongPlayer.GetCurrentSong();
+                if (songId > -1) {
+                    Song song = songRegistry.getItem(songId);
+                    // Set timestamp for total time
+                    songTotalTime.setText(song.getLengthFormatted());
+                    // Set timestamp for current time
+                    songCurrentTime.setText(UsefulStuff.formatMilliseconds(Math.round(song.getLength() * progress)));
+
+                }
+
                 seekbarUpdateHandler.postDelayed(this, 100);
             }
         });
@@ -188,8 +207,7 @@ public class SongPlayFragment extends Fragment {
             if (likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.removeSong(currentSong);
             }
-        }
-        else{
+        } else {
             Log.d("SongPlay (fragment)", "liked for songid " + currentSong);
             if (!likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.addSong(currentSong);
