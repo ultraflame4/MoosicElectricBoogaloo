@@ -75,3 +75,7 @@ Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
  3. When created, it takes in a playlist
  4. It copies the playlist songs to a new array
  5. SongPlayer class keeps tracked of played songs and next songs
+
+### Saving settings and data:
+1. First, we save the data locally
+2. Then, we save the data to the cloud by syncing.

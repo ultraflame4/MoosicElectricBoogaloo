@@ -136,5 +136,23 @@
             app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/songTimeCurrent"
+            style="@style/listItem_h5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            app:layout_constraintStart_toStartOf="@+id/songPlaySeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/songPlaySeekBar" />
+
+        <TextView
+            android:id="@+id/songTimeTotal"
+            style="@style/listItem_h5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            app:layout_constraintEnd_toEndOf="@+id/songPlaySeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/songPlaySeekBar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

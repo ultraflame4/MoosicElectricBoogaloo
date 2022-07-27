@@ -86,7 +86,10 @@ public class AppHomeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // Stop memory leaks
+        // unsub all listeners
         listenerGroup.unsubscribeAll();
+        // remove home context
         songRegistry.removeHomeContext();
         super.onDestroy();
     }
