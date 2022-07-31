@@ -49,8 +49,13 @@ public class AppHomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.NavMenu);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        // Load data from shared preferences
+        Storage.LoadedData loadedData = Storage.getInstance().Load(this);
+
         // Get registries
+        SongRegistry.LoadFromData(loadedData);
         songRegistry = SongRegistry.getInstance();
+
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
         // Toast any errors from songRegistry
         listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {

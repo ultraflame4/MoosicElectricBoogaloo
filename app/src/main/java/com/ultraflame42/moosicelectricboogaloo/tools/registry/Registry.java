@@ -22,6 +22,19 @@ public class Registry<D> {
     public Registry() {
     }
 
+    /**
+     * Creates registery from loaded data
+     *
+     * @param idCounter starting id to count from
+     * @param items_ HashMap of items K: item id, V: item
+     */
+    public Registry(int idCounter,  HashMap<Integer,D> items_) {
+        this.idCounter = idCounter;
+        items_.forEach((id, item) -> {
+           items.put(id, new RegistryItem<D>(item,id));
+        });
+    }
+
     public void add(D item) {
         RegistryItem<D> r = new RegistryItem<>(item, idCounter);
         items.put(idCounter, r);

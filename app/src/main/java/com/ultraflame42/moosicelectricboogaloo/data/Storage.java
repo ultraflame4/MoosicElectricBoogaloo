@@ -13,7 +13,7 @@ import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * 6
@@ -33,6 +33,7 @@ public class Storage {
 
     /**
      * Returns a new instance of gson with the registered serializers and deserializers
+     *
      * @return
      */
     public static Gson getGson() {
@@ -97,4 +98,51 @@ public class Storage {
         playlistRegDataEditor.apply();
     }
 
+    public static class LoadedData {
+        public final int loadedNextSongId;
+        public final int loadedNextPlaylistId;
+
+        public final HashSet<Integer> favorites;
+
+        public final HashMap<Integer, Song> songs;
+        public final HashMap<Integer, SongPlaylist> playlists;
+
+        public LoadedData(Context ctx) {
+            Gson gson = getGson();
+            SharedPreferences generalData = ctx.getSharedPreferences("general", Context.MODE_PRIVATE);
+            SharedPreferences songRegistryData = ctx.getSharedPreferences("songRegistry", Context.MODE_PRIVATE);
+            SharedPreferences playlistRegistryData = ctx.getSharedPreferences("playlistRegistry", Context.MODE_PRIVATE);
+
+            // load general stuff
+            favorites = gson.fromJson(generalData.getString("favorites", "[]"), HashSet.class);
+            loadedNextSongId = generalData.getInt("songRegistryNextId", 0);
+            loadedNextPlaylistId = generalData.getInt("playlistRegistryNextId", 0);
+
+            songs = new HashMap<>();
+            songRegistryData.getAll().forEach((key, value) -> {
+                // get json data with empty string as default value
+                String json = songRegistryData.getString(key,"");
+                if (json.length() < 1){ // if string is empty skip
+                    return;
+                }
+                // parse json data to song object and add to hashmap
+                songs.put(Integer.parseInt(key), gson.fromJson(json, Song.class));
+            });
+
+            playlists = new HashMap<>();
+            playlistRegistryData.getAll().forEach((key, value) -> {
+                // get json data with empty string as default value
+                String json = playlistRegistryData.getString(key,"");
+                if (json.length() < 1){ // if string is empty skip
+                    return;
+                }
+                // parse json data to song playlist object and add to hashmap
+                playlists.put(Integer.parseInt(key), gson.fromJson(json, SongPlaylist.class));
+            });
+        }
+    }
+
+    public LoadedData Load(Context ctx) {
+        return new LoadedData(ctx);
+    }
 }

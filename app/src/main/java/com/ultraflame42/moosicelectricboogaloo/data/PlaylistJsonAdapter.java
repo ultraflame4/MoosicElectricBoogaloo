@@ -32,7 +32,7 @@ public class PlaylistJsonAdapter implements JsonSerializer<SongPlaylist>, JsonDe
     @Override
     public SongPlaylist deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
-        JsonArray songsJson = obj.getAsJsonPrimitive("songs").getAsJsonArray();
+        JsonArray songsJson = obj.getAsJsonArray("songs");
         List<Integer> songs = new ArrayList<>();
         for (JsonElement jsonElement : songsJson) {
             songs.add(jsonElement.getAsInt());

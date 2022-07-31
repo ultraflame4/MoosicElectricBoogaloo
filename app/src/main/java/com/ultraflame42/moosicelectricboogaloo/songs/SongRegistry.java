@@ -12,6 +12,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SongRegistry extends Registry<Song> {
@@ -25,9 +26,20 @@ public class SongRegistry extends Registry<Song> {
     public static SongRegistry getInstance() {
         if (instance == null) {
             instance = new SongRegistry();
-
         }
         return instance;
+    }
+
+    public SongRegistry() {
+    }
+
+    public SongRegistry(int idCounter, HashMap<Integer, Song> items_) {
+        super(idCounter, items_);
+    }
+
+    public static void LoadFromData(Storage.LoadedData data) {
+
+        instance = new SongRegistry(data.loadedNextSongId,data.songs);
     }
 
     // Cache search names for faster lookup
