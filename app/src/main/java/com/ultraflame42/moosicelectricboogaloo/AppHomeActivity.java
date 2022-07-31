@@ -56,7 +56,9 @@ public class AppHomeActivity extends AppCompatActivity {
         SongRegistry.LoadFromData(loadedData);
         songRegistry = SongRegistry.getInstance();
 
+//        PlaylistRegistry.LoadFromData(loadedData);
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
+
         // Toast any errors from songRegistry
         listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {
             Toast.makeText(this, warning, Toast.LENGTH_LONG).show();

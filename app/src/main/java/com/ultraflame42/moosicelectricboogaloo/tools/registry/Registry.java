@@ -10,8 +10,8 @@ import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 import java.util.HashMap;
 
 public class Registry<D> {
-    private HashMap<Integer,RegistryItem<D>> items = new HashMap<>();
-    private int idCounter = 0; // todo load from storage
+    public HashMap<Integer,RegistryItem<D>> items = new HashMap<>();
+    protected int idCounter = 0; // todo load from storage
 
     /**
      * This event is fired when an item is added to the registry

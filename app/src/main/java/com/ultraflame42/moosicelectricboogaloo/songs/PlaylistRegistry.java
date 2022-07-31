@@ -2,6 +2,7 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 import android.util.Log;
 
+import com.ultraflame42.moosicelectricboogaloo.data.Storage;
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
@@ -10,6 +11,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,16 +28,39 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
     public static PlaylistRegistry getInstance() {
         if (instance == null) {
             instance = new PlaylistRegistry();
-            // Create system playlist liked songs
-            SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
-            // make it a system playlist
-            pl.isSystem = true;
-            // add it to the registry
-            instance.add(pl);
-            // add it to the favourites list
-            instance.addToFavourites(0);
+
         }
         return instance;
+    }
+
+    private void createLikedSongsPlaylist() {
+        if (items.size() > 0) {
+            return;
+        }
+        // Create system playlist liked songs
+        SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
+        // make it a system playlist
+        pl.isSystem = true;
+        // add it to the registry
+        add(pl);
+        // add it to the favourites list
+        addToFavourites(0);
+    }
+
+    public PlaylistRegistry() {
+        createLikedSongsPlaylist();
+    }
+
+    public PlaylistRegistry(int idCounter, HashMap<Integer, SongPlaylist> items_) {
+        super(idCounter, items_);
+        createLikedSongsPlaylist();
+    }
+
+    public static void LoadFromData(Storage.LoadedData data) {
+        //todo broken
+        instance = new PlaylistRegistry(data.loadedNextPlaylistId,data.playlists);
+        instance.favourites = new HashSet<>();
+
     }
 
     // Cache so we do not need to recreate the list of search names every time it used
