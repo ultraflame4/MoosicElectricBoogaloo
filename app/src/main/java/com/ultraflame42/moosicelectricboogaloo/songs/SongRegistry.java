@@ -3,6 +3,7 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 import android.content.Context;
 import android.util.Log;
 
+import com.ultraflame42.moosicelectricboogaloo.data.Storage;
 import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
 import com.ultraflame42.moosicelectricboogaloo.tools.VerifyMediaPlayable;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongRegistry extends Registry<Song> {
-    private static SongRegistry instance = new SongRegistry();
+    private static SongRegistry instance = null;
     /**
      * This event is fired when the song registry wants to send a warning to ui
      */
@@ -22,6 +23,10 @@ public class SongRegistry extends Registry<Song> {
     private Context homeContext;
 
     public static SongRegistry getInstance() {
+        if (instance == null) {
+            instance = new SongRegistry();
+
+        }
         return instance;
     }
 

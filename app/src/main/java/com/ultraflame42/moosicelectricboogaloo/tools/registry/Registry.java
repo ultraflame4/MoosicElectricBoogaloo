@@ -2,6 +2,9 @@ package com.ultraflame42.moosicelectricboogaloo.tools.registry;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializer;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
 import java.util.HashMap;
@@ -59,6 +62,14 @@ public class Registry<D> {
     }
     public boolean containsItem(RegistryItem<D> registryItem) {
         return items.containsValue(registryItem);
+    }
+
+    /**
+     * Returns the next id that will be used for a new item
+     * @return
+     */
+    public int getNextId() {
+        return idCounter;
     }
 
 }

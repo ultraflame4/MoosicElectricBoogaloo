@@ -3,11 +3,17 @@ package com.ultraflame42.moosicelectricboogaloo.songs;
 
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.VerifyMediaPlayable;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 
-public class Song {
+import java.lang.reflect.Type;
+
+public class Song{
 
 
     private int length = -1; // In milliseconds
@@ -87,4 +93,5 @@ public class Song {
     public boolean isPlayable() {
         return playable;
     }
+
 }
