@@ -4,6 +4,7 @@ A music app created for a school project
 
 ## The Plan (revised)
 ### basic features (the very bare minimum and hard coded stuff)
+- [ ] Add in username for sign up. (IMPORTANT) ( iforgot abt usernames lmao )
 - [x] Implement the login screen
 - [x] Implement the basic library ui
 - [x] Implement playing of songs
