@@ -16,7 +16,7 @@ A music app created for a school project
 - [ ] Implement removal of playlists
 - [ ] basic settings page (for logout, changing password & clearing of data)
 - [x] Implement adding of songs through links (web audio links only for now) 
-- [ ] Implement adding of songs through local files [reference](https://developer.android.com/training/data-storage/shared/documents-files)
+- [x] Implement adding of songs through local files [reference](https://developer.android.com/training/data-storage/shared/documents-files)
 - [ ] Implement creation of playlist
 
 #### data stuff
