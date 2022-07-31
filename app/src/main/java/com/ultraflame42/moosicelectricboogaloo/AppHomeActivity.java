@@ -85,12 +85,12 @@ public class AppHomeActivity extends AppCompatActivity {
 
         // using a scheduler ,..
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        // Save data to shared preferences every 10 seconds
+        // Save data to shared preferences every 5 seconds
         scheduler.scheduleAtFixedRate(() -> {
             // Save data
             Storage.getInstance().Save(this);
 
-        }, 0, 10, java.util.concurrent.TimeUnit.SECONDS);
+        }, 0, 5, java.util.concurrent.TimeUnit.SECONDS);
 
     }
 
