@@ -154,12 +154,16 @@ public class SongPlayFragment extends Fragment {
                 }
                 int songId = SongPlayer.GetCurrentSong();
                 if (songId > -1) {
-                    Song song = songRegistry.getItem(songId);
-                    // Set timestamp for total time
-                    songTotalTime.setText(song.getLengthFormatted());
-                    // Set timestamp for current time
-                    songCurrentTime.setText(UsefulStuff.formatMilliseconds(Math.round(song.getLength() * progress)));
-
+                    if (songRegistry.contains(songId)) {
+                        Song song = songRegistry.getItem(songId);
+                        // Set timestamp for total time
+                        songTotalTime.setText(song.getLengthFormatted());
+                        // Set timestamp for current time
+                        songCurrentTime.setText(UsefulStuff.formatMilliseconds(Math.round(song.getLength() * progress)));
+                    }
+                    else{
+                        Log.w("SongPlayer (fragment)", "Song not found in registry! Song id "+songId    );
+                    }
                 }
 
                 seekbarUpdateHandler.postDelayed(this, 100);

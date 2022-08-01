@@ -102,7 +102,7 @@ public class Storage {
         public final int loadedNextSongId;
         public final int loadedNextPlaylistId;
 
-        public final HashSet<Integer> favorites;
+        public final HashSet<Double> favorites;
 
         public final HashMap<Integer, Song> songs;
         public final HashMap<Integer, SongPlaylist> playlists;

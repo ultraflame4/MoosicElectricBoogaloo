@@ -10,7 +10,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 import java.util.HashMap;
 
 public class Registry<D> {
-    public HashMap<Integer,RegistryItem<D>> items = new HashMap<>();
+    protected HashMap<Integer,RegistryItem<D>> items = new HashMap<>();
     protected int idCounter = 0; // todo load from storage
 
     /**
@@ -20,19 +20,6 @@ public class Registry<D> {
     public CustomEvents<RegistryUpdateData<D>> OnItemsUpdate = new CustomEvents<>();
 
     public Registry() {
-    }
-
-    /**
-     * Creates registery from loaded data
-     *
-     * @param idCounter starting id to count from
-     * @param items_ HashMap of items K: item id, V: item
-     */
-    public Registry(int idCounter,  HashMap<Integer,D> items_) {
-        this.idCounter = idCounter;
-        items_.forEach((id, item) -> {
-           items.put(id, new RegistryItem<D>(item,id));
-        });
     }
 
     public void add(D item) {

@@ -1,6 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,10 +54,11 @@ public class AppHomeActivity extends AppCompatActivity {
         Storage.LoadedData loadedData = Storage.getInstance().Load(this);
 
         // Get registries
-        SongRegistry.LoadFromData(loadedData);
+        SongRegistry.LoadFromData(loadedData, this);
         songRegistry = SongRegistry.getInstance();
 
-//        PlaylistRegistry.LoadFromData(loadedData);
+
+        PlaylistRegistry.LoadFromData(loadedData);
         PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
 
         // Toast any errors from songRegistry

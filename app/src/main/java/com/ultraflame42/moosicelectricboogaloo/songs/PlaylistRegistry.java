@@ -51,15 +51,19 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
         createLikedSongsPlaylist();
     }
 
-    public PlaylistRegistry(int idCounter, HashMap<Integer, SongPlaylist> items_) {
-        super(idCounter, items_);
-        createLikedSongsPlaylist();
-    }
-
     public static void LoadFromData(Storage.LoadedData data) {
-        //todo broken
-        instance = new PlaylistRegistry(data.loadedNextPlaylistId,data.playlists);
-        instance.favourites = new HashSet<>();
+        Log.d("PlaylistRegistry", "favourites hashset type: " + data.favorites);
+        data.favorites.forEach(aDouble -> {
+            // have to do this cuz for some reason gson deserialises json hashset<Double>
+            PlaylistRegistry.getInstance().addToFavourites((int) Math.round(aDouble));
+        });
+        instance.idCounter = data.loadedNextPlaylistId;
+        data.playlists.forEach((integer, songPlaylist) -> {
+            Log.d("PlaylistRegistry", "Loading playlist: " + songPlaylist.getTitle());
+            instance.items.put(integer, new RegistryItem<>(songPlaylist, integer));
+        });
+        instance.createLikedSongsPlaylist();
+
 
     }
 

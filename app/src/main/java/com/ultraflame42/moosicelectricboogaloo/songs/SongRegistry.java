@@ -20,7 +20,7 @@ public class SongRegistry extends Registry<Song> {
     /**
      * This event is fired when the song registry wants to send a warning to ui
      */
-    public CustomEvents<String> OnRegistryWarningsUI=new CustomEvents<>();
+    public CustomEvents<String> OnRegistryWarningsUI = new CustomEvents<>();
     private Context homeContext;
 
     public static SongRegistry getInstance() {
@@ -33,13 +33,14 @@ public class SongRegistry extends Registry<Song> {
     public SongRegistry() {
     }
 
-    public SongRegistry(int idCounter, HashMap<Integer, Song> items_) {
-        super(idCounter, items_);
-    }
 
-    public static void LoadFromData(Storage.LoadedData data) {
+    public static void LoadFromData(Storage.LoadedData data, Context ctx) {
 
-        instance = new SongRegistry(data.loadedNextSongId,data.songs);
+        instance.idCounter = data.loadedNextSongId;
+        data.songs.forEach((integer, song) -> {
+            instance.verifySong(song,true, ctx);
+            instance.items.put(integer, new RegistryItem<>(song, integer));
+        });
     }
 
     // Cache search names for faster lookup
@@ -65,30 +66,46 @@ public class SongRegistry extends Registry<Song> {
         return PlaylistRegistry.getInstance().get(0);
     }
 
-
-    public void add(Song item) {
+    /**
+     *
+     * @param item
+     * @param suppress supresses the info toast if true
+     */
+    public void add(Song item,boolean suppress) {
         if (homeContext == null) {
             Log.e("SongRegistry", "Context is null");
             throw new NullPointerException("Context is null");
         }
+        verifySong(item, suppress, homeContext);
+        super.add(item);
+    }
 
-        VerifyMediaPlayable.GetInfoAndVerifyMediaPlayable(homeContext, item.getFileLink(),(playable, songLength) -> {
+    /**
+     *  @param item
+     * @param suppress Suppresses the info toast if true
+     * @param ctx
+     */
+    private void verifySong(Song item, boolean suppress, Context ctx) {
+        VerifyMediaPlayable.GetInfoAndVerifyMediaPlayable(ctx, item.getFileLink(), (playable, songLength) -> {
             if (!playable) {
-                OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() +" unplayable." +
+                OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() + " unplayable." +
                         "\nThis may be due to:" +
                         "\n1. audio file is missing / broken" +
                         "\n2. The web link being invalid" +
                         "\n3. Network errors");
-            }
-            else{
+            } else {
                 item.setRuntimeInfo(playable, songLength);
                 OnItemsUpdate.pushEvent(null);
-                OnRegistryWarningsUI.pushEvent(" Song " + item.getTitle() +" added successfully.");
+                if (!suppress) {
+                    OnRegistryWarningsUI.pushEvent(" Song " + item.getTitle() + " added successfully.");
+                }
             }
 
         });
+    }
 
-        super.add(item);
+    public void add(Song item) {
+        add(item,false);
     }
 
     public void setHomeContext(Context homeContext) {
@@ -96,7 +113,7 @@ public class SongRegistry extends Registry<Song> {
     }
 
     public void removeHomeContext() {
-        this.homeContext= null;
+        this.homeContext = null;
     }
 
     /**
