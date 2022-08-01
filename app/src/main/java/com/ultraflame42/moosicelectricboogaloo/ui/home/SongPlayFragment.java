@@ -37,7 +37,6 @@ public class SongPlayFragment extends Fragment {
     private ImageButton prevBtn;
     private ToggleButton likedBtn;
     private PlaylistRegistry playlistRegistry;
-    private RegistryItem<SongPlaylist> likedSongs;
     private TextView songCurrentTime;
     private TextView songTotalTime;
     private SongRegistry songRegistry;
@@ -56,7 +55,7 @@ public class SongPlayFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         playlistRegistry = PlaylistRegistry.getInstance();
-        likedSongs = playlistRegistry.get(0);
+
 
     }
 
@@ -206,6 +205,7 @@ public class SongPlayFragment extends Fragment {
         }
 
         Log.d("SongPlay (fragment)", "Toggling liked for songid " + currentSong);
+        RegistryItem<SongPlaylist> likedSongs = playlistRegistry.get(0);
         if (!likedBtn.isChecked()) {
             Log.d("SongPlay (fragment)", "un-liked for songid " + currentSong);
             if (likedSongs.item.hasSong(currentSong)) {
@@ -213,8 +213,10 @@ public class SongPlayFragment extends Fragment {
             }
         } else {
             Log.d("SongPlay (fragment)", "liked for songid " + currentSong);
+            Log.d("SongPlay (fragment)", "likedSongs.item.size() " + likedSongs);
             if (!likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.addSong(currentSong);
+                Log.d("SongPlay (fragment)", "likedSongs.item.size() " + playlistRegistry.get(0));
             }
         }
         updateLikedBtn();
@@ -222,7 +224,7 @@ public class SongPlayFragment extends Fragment {
 
     private void updateLikedBtn() {
         int currentSong = SongPlayer.GetCurrentSong();
-        boolean isLiked = likedSongs.item.hasSong(currentSong);
+        boolean isLiked = playlistRegistry.get(0).item.hasSong(currentSong);
         Log.d("SongPlayer (fragment)", "Updating liked button. CurrentLiked: " + isLiked);
         if (currentSong < 0) {
             return;

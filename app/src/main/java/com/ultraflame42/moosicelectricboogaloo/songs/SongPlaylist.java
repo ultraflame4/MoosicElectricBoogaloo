@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SongPlaylist {
-    private List<Integer> songs = new ArrayList<>();
+    private ArrayList<Integer> songs = new ArrayList<>();
     private String creator;
     private String title;
     private final boolean isAlbum; // if true, this playlist is an album.
@@ -26,7 +26,7 @@ public class SongPlaylist {
     public SongPlaylist(String creator, String title, Integer[] songs) {
         this.creator = creator;
         this.title = title;
-        this.songs = Arrays.asList(songs);
+        this.songs.addAll(Arrays.asList(songs));
         songRegistry = SongRegistry.getInstance();
         isAlbum = false;
 

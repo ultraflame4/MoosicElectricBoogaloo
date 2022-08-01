@@ -19,6 +19,8 @@ public class SongJsonAdapter implements JsonSerializer<Song>, JsonDeserializer<S
         result.add("title", new JsonPrimitive(src.getTitle()));
         result.add("artist",  new JsonPrimitive(src.getArtist()));
         result.add("filelink",  new JsonPrimitive(src.getFileLink()));
+        result.add("playable",  new JsonPrimitive(src.isPlayable()));
+        result.add("length",  new JsonPrimitive(src.getLength()));
 
         return result;
     }
@@ -26,10 +28,15 @@ public class SongJsonAdapter implements JsonSerializer<Song>, JsonDeserializer<S
     @Override
     public Song deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
-        return new Song(
+        Song song = new Song(
                 obj.getAsJsonPrimitive("title").getAsString(),
                 obj.getAsJsonPrimitive("artist").getAsString(),
                 obj.getAsJsonPrimitive("filelink").getAsString()
         );
+        song.setRuntimeInfo(
+                obj.getAsJsonPrimitive("playable").getAsBoolean(),
+                obj.getAsJsonPrimitive("length").getAsInt()
+        );
+        return song;
     }
 }

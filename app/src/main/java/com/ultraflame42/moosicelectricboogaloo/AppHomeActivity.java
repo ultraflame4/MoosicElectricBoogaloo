@@ -67,25 +67,29 @@ public class AppHomeActivity extends AppCompatActivity {
         });
         songRegistry.setHomeContext(this);
 
+        if (songRegistry.getAllItems().length < 1) {
+            // if song registry is empty, load a default songs
+            songRegistry.add(
+                    new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+            );
+            songRegistry.add(
+                    // song with absurdly long title
+                    new Song("abcdefuA----------------------------------------------------------d-", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+            );
+            songRegistry.add(
+                    // song with broken link
+                    new Song("abcdefuB Intentionally broken" +
+                            "", "GAYLEB", "https://p.scdn.co/mp3-preview/83dc53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+            );
 
-        // register temp playable songs todo remove
-        songRegistry.add(
-                new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
-        );
-        songRegistry.add(
-                // song with absurdly long title
-                new Song("abcdefuA----------------------------------------------------------d-", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
-        );
-        songRegistry.add(
-                // song with broken link
-                new Song("abcdefuB Intentionally broken" +
-                        "", "GAYLEB", "https://p.scdn.co/mp3-preview/83dc53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
-        );
-        // temp values for testing todo remove ltr
-        playlistRegistry.add(
-                new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1, 2})
-        );
+        }
 
+        if (playlistRegistry.getAllItems().length < 2) {
+//            Log.d("AppHomeActivity", "Creating default playlist");
+//            playlistRegistry.add(
+//                    new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1, 2})
+//            );
+        }
 
         SongPlayer.init();
         listenerGroup.subscribe(SongPlayer.OnSongPlayError, data -> {

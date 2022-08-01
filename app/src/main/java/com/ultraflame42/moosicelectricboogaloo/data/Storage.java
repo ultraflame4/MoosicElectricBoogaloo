@@ -137,7 +137,12 @@ public class Storage {
                     return;
                 }
                 // parse json data to song playlist object and add to hashmap
-                playlists.put(Integer.parseInt(key), gson.fromJson(json, SongPlaylist.class));
+                SongPlaylist playlist = gson.fromJson(json, SongPlaylist.class);
+                int id = Integer.parseInt(key);
+                if (id == 0) { // if id is zer0. it is the liked songs playlist
+                    playlist.isSystem = true;
+                }
+                playlists.put(id, playlist);
             });
         }
     }

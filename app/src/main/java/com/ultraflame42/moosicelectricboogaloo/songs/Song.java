@@ -52,7 +52,6 @@ public class Song{
      * @return Returns length of song in milliseconds
      */
     public int getLength() {
-        Log.d("Song","get length "+title + " playable: "+playable+" length: "+length);
         return length;
     }
 

@@ -11,6 +11,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,15 +35,18 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
     }
 
     private void createLikedSongsPlaylist() {
-        if (items.size() > 0) {
+        if (getAllItems().length > 0) {
+            Log.d("PlaylistRegistry", "Liked songs playlist already exists " +getItem(0).getTitle() + " " + get(0).id);
             return;
         }
+        Log.d("PlaylistRegistry", "Creating liked songs playlist");
         // Create system playlist liked songs
         SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
         // make it a system playlist
         pl.isSystem = true;
         // add it to the registry
         add(pl);
+
         // add it to the favourites list
         addToFavourites(0);
     }
