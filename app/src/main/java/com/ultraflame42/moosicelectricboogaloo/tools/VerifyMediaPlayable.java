@@ -38,16 +38,13 @@ public class VerifyMediaPlayable {
                 UsefulStuff.setMediaPlayerDataSource(mp, fileLink, ctx);
 
                 mp.prepare();
-                mp.setOnBufferingUpdateListener((mediaPlayer, i) -> {
-                    Log.d("VerifyMediaPlayable: MediaPlayer", "Buffering: " + i);
-                });
                 mp.start();
             } catch (IOException e) {
                 Log.e("VerifyMediaPlayable", "Error: " + e.getMessage());
                 return null;
             }
 
-            Log.i("VerifyMediaPlayable", "Link: " + fileLink.toString() + " is playable.");
+            Log.d("VerifyMediaPlayable", "Link: " + fileLink.toString() + " is playable.");
             return mp;
         }
 

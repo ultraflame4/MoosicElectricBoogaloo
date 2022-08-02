@@ -36,6 +36,18 @@ public class AppHomeActivity extends AppCompatActivity {
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
 
+        // Load data from shared preferences --------------------------------
+        Storage.LoadedData loadedData = Storage.getInstance().Load(this);
+
+        // Get registries
+        SongRegistry.LoadFromData(loadedData, this);
+        songRegistry = SongRegistry.getInstance();
+
+
+        PlaylistRegistry.LoadFromData(loadedData);
+        PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
+        // ------------------------------------------------------------------
+
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_app_home);
 
@@ -50,16 +62,6 @@ public class AppHomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.NavMenu);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Load data from shared preferences
-        Storage.LoadedData loadedData = Storage.getInstance().Load(this);
-
-        // Get registries
-        SongRegistry.LoadFromData(loadedData, this);
-        songRegistry = SongRegistry.getInstance();
-
-
-        PlaylistRegistry.LoadFromData(loadedData);
-        PlaylistRegistry playlistRegistry = PlaylistRegistry.getInstance();
 
         // Toast any errors from songRegistry
         listenerGroup.subscribe(songRegistry.OnRegistryWarningsUI, warning -> {

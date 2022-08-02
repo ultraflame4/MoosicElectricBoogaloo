@@ -25,22 +25,28 @@ public class SongRegistry extends Registry<Song> {
 
     public static SongRegistry getInstance() {
         if (instance == null) {
-            instance = new SongRegistry();
+            Log.e("SongRegistry", "SongRegistry has no instance.");
+            throw new IllegalStateException("SongRegistry has no instance.");
         }
         return instance;
     }
 
-    public SongRegistry() {
+    /**
+     * Constructor for song registry. For prefilled values loaded from storage
+     * @param songs HashMap of songs loaded from storage
+     * @param idCounter idCounter to start from.
+     * @param context context to be used for verifying media playable.
+     */
+    public SongRegistry(HashMap<Integer, Song> songs, int idCounter,Context context) {
+        songs.forEach((integer, song) -> {
+            verifySong(song,true,context);
+            instance.items.put(integer, new RegistryItem<>(song, integer));
+        });
     }
 
 
     public static void LoadFromData(Storage.LoadedData data, Context ctx) {
-
-        instance.idCounter = data.loadedNextSongId;
-        data.songs.forEach((integer, song) -> {
-            instance.verifySong(song,true, ctx);
-            instance.items.put(integer, new RegistryItem<>(song, integer));
-        });
+        instance=new SongRegistry(data.songs,data.loadedNextSongId,ctx);
     }
 
     // Cache search names for faster lookup

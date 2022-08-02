@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 public class PlaylistRegistry extends Registry<SongPlaylist> {
+    public static final int LikedSongsPlaylistID = 0;
+
     private static PlaylistRegistry instance = null;
 
     // HashSet to store favourites playlists.
@@ -28,46 +30,50 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
     // Singleton pattern
     public static PlaylistRegistry getInstance() {
         if (instance == null) {
-            instance = new PlaylistRegistry();
-
+            Log.e("PlaylistRegistry", "PlaylistRegistry has no instance");
+            throw new IllegalStateException("PlaylistRegistry has no instance");
         }
+
         return instance;
     }
 
-    private void createLikedSongsPlaylist() {
-        if (getAllItems().length > 0) {
-            Log.d("PlaylistRegistry", "Liked songs playlist already exists " +getItem(0).getTitle() + " " + get(0).id);
-            return;
+
+    /**
+     * Constructor for playlist registry. For prefilled values loaded from storage
+     * @param favourites HashSet of favourites playlists
+     * @param playlists HashMap of playlists
+     * @param idCounter idCounter to start from.
+     */
+    public PlaylistRegistry(HashSet<Double> favourites, HashMap<Integer, SongPlaylist> playlists, int idCounter) {
+        favourites.forEach(aDouble -> {
+            // have to do this cuz for some reason gson deserializes json to hashset<Double>
+            this.favourites.add((int) Math.round(aDouble));
+        });
+
+        playlists.forEach((id, playlist) -> {
+            RegistryItem<SongPlaylist> regItem = new RegistryItem<>(playlist, id);
+            if (id == LikedSongsPlaylistID) { // if id is zero, it is liked songs playlist. set system to true
+                regItem.item.isSystem = true;
+            }
+            this.items.put(id, regItem);
+        });
+
+        this.idCounter=idCounter;
+
+        // check if there is a liked song playlist. if there isnt, create one
+        if (!items.containsKey(LikedSongsPlaylistID)){
+            Log.d("PlaylistRegistry", "Liked songs playlist does not exist. Creating one...");
+            SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
+            pl.isSystem = true;
+            items.put(LikedSongsPlaylistID, new RegistryItem<>(pl, LikedSongsPlaylistID));
+            this.favourites.add(LikedSongsPlaylistID);
+            this.idCounter++;
         }
-        Log.d("PlaylistRegistry", "Creating liked songs playlist");
-        // Create system playlist liked songs
-        SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
-        // make it a system playlist
-        pl.isSystem = true;
-        // add it to the registry
-        add(pl);
-
-        // add it to the favourites list
-        addToFavourites(0);
     }
 
-    public PlaylistRegistry() {
-        createLikedSongsPlaylist();
-    }
 
     public static void LoadFromData(Storage.LoadedData data) {
-        Log.d("PlaylistRegistry", "favourites hashset type: " + data.favorites);
-        data.favorites.forEach(aDouble -> {
-            // have to do this cuz for some reason gson deserialises json hashset<Double>
-            PlaylistRegistry.getInstance().addToFavourites((int) Math.round(aDouble));
-        });
-        instance.idCounter = data.loadedNextPlaylistId;
-        data.playlists.forEach((integer, songPlaylist) -> {
-            Log.d("PlaylistRegistry", "Loading playlist: " + songPlaylist.getTitle());
-            instance.items.put(integer, new RegistryItem<>(songPlaylist, integer));
-        });
-        instance.createLikedSongsPlaylist();
-
+        instance = new PlaylistRegistry(data.favorites, data.playlists, data.loadedNextPlaylistId);
 
     }
 
@@ -134,5 +140,11 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
     // Check if playlist is in favourites
     public boolean favouritesHas(int playlistId) {
         return favourites.contains(playlistId);
+    }
+
+    @Override
+    public void add(SongPlaylist item) {
+        Log.i("PlaylistRegistry", "Adding playlist: " + item.getTitle() + " with id " + idCounter);
+        super.add(item);
     }
 }
