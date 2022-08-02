@@ -1,8 +1,16 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.PlaybackException;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
@@ -16,7 +24,7 @@ public class SongPlayer {
     // If -1, no playlist is playing.
     private static int currentPlaylist = -1;
     private static int currentSong = -1;
-    private static MediaPlayer mediaPlayer = new MediaPlayer();
+    private static ExoPlayer exoPlayer;
     private static int pausedPosition = 0;
     private static boolean isPaused = false;
     private static boolean isLooping = false;
@@ -43,11 +51,81 @@ public class SongPlayer {
     // A copy of the current playlist., hence the name shadow
     private static List<Integer> currentPlaylistShadow = new ArrayList<>();
 
-    public static void init() {
-        mediaPlayer.setOnCompletionListener(mediaPlayer1 -> {
-            PlayNext();
+    public static void init(Context ctx) {
+        exoPlayer = new ExoPlayer.Builder(ctx).build();
+        exoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onPlayerError(PlaybackException error) {
+                Log.e("SongPlayer", "ExoPlayer Error: " + error.getMessage(), error);
+                OnSongPlayError.pushEvent(error.getMessage());
+            }
+
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                if (playbackState == Player.STATE_READY) {
+                    RegistryItem<Song> song = SongRegistry.getInstance().get(currentSong);
+                    OnSongPlayChange.pushEvent(song);
+                    OnSongPlayStateChange.pushEvent(true);
+                } else if (playbackState == Player.STATE_ENDED) {
+                    PlayNext();
+                }
+
+            }
+
+
         });
     }
+//
+//    public static MediaPlayer getNewMediaPlayer() {
+//
+//        MediaPlayer mp =new MediaPlayer();
+//        mp.setOnCompletionListener(mediaPlayer1 -> {
+//            mediaPlayer1.release();
+//            PlayNext();
+//        });
+//
+//        mp.setOnPreparedListener(mediaPlayer1 -> {
+//            mediaPlayer.start();
+//            RegistryItem<Song> song = SongRegistry.getInstance().get(currentSong);
+//            OnSongPlayChange.pushEvent(song);
+//            OnSongPlayStateChange.pushEvent(true);
+//        });
+//
+//        mp.setOnErrorListener((mediaPlayer1, i, i2) -> {
+//            String errMsg1 = "unknown error";
+//            if (i==MediaPlayer.MEDIA_ERROR_UNKNOWN){
+//                errMsg1 = "MediaPlayer.MEDIA_ERROR_UNKNOWN";
+//            }
+//            else if (i==MediaPlayer.MEDIA_ERROR_SERVER_DIED){
+//                errMsg1 = "MediaPlayer.MEDIA_ERROR_SERVER_DIED";
+//            }
+//
+//            String errMsg2 = "unknown extra error";
+//            if (i2==MediaPlayer.MEDIA_ERROR_IO){
+//                errMsg2 = "MediaPlayer.MEDIA_ERROR_IO";
+//            }
+//            else if (i2==MediaPlayer.MEDIA_ERROR_MALFORMED){
+//                errMsg2 = "MediaPlayer.MEDIA_ERROR_MALFORMED";
+//            }
+//            else if (i2==MediaPlayer.MEDIA_ERROR_UNSUPPORTED){
+//                errMsg2 = "MediaPlayer.MEDIA_ERROR_MALFORMED";
+//            }
+//            else if (i2==MediaPlayer.MEDIA_ERROR_TIMED_OUT){
+//                errMsg2 = "MediaPlayer.MEDIA_ERROR_TIMED_OUT";
+//            }
+//            else if (i2==-2147483648){
+//                errMsg2 = "low-level system error.";
+//            }
+//
+//            Log.e("SongPlayer", "Error playing song: " + errMsg1 + " " + errMsg2);
+//            OnSongPlayError.pushEvent("This song cannot be played. This may be due to:" +
+//                    "\n1. (If song source is url) Invalid url or bad internet connection." +
+//                    "\n2. (If song source is file) File does not exist or is not readable or is not supported.9" );
+//            PlayNext();
+//            return true;
+//        });
+//        return mp;
+//    }
 
 
     /**
@@ -56,10 +134,10 @@ public class SongPlayer {
      * @param songId id of song to play
      */
     private static void playSong(int songId) {
-
+        Log.d("SongPlayer", "playing song id " + songId);
         currentSong = songId;
-        RegistryItem<Song> song = SongRegistry.getInstance().get(songId);
-        if (!song.item.isPlayable()){
+        RegistryItem<Song> song = SongRegistry.getInstance().get(currentSong);
+        if (!song.item.isPlayable()) {
             OnSongPlayError.pushEvent("This Song is not playable. The url or file may be broken. Skipping to next song.");
             PlayNext();
             return;
@@ -67,18 +145,14 @@ public class SongPlayer {
         try {
             isPaused = false;
             pausedPosition = 0;
-            mediaPlayer.reset();
+            exoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(song.item.getFileLink())));
+            Log.d("SongPlayer", "A");
+            exoPlayer.prepare();
+            Log.d("SongPlayer", "D");
+            exoPlayer.play();
 
-            UsefulStuff.setMediaPlayerDataSource(mediaPlayer, song.item.getFileLink(),SongRegistry.getInstance().getHomeContext());
-
-            mediaPlayer.prepare();
-
-            mediaPlayer.start();
-            OnSongPlayChange.pushEvent(song);
-            OnSongPlayStateChange.pushEvent(true);
-        } catch (IOException e) {
-
-            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            Log.e("SongPlayer", "Error while trying to play song", e);
         }
     }
 
@@ -146,10 +220,10 @@ public class SongPlayer {
      * @return
      */
     public static float GetCurrentSongProgress() {
-        if (mediaPlayer.isPlaying()) {
-            return mediaPlayer.getCurrentPosition() / (float) mediaPlayer.getDuration();
+        if (exoPlayer.isPlaying()) {
+            return exoPlayer.getCurrentPosition() / (float) exoPlayer.getDuration();
         } else if (isPaused) {
-            return pausedPosition / (float) mediaPlayer.getDuration();
+            return pausedPosition / (float) exoPlayer.getDuration();
         } else {
             return 0;
         }
@@ -165,9 +239,9 @@ public class SongPlayer {
      * @param progressPercent 0-1
      */
     public static void SetCurrentSongProgress(float progressPercent) {
-        int calculatedPosition = Math.round(mediaPlayer.getDuration() * progressPercent);
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.seekTo(calculatedPosition);
+        int calculatedPosition = Math.round(exoPlayer.getDuration() * progressPercent);
+        if (exoPlayer.isPlaying()) {
+            exoPlayer.seekTo(calculatedPosition);
         } else if (isPaused) {
             // Change the paused position -> when un-paused will seek back to that position
             // And undo the scrubbing :(
@@ -180,8 +254,8 @@ public class SongPlayer {
      * Resumes playing of song
      */
     public static void Resume() {
-        mediaPlayer.start();
-        mediaPlayer.seekTo(pausedPosition);
+        exoPlayer.play();
+
         isPaused = false;
         OnSongPlayStateChange.pushEvent(true);
     }
@@ -190,8 +264,8 @@ public class SongPlayer {
      * Pauses playing of song
      */
     public static void Pause() {
-        mediaPlayer.pause();
-        pausedPosition = mediaPlayer.getCurrentPosition();
+        exoPlayer.pause();
+        pausedPosition = (int) exoPlayer.getCurrentPosition();
         isPaused = true;
         OnSongPlayStateChange.pushEvent(false);
     }
@@ -233,7 +307,7 @@ public class SongPlayer {
     }
 
     public static void resetState() {
-        mediaPlayer.reset();
+        exoPlayer.clearMediaItems();
         pausedPosition = 0;
 
         OnSongPlayStateChange.pushEvent(false);
@@ -289,7 +363,7 @@ public class SongPlayer {
      * @return
      */
     public static boolean IsReady() {
-        return mediaPlayer.isPlaying() || isPaused;
+        return exoPlayer.isPlaying() || isPaused;
     }
 
     public static boolean IsLooping() {

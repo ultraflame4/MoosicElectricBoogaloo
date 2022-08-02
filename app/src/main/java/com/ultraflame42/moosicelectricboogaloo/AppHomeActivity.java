@@ -93,7 +93,7 @@ public class AppHomeActivity extends AppCompatActivity {
 //            );
         }
 
-        SongPlayer.init();
+        SongPlayer.init(this);
         listenerGroup.subscribe(SongPlayer.OnSongPlayError, data -> {
             Toast.makeText(this, "SongPlayer: " + data, Toast.LENGTH_SHORT).show();
         });
