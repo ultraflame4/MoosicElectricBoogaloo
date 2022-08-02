@@ -255,7 +255,7 @@ public class SongPlayer {
      */
     public static void Resume() {
         exoPlayer.play();
-        exoPlayer.seekTo(pausedPosition);
+
         isPaused = false;
         OnSongPlayStateChange.pushEvent(true);
     }
