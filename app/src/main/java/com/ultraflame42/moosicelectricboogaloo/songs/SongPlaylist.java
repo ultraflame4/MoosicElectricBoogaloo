@@ -16,7 +16,6 @@ public class SongPlaylist {
      */
     public boolean isSystem = false;
 
-    SongRegistry songRegistry;
 
     /**
      * @param creator Playlist creator name
@@ -27,7 +26,6 @@ public class SongPlaylist {
         this.creator = creator;
         this.title = title;
         this.songs.addAll(Arrays.asList(songs));
-        songRegistry = SongRegistry.getInstance();
         isAlbum = false;
 
     }
@@ -39,7 +37,6 @@ public class SongPlaylist {
     public SongPlaylist(String creator, String title) {
         this.creator = creator;
         this.title = title;
-        songRegistry = SongRegistry.getInstance();
         isAlbum = false;
     }
 
@@ -95,7 +92,7 @@ public class SongPlaylist {
      * Returns the total length of the playlist in milliseconds
      */
     public int getLength() {
-        int length = songs.stream().mapToInt(integer -> songRegistry.getItem(integer).getLength()).sum();
+        int length = songs.stream().mapToInt(integer -> SongRegistry.getInstance().getItem(integer).getLength()).sum();
         return length;
     }
 

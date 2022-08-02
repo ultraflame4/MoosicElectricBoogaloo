@@ -73,7 +73,7 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
 
 
     public static void LoadFromData(Storage.LoadedData data) {
-        instance = new PlaylistRegistry(data.favorites, data.playlists, data.loadedNextPlaylistId);
+        instance = new PlaylistRegistry(data.favorites, data.getPlaylists(), data.loadedNextPlaylistId);
 
     }
 

@@ -40,13 +40,13 @@ public class SongRegistry extends Registry<Song> {
     public SongRegistry(HashMap<Integer, Song> songs, int idCounter,Context context) {
         songs.forEach((integer, song) -> {
             verifySong(song,true,context);
-            instance.items.put(integer, new RegistryItem<>(song, integer));
+            items.put(integer, new RegistryItem<>(song, integer));
         });
     }
 
 
     public static void LoadFromData(Storage.LoadedData data, Context ctx) {
-        instance=new SongRegistry(data.songs,data.loadedNextSongId,ctx);
+        instance=new SongRegistry(data.getSongs(),data.loadedNextSongId,ctx);
     }
 
     // Cache search names for faster lookup

@@ -104,21 +104,27 @@ public class Storage {
 
         public final HashSet<Double> favorites;
 
-        public final HashMap<Integer, Song> songs;
-        public final HashMap<Integer, SongPlaylist> playlists;
+        private final SharedPreferences songRegistryData;
+        private final SharedPreferences playlistRegistryData;
+        private final Gson gson;
 
         public LoadedData(Context ctx) {
-            Gson gson = getGson();
+            gson = getGson();
             SharedPreferences generalData = ctx.getSharedPreferences("general", Context.MODE_PRIVATE);
-            SharedPreferences songRegistryData = ctx.getSharedPreferences("songRegistry", Context.MODE_PRIVATE);
-            SharedPreferences playlistRegistryData = ctx.getSharedPreferences("playlistRegistry", Context.MODE_PRIVATE);
+            songRegistryData = ctx.getSharedPreferences("songRegistry", Context.MODE_PRIVATE);
+            playlistRegistryData = ctx.getSharedPreferences("playlistRegistry", Context.MODE_PRIVATE);
 
             // load general stuff
             favorites = gson.fromJson(generalData.getString("favorites", "[]"), HashSet.class);
             loadedNextSongId = generalData.getInt("songRegistryNextId", 0);
             loadedNextPlaylistId = generalData.getInt("playlistRegistryNextId", 0);
 
-            songs = new HashMap<>();
+        }
+
+        public HashMap<Integer, Song> getSongs() {
+            Log.i("Storage", "Loading songs from shared preferences...");
+
+            HashMap<Integer, Song> songs = new HashMap<>();
             songRegistryData.getAll().forEach((key, value) -> {
                 // get json data with empty string as default value
                 String json = songRegistryData.getString(key,"");
@@ -129,7 +135,12 @@ public class Storage {
                 songs.put(Integer.parseInt(key), gson.fromJson(json, Song.class));
             });
 
-            playlists = new HashMap<>();
+            return songs;
+        }
+
+        public HashMap<Integer, SongPlaylist> getPlaylists() {
+            HashMap<Integer, SongPlaylist> playlists = new HashMap<>();
+
             playlistRegistryData.getAll().forEach((key, value) -> {
                 // get json data with empty string as default value
                 String json = playlistRegistryData.getString(key,"");
@@ -144,6 +155,8 @@ public class Storage {
                 }
                 playlists.put(id, playlist);
             });
+
+            return playlists;
         }
     }
 
