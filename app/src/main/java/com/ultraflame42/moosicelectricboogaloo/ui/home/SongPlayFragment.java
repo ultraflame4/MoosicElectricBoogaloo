@@ -204,19 +204,16 @@ public class SongPlayFragment extends Fragment {
             return;
         }
 
-        Log.d("SongPlay (fragment)", "Toggling liked for songid " + currentSong);
         RegistryItem<SongPlaylist> likedSongs = playlistRegistry.get(0);
         if (!likedBtn.isChecked()) {
-            Log.d("SongPlay (fragment)", "un-liked for songid " + currentSong);
+            Log.d("SongPlay (fragment)", "setting liked=false for songid " + currentSong);
             if (likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.removeSong(currentSong);
             }
         } else {
-            Log.d("SongPlay (fragment)", "liked for songid " + currentSong);
-            Log.d("SongPlay (fragment)", "likedSongs.item.size() " + likedSongs);
+            Log.d("SongPlay (fragment)", "setting liked=true for songid " + currentSong);
             if (!likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.addSong(currentSong);
-                Log.d("SongPlay (fragment)", "likedSongs.item.size() " + playlistRegistry.get(0));
             }
         }
         updateLikedBtn();

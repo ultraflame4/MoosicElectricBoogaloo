@@ -39,6 +39,7 @@ public class VerifyMediaPlayable {
 
                 mp.prepare();
                 mp.start();
+                mp.stop(); // if it can play, stop it. prevent audio
             } catch (IOException e) {
                 Log.e("VerifyMediaPlayable", "Error: " + e.getMessage());
                 return null;
