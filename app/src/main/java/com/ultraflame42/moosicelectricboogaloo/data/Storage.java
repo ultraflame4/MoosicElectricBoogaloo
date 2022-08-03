@@ -36,6 +36,7 @@ public class Storage {
 
     private static Storage instance;
 
+    private static final String IMAGE_DOWNLOAD_DIRECTORY = "ImageDownloads";
     public static final String SONG_DOWNLOAD_DIRECTORY = "SongsDownloads";
 
     public static Storage getInstance() {
@@ -181,6 +182,15 @@ public class Storage {
         return new LoadedData(ctx);
     }
 
+    public String DownloadLocalSong(Context ctx, String uriString) {
+        return DownloadLocalFile(ctx,uriString,Storage.SONG_DOWNLOAD_DIRECTORY);
+    }
+
+
+    public String DownloadLocalImage(Context context, String imageUriLink) {
+        return DownloadLocalFile(context,imageUriLink,Storage.IMAGE_DOWNLOAD_DIRECTORY);
+    }
+
     /**
      * Copies the local file to the external app-specific directory.
      * So that the app can access it in the future.
@@ -189,17 +199,17 @@ public class Storage {
      * @param uriString uri string of the file to copy the uri should be a content uri
      * @return a uri string containing the file's copy uri
      */
-    public String DownloadLocalFile(Context ctx, String uriString) {
+    public String DownloadLocalFile(Context ctx, String uriString,String directory) {
         Uri uri = Uri.parse(uriString);
         String fileName = UsefulStuff.getFileName(ctx, uri);
         Log.d("Storage", "Downloading file: " + fileName + " uri: " + uriString);
         // first make the file
-        File songDir = new File(ctx.getFilesDir(), Storage.SONG_DOWNLOAD_DIRECTORY);
+        File songDir = new File(ctx.getFilesDir(), directory);
         songDir.mkdirs();
 
         // then get the file object used for copy
         File fileCopy = new File(
-                ctx.getFilesDir() + "/" + Storage.SONG_DOWNLOAD_DIRECTORY,
+                ctx.getFilesDir() + "/" + directory,
                 fileName
         );
 

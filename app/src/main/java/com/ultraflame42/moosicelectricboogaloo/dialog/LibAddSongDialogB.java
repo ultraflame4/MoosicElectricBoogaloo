@@ -1,8 +1,10 @@
 package com.ultraflame42.moosicelectricboogaloo.dialog;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -29,6 +33,7 @@ public class LibAddSongDialogB extends DialogFragment {
     private EditText songImageInput;
     private Button finalAddSongBtn;
     private String mediaLink;
+    private ActivityResultLauncher<Intent> OpenFileDialogIntentLauncher;
 
     @Nullable
     @Override
@@ -49,7 +54,24 @@ public class LibAddSongDialogB extends DialogFragment {
         finalAddSongBtn.setOnClickListener(view1 -> {
             HandleAddSong();
         });
-        // todo Add in browse local file for images
+
+        OpenFileDialogIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Intent data = result.getData();
+            if (data == null) {
+                Log.d("LibAddSongDialogB", "File picking canceled");
+                return;
+            }
+            Uri uri = data.getData();
+
+            Log.d("LibAddSongDialogB", "Uri picked: " + uri.toString());
+            songImageInput.setText(uri.toString());
+        });
+
+        Button browseFilesBtn = view.findViewById(R.id.browseImgBtn);
+        browseFilesBtn.setOnClickListener(view1 -> {
+            // open the file picker
+            OpenFilePicker();
+        });
 
 
         Button cancelBtn = view.findViewById(R.id.cancelBtn);
@@ -70,6 +92,12 @@ public class LibAddSongDialogB extends DialogFragment {
         controller.navigateUp();
     }
 
+    public void OpenFilePicker(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        OpenFileDialogIntentLauncher.launch(intent);
+    }
+
     private void HandleAddSong() {
         String songTitle = songTitleInput.getText().toString();
         String songArtist = songArtistInput.getText().toString();
@@ -81,8 +109,15 @@ public class LibAddSongDialogB extends DialogFragment {
             return;
         }
         // todo Set the song image link
-
-        SongRegistry.getInstance().add(new Song(songTitle,songArtist, Storage.getInstance().DownloadLocalFile(getContext(),mediaLink)));
+        String songUri = mediaLink;
+        if (Uri.parse(mediaLink).getScheme().equals("content")) {
+            songUri = Storage.getInstance().DownloadLocalSong(getContext(),mediaLink);
+        }
+        String imageUriLink = songImageLink;
+        if (Uri.parse(imageUriLink).getScheme().equals("content")) {
+            imageUriLink = Storage.getInstance().DownloadLocalImage(getContext(),imageUriLink);
+        }
+        SongRegistry.getInstance().add(new Song(songTitle, songArtist, songUri));
         navigateBack();
     }
 }

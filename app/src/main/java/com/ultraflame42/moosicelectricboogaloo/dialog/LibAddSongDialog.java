@@ -51,6 +51,7 @@ public class LibAddSongDialog extends DialogFragment {
             }
         });
 
+        // Object to open file picker
         OpenFileDialogIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Intent data = result.getData();
             if (data == null) {
@@ -61,10 +62,11 @@ public class LibAddSongDialog extends DialogFragment {
 
             Log.d("LibAddSongDialog", "Uri picked: " + uri.toString());
             songLocationInput.setText(uri.toString());
-
         });
+
         Button browseFilesBtn = view.findViewById(R.id.browseFileBtn);
         browseFilesBtn.setOnClickListener(view1 -> {
+            // open the file picker
             OpenFilePicker();
         });
 
