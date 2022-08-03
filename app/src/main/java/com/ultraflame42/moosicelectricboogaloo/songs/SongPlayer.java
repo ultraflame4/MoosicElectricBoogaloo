@@ -323,24 +323,28 @@ public class SongPlayer {
             playSong(nxtSong);
         } else {
             resetState();
-            Log.d("SongPlayer: WARN but not really", "There is no next song");
+            Log.d("SongPlayer", "Reached end of song/playlist");
 
             // If looping, replay playlist or song
             if (isLooping) {
                 Log.d("SongPlayer", "Will loop current song or playlist");
                 // if not playing playlist, replay song
-                // also check if currentSong is -1, if so, ignore else crash
+
                 if (currentPlaylist < 0) {
-                    Log.w("SongPlayer", "Unable to loop song because there is no current song");
-                    return;
-                }
-                if (currentPlaylist < 0) {
+                    // also check if currentSong is -1, if so, ignore else crash
+                    if (currentSong < 0) {
+                        Log.w("SongPlayer", "Unable to loop song because there is no current song");
+                        return;
+                    }
                     playSong(currentSong);
                 } else {
                     // Replay current playlist
                     PlayPlaylist(currentPlaylist);
                 }
 
+            }
+            else{
+                OnSongPlayChange.pushEvent(null);
             }
         }
     }

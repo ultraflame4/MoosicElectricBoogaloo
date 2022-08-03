@@ -25,6 +25,8 @@ import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.Registry;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
+import javax.annotation.Nullable;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
@@ -40,6 +42,8 @@ public class SongPlayFragment extends Fragment {
     private TextView songCurrentTime;
     private TextView songTotalTime;
     private SongRegistry songRegistry;
+    private ToggleButton shuffleBtn;
+    private ToggleButton loopBtn;
 
     public SongPlayFragment() {
 
@@ -59,10 +63,17 @@ public class SongPlayFragment extends Fragment {
 
     }
 
-    public void updateSongInfo(Song song) {
+    public void updateSongInfo(@Nullable Song song) {
+        if (song == null) {
+            songTitleView.setText(getString(R.string.song_play_title_default));
+            songArtistView.setText(getString(R.string.song_play_artist_default));
+            songTotalTime.setText("0:0");
+            return;
+        }
         Log.d("SongPlayer (fragment)", "Updating song information");
         songTitleView.setText(song.getTitle());
         songArtistView.setText(song.getArtist());
+
         updateLikedBtn();
 
     }
@@ -112,7 +123,12 @@ public class SongPlayFragment extends Fragment {
         }
 
         listenerGroup.subscribe(SongPlayer.OnSongPlayChange, regItem -> {
-            updateSongInfo(regItem.item);
+            if (regItem!=null) {
+                updateSongInfo(regItem.item);
+            }
+            else{
+                updateSongInfo(null);
+            }
         });
 
         songCurrentTime = view.findViewById(R.id.songTimeCurrent);
@@ -189,8 +205,8 @@ public class SongPlayFragment extends Fragment {
 
         });
 
-        ToggleButton shuffleBtn = view.findViewById(R.id.shuffleBtn);
-        ToggleButton loopBtn = view.findViewById(R.id.loopBtn);
+        shuffleBtn = view.findViewById(R.id.shuffleBtn);
+        loopBtn = view.findViewById(R.id.loopBtn);
 
         shuffleBtn.setSaveEnabled(false);
         loopBtn.setSaveEnabled(false);
@@ -247,10 +263,10 @@ public class SongPlayFragment extends Fragment {
     }
 
     private void updateShuffleBtn() {
-        likedBtn.setChecked(SongPlayer.IsShuffle());
+        shuffleBtn.setChecked(SongPlayer.IsShuffle());
     }
     private void updateLoopBtn() {
-        likedBtn.setChecked(SongPlayer.IsLooping());
+        loopBtn.setChecked(SongPlayer.IsLooping());
     }
 
 
