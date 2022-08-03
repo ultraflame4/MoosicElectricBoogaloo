@@ -46,7 +46,7 @@ public class SearchActivity extends AppCompatActivity {
         searchQueryInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //stud methoooood
             }
 
             @Override
@@ -56,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                //stud methoooood
             }
         });
     }

@@ -159,9 +159,8 @@ public class SongPlayFragment extends Fragment {
                         songTotalTime.setText(song.getLengthFormatted());
                         // Set timestamp for current time
                         songCurrentTime.setText(UsefulStuff.formatMilliseconds(Math.round(song.getLength() * progress)));
-                    }
-                    else{
-                        Log.w("SongPlayer (fragment)", "Song not found in registry! Song id "+songId    );
+                    } else {
+                        Log.w("SongPlayer (fragment)", "Song not found in registry! Song id " + songId);
                     }
                 }
 
@@ -188,6 +187,24 @@ public class SongPlayFragment extends Fragment {
                 SongPlayer.PlaySong(0);
             }
 
+        });
+
+        ToggleButton shuffleBtn = view.findViewById(R.id.shuffleBtn);
+        ToggleButton loopBtn = view.findViewById(R.id.loopBtn);
+
+        shuffleBtn.setSaveEnabled(false);
+        loopBtn.setSaveEnabled(false);
+
+        updateShuffleBtn();
+        shuffleBtn.setOnClickListener((v) -> {
+            SongPlayer.SetShuffle(shuffleBtn.isChecked());
+            Log.d("SongPlayer (fragment)", "Shuffle set to " + SongPlayer.IsShuffle());
+        });
+
+        updateLoopBtn();
+        loopBtn.setOnClickListener((v) -> {
+            SongPlayer.SetLooping(loopBtn.isChecked());
+            Log.d("SongPlayer (fragment)", "Loop set to " + SongPlayer.IsLooping());
         });
 
         return view;
@@ -228,6 +245,14 @@ public class SongPlayFragment extends Fragment {
         }
         likedBtn.setChecked(isLiked);
     }
+
+    private void updateShuffleBtn() {
+        likedBtn.setChecked(SongPlayer.IsShuffle());
+    }
+    private void updateLoopBtn() {
+        likedBtn.setChecked(SongPlayer.IsLooping());
+    }
+
 
 
     @Override

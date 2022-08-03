@@ -329,10 +329,13 @@ public class SongPlayer {
             if (isLooping) {
                 Log.d("SongPlayer", "Will loop current song or playlist");
                 // if not playing playlist, replay song
+                // also check if currentSong is -1, if so, ignore else crash
                 if (currentPlaylist < 0) {
-
+                    Log.w("SongPlayer", "Unable to loop song because there is no current song");
+                    return;
+                }
+                if (currentPlaylist < 0) {
                     playSong(currentSong);
-
                 } else {
                     // Replay current playlist
                     PlayPlaylist(currentPlaylist);

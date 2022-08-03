@@ -87,7 +87,7 @@
         <ToggleButton
 
             android:id="@+id/likeSongBtn"
-            android:layout_width="44dp"
+            android:layout_width="48dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
@@ -99,6 +99,31 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
             app:layout_constraintTop_toTopOf="@+id/songPlayTitle" />
+
+        <ToggleButton
+
+            android:id="@+id/shuffleBtn"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shuffle_toggle"
+            android:scaleType="fitCenter"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="@+id/songPlaySeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/songTimeCurrent" />
+
+        <ToggleButton
+            android:id="@+id/loopBtn"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:background="@drawable/loop_toggle"
+            android:scaleType="fitCenter"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="@+id/songPlaySeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/songTimeTotal" />
 
         <ImageButton
             android:id="@+id/songPlay_SkipBtn"

@@ -25,12 +25,6 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     Context ctx;
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View parent) {
-            super(parent);
-        }
-    }
-
     public PlaylistRecylerViewAdapter(int playlistId, Context ctx) {
         this.playlistId = playlistId;
         this.ctx = ctx;
@@ -53,8 +47,6 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     @Override
     public SongListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
-
-
         return new SongListItemViewHolder(view);
     }
 
