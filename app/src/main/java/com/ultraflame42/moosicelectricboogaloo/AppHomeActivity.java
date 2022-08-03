@@ -1,7 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import com.ultraflame42.moosicelectricboogaloo.data.Storage;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
@@ -72,16 +70,16 @@ public class AppHomeActivity extends AppCompatActivity {
         if (songRegistry.getAllItems().length < 1) {
             // if song registry is empty, load a default songs
             songRegistry.add(
-                    new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+                    new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965", imageUri)
             );
             songRegistry.add(
                     // song with absurdly long title
-                    new Song("abcdefuA-", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+                    new Song("abcdefuA-", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965", imageUri)
             );
             songRegistry.add(
 
                     new Song("abcdefuB" +
-                            "", "GAYLEB", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965")
+                            "", "GAYLEB", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965", imageUri)
             );
 
         }

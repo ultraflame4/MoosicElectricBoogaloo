@@ -19,6 +19,7 @@ public class SongJsonAdapter implements JsonSerializer<Song>, JsonDeserializer<S
         result.add("title", new JsonPrimitive(src.getTitle()));
         result.add("artist",  new JsonPrimitive(src.getArtist()));
         result.add("filelink",  new JsonPrimitive(src.getFileLink()));
+        result.add("imageUriLink",  new JsonPrimitive(src.getImageUriLink()));
         result.add("playable",  new JsonPrimitive(src.isPlayable()));
         result.add("length",  new JsonPrimitive(src.getLength()));
 
@@ -31,8 +32,8 @@ public class SongJsonAdapter implements JsonSerializer<Song>, JsonDeserializer<S
         Song song = new Song(
                 obj.getAsJsonPrimitive("title").getAsString(),
                 obj.getAsJsonPrimitive("artist").getAsString(),
-                obj.getAsJsonPrimitive("filelink").getAsString()
-        );
+                obj.getAsJsonPrimitive("filelink").getAsString(),
+                obj.getAsJsonPrimitive("imageUriLink").getAsString());
         song.setRuntimeInfo(
                 obj.getAsJsonPrimitive("playable").getAsBoolean(),
                 obj.getAsJsonPrimitive("length").getAsInt()

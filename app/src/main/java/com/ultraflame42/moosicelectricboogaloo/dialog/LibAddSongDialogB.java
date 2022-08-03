@@ -117,7 +117,7 @@ public class LibAddSongDialogB extends DialogFragment {
         if (Uri.parse(imageUriLink).getScheme().equals("content")) {
             imageUriLink = Storage.getInstance().DownloadLocalImage(getContext(),imageUriLink);
         }
-        SongRegistry.getInstance().add(new Song(songTitle, songArtist, songUri));
+        SongRegistry.getInstance().add(new Song(songTitle, songArtist, songUri, imageUriLink));
         navigateBack();
     }
 }

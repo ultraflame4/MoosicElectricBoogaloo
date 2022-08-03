@@ -1,17 +1,10 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
 
+import android.net.Uri;
 import android.util.Log;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
-import com.ultraflame42.moosicelectricboogaloo.tools.VerifyMediaPlayable;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
-
-import java.lang.reflect.Type;
 
 public class Song{
 
@@ -21,22 +14,24 @@ public class Song{
     private String artist;
     private String album;
     private String fileLink; //todo change to id registry system for fileLink.
+    private String imageUriLink; //either link or local internal file path.
 
     private boolean playable=false; // if false, link is broken and song is not playable
     //todo implement picasso for image loading
 
     /**
      * Constructor for a song.
-     *
-     * @param title    Song title
+     *  @param title    Song title
      * @param artist   Song artist
      * @param fileLink Song file link. can be either a url or a uri file path.
+     * @param imageUriLink
      */
-    public Song(String title, String artist, String fileLink) {
+    public Song(String title, String artist, String fileLink, String imageUriLink) {
         this.title = title;
         this.artist = artist;
         this.album = title;
         this.fileLink = fileLink;
+        this.imageUriLink = imageUriLink;
     }
 
     public void setRuntimeInfo(boolean playable,int length) {
@@ -93,4 +88,7 @@ public class Song{
         return playable;
     }
 
+    public String getImageUriLink() {
+        return imageUriLink;
+    }
 }
