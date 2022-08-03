@@ -17,6 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.data.Storage;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
@@ -80,7 +81,8 @@ public class LibAddSongDialogB extends DialogFragment {
             return;
         }
         // todo Set the song image link
-        SongRegistry.getInstance().add(new Song(songTitle,songArtist, mediaLink));
+
+        SongRegistry.getInstance().add(new Song(songTitle,songArtist, Storage.getInstance().DownloadLocalFile(getContext(),mediaLink)));
         navigateBack();
     }
 }

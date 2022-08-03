@@ -144,10 +144,10 @@ public class SongPlayer {
         try {
             isPaused = false;
             pausedPosition = 0;
-            exoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(song.item.getFileLink())));
-            Log.d("SongPlayer", "A");
+            Uri uri = Uri.parse(song.item.getFileLink());
+
+            exoPlayer.setMediaItem(MediaItem.fromUri(uri));
             exoPlayer.prepare();
-            Log.d("SongPlayer", "D");
             exoPlayer.play();
 
         } catch (IllegalStateException e) {

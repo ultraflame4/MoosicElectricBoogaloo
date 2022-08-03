@@ -2,6 +2,7 @@ package com.ultraflame42.moosicelectricboogaloo.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -10,8 +11,19 @@ import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -23,6 +35,8 @@ import java.util.HashSet;
 public class Storage {
 
     private static Storage instance;
+
+    public static final String SONG_DOWNLOAD_DIRECTORY = "SongsDownloads";
 
     public static Storage getInstance() {
         if (instance == null) {
@@ -106,6 +120,8 @@ public class Storage {
 
         private final SharedPreferences songRegistryData;
         private final SharedPreferences playlistRegistryData;
+
+
         private final Gson gson;
 
         public LoadedData(Context ctx) {
@@ -127,8 +143,8 @@ public class Storage {
             HashMap<Integer, Song> songs = new HashMap<>();
             songRegistryData.getAll().forEach((key, value) -> {
                 // get json data with empty string as default value
-                String json = songRegistryData.getString(key,"");
-                if (json.length() < 1){ // if string is empty skip
+                String json = songRegistryData.getString(key, "");
+                if (json.length() < 1) { // if string is empty skip
                     return;
                 }
                 // parse json data to song object and add to hashmap
@@ -143,8 +159,8 @@ public class Storage {
 
             playlistRegistryData.getAll().forEach((key, value) -> {
                 // get json data with empty string as default value
-                String json = playlistRegistryData.getString(key,"");
-                if (json.length() < 1){ // if string is empty skip
+                String json = playlistRegistryData.getString(key, "");
+                if (json.length() < 1) { // if string is empty skip
                     return;
                 }
                 // parse json data to song playlist object and add to hashmap
@@ -158,9 +174,66 @@ public class Storage {
 
             return playlists;
         }
+
     }
 
     public LoadedData Load(Context ctx) {
         return new LoadedData(ctx);
     }
+
+    /**
+     * Copies the local file to the external app-specific directory.
+     * So that the app can access it in the future.
+     *
+     * @param ctx       context
+     * @param uriString uri string of the file to copy the uri should be a content uri
+     * @return a uri string containing the file's copy uri
+     */
+    public String DownloadLocalFile(Context ctx, String uriString) {
+        Uri uri = Uri.parse(uriString);
+        String fileName = UsefulStuff.getFileName(ctx, uri);
+        Log.d("Storage", "Downloading file: " + fileName + " uri: " + uriString);
+        // first make the file
+        File songDir = new File(ctx.getFilesDir(), Storage.SONG_DOWNLOAD_DIRECTORY);
+        songDir.mkdirs();
+
+        // then get the file object used for copy
+        File fileCopy = new File(
+                ctx.getFilesDir() + "/" + Storage.SONG_DOWNLOAD_DIRECTORY,
+                fileName
+        );
+
+        try {
+            fileCopy.createNewFile();
+        } catch (IOException err) {
+            Log.e("Storage", "Could not create file: " + fileName, err);
+            return "";
+        }
+
+        InputStream originalFileInputStream;
+        try {
+            originalFileInputStream = ctx.getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            Log.d("Storage", "File not found: " + uriString);
+            return "";
+        }
+        InputStreamReader originalInputStream = new InputStreamReader(originalFileInputStream);
+
+        // modified from https://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
+
+        try (OutputStream out = new FileOutputStream(fileCopy)) {
+            // Transfer bytes from in to out
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = originalFileInputStream.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        return fileCopy.toURI().toString();
+    }
+
 }

@@ -1,24 +1,20 @@
 package com.ultraflame42.moosicelectricboogaloo.tools;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.provider.OpenableColumns;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import com.ultraflame42.moosicelectricboogaloo.songs.Song;
-
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class UsefulStuff {
@@ -75,5 +71,36 @@ public class UsefulStuff {
     public static void setMediaPlayerDataSource(MediaPlayer mediaPlayer, String source, Context context) throws IOException {
         mediaPlayer.setDataSource(context, Uri.parse(source));
 
+    }
+
+    /**
+     * Get file name from a valid uri.
+     *
+     * modified from : https://stackoverflow.com/questions/5568874/how-to-extract-the-file-name-from-uri-returned-from-intent-action-get-content/25005243#25005243
+     * @param ctx context
+     * @param uri uri of the file
+     * @return
+     */
+    public static String getFileName(Context ctx, Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = ctx.getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int value = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    result = cursor.getString(value);
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }
