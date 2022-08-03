@@ -1,9 +1,6 @@
 package com.ultraflame42.moosicelectricboogaloo.ui.home;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
@@ -92,7 +88,10 @@ public class LibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        favouritesGridAdapter = new FavouritesGridAdapter(getContext());
+        favouritesGridAdapter = new FavouritesGridAdapter(getContext(), playlistIndex -> {
+            // when item clicked open playlist preveiw
+            openPlaylist(playlistIndex);
+        });
         RecyclerView favGridView = view.findViewById(R.id.FavouritesGrid);
         favGridView.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
         favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -136,6 +135,7 @@ public class LibraryFragment extends Fragment {
     }
 
     public void openPlaylist(int playlistId) {
+        Log.d("LibraryFragment", "Opening playlist " + playlistId);
         Intent intent = new Intent(getActivity(), PlaylistActivity.class);
         intent.putExtra("playlistId", playlistId);
         startActivity(intent);
