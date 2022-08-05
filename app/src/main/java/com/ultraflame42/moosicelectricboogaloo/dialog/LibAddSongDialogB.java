@@ -114,9 +114,17 @@ public class LibAddSongDialogB extends DialogFragment {
             songUri = Storage.getInstance().DownloadLocalSong(getContext(),mediaLink);
         }
         String imageUriLink = songImageLink;
-        if (Uri.parse(imageUriLink).getScheme().equals("content")) {
-            imageUriLink = Storage.getInstance().DownloadLocalImage(getContext(),imageUriLink);
+        // Check if image link is empty, so we dont get a null pointer exception
+        if (!imageUriLink.isEmpty()){
+            // If the user gave us a link, we need to download it/ move it to itnernal storage so we can access it anytimes without pernission issues
+            if (Uri.parse(imageUriLink).getScheme().equals("content")) {
+                imageUriLink = Storage.getInstance().DownloadLocalImage(getContext(),imageUriLink);
+            }
         }
+        else{
+            imageUriLink = "";
+        }
+
         SongRegistry.getInstance().add(new Song(songTitle, songArtist, songUri, imageUriLink));
         navigateBack();
     }

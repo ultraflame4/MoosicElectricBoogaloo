@@ -42,6 +42,8 @@ public class SongRegistry extends Registry<Song> {
             verifySong(song,true,context);
             items.put(integer, new RegistryItem<>(song, integer));
         });
+        this.idCounter = idCounter;
+
     }
 
 
