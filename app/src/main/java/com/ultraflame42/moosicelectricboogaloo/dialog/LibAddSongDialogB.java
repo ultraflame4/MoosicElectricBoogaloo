@@ -108,7 +108,7 @@ public class LibAddSongDialogB extends DialogFragment {
             Toast.makeText(getContext(), "Song title or song artist empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        // todo Set the song image link
+
         String songUri = mediaLink;
         if (Uri.parse(mediaLink).getScheme().equals("content")) {
             songUri = Storage.getInstance().DownloadLocalSong(getContext(),mediaLink);
