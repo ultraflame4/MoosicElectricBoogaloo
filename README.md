@@ -18,10 +18,10 @@ A music app created for a school project
 - [ ] basic settings page (for logout, changing password & clearing of data)
 - [x] Implement adding of songs through links (web audio links only for now) 
 - [x] Implement adding of songs through local files [reference](https://developer.android.com/training/data-storage/shared/documents-files)
-- [ ] Implement creation of playlist
+- [x] Implement creation of playlist
 
 #### data stuff
-- [ ] Implement local data storage
+- [x] Implement local data storage
 - [ ] Implement cloud data storage for logged in users
 
 ### common features pt.2
