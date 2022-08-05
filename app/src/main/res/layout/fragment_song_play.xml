@@ -12,7 +12,7 @@
         android:background="@color/color_b">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
+            android:id="@+id/songImage"
             android:layout_width="325dp"
             android:layout_height="325dp"
             android:layout_marginTop="32dp"
@@ -32,8 +32,8 @@
             android:gravity="center_vertical"
             android:text="@string/song_play_title_default"
             app:layout_constraintEnd_toStartOf="@+id/likeSongBtn"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
-            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+            app:layout_constraintStart_toStartOf="@+id/songImage"
+            app:layout_constraintTop_toBottomOf="@+id/songImage" />
 
         <TextView
             android:id="@+id/songPlayArtist"
@@ -43,7 +43,7 @@
             android:gravity="center_vertical"
             android:text="@string/song_play_artist_default"
             app:layout_constraintEnd_toStartOf="@+id/likeSongBtn"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            app:layout_constraintStart_toStartOf="@+id/songImage"
             app:layout_constraintTop_toBottomOf="@+id/songPlayTitle" />
 
         <SeekBar
@@ -61,8 +61,8 @@
             android:thumb="@drawable/seekbar_thumb"
             android:thumbOffset="0dp"
 
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            app:layout_constraintEnd_toEndOf="@+id/songImage"
+            app:layout_constraintStart_toStartOf="@+id/songImage"
             app:layout_constraintTop_toBottomOf="@+id/songPlayArtist"
 
             />
@@ -97,7 +97,7 @@
             android:textOn=""
             app:layout_constraintBottom_toBottomOf="@+id/songPlayArtist"
             app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintEnd_toEndOf="@+id/songImage"
             app:layout_constraintTop_toTopOf="@+id/songPlayTitle" />
 
         <ToggleButton
@@ -139,7 +139,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/songPlay_PlayStopBtn"
             app:layout_constraintDimensionRatio="h,1:1"
 
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintEnd_toEndOf="@+id/songImage"
             app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn" />
 
         <ImageButton
@@ -157,7 +157,7 @@
             android:src="@drawable/skip_prev"
             app:layout_constraintBottom_toBottomOf="@+id/songPlay_PlayStopBtn"
             app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            app:layout_constraintStart_toStartOf="@+id/songImage"
             app:layout_constraintTop_toTopOf="@+id/songPlay_PlayStopBtn"
             app:layout_constraintVertical_bias="0.0" />
 

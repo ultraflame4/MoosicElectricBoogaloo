@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
@@ -44,15 +45,16 @@ public class SongPlayFragment extends Fragment {
     private SongRegistry songRegistry;
     private ToggleButton shuffleBtn;
     private ToggleButton loopBtn;
+    private ShapeableImageView songImage;
+
+    private TextView songTitleView;
+    private TextView songArtistView;
 
     public SongPlayFragment() {
 
         songRegistry = SongRegistry.getInstance();
     }
 
-
-    TextView songTitleView;
-    TextView songArtistView;
 
 
     @Override
@@ -64,15 +66,18 @@ public class SongPlayFragment extends Fragment {
     }
 
     public void updateSongInfo(@Nullable Song song) {
+        Log.d("SongPlayer (fragment)", "Updating song information. is null? " + (song == null));
         if (song == null) {
             songTitleView.setText(getString(R.string.song_play_title_default));
             songArtistView.setText(getString(R.string.song_play_artist_default));
             songTotalTime.setText("0:0");
+            UsefulStuff.LoadImageUriIntoImageView("",songImage);
             return;
         }
-        Log.d("SongPlayer (fragment)", "Updating song information");
+        songTotalTime.setText(song.getLengthFormatted());
         songTitleView.setText(song.getTitle());
         songArtistView.setText(song.getArtist());
+        UsefulStuff.LoadImageUriIntoImageView(song.getImageUriLink(),songImage);
 
         updateLikedBtn();
 
@@ -90,30 +95,38 @@ public class SongPlayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_play, container, false);
+        // ----- Get the views and assign them to the respective variables -----
+        // Song information-----
         songTitleView = view.findViewById(R.id.songPlayTitle);
         songArtistView = view.findViewById(R.id.songPlayArtist);
-
-
-        // song liked button
+        songImage = view.findViewById(R.id.songImage);
+        songCurrentTime = view.findViewById(R.id.songTimeCurrent);
+        songTotalTime = view.findViewById(R.id.songTimeTotal);
+        // Playback and other controls-----
         likedBtn = view.findViewById(R.id.likeSongBtn);
+        skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
+        prevBtn = view.findViewById(R.id.songPlay_PrevBtn);
+
+        // Playback controls-----
+        // song liked button
+        // disable save state cuz it caused alot of problems
         likedBtn.setSaveEnabled(false);
         likedBtn.setOnClickListener((v) -> {
             onSongLikeBtnClicked();
+        });
+
+        skipBtn.setOnClickListener(v -> {
+            SongPlayer.PlayNext();
+        });
+
+        prevBtn.setOnClickListener(v -> {
+            SongPlayer.PlayPrev();
         });
 
         listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange, song -> {
             updatePlayStopBtn();
         });
 
-        skipBtn = view.findViewById(R.id.songPlay_SkipBtn);
-        skipBtn.setOnClickListener(v -> {
-            SongPlayer.PlayNext();
-        });
-
-        prevBtn = view.findViewById(R.id.songPlay_PrevBtn);
-        prevBtn.setOnClickListener(v -> {
-            SongPlayer.PlayPrev();
-        });
 
 
         int currentSong = SongPlayer.GetCurrentSong();
@@ -131,8 +144,6 @@ public class SongPlayFragment extends Fragment {
             }
         });
 
-        songCurrentTime = view.findViewById(R.id.songTimeCurrent);
-        songTotalTime = view.findViewById(R.id.songTimeTotal);
 
         // Song progress bar
         seekBar = view.findViewById(R.id.songPlaySeekBar);
@@ -171,8 +182,7 @@ public class SongPlayFragment extends Fragment {
                 if (songId > -1) {
                     if (songRegistry.contains(songId)) {
                         Song song = songRegistry.getItem(songId);
-                        // Set timestamp for total time
-                        songTotalTime.setText(song.getLengthFormatted());
+
                         // Set timestamp for current time
                         songCurrentTime.setText(UsefulStuff.formatMilliseconds(Math.round(song.getLength() * progress)));
                     } else {
