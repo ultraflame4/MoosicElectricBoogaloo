@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.adapters.viewholders;
+package com.ultraflame42.moosicelectricboogaloo.viewholders;
 
 import android.content.Context;
 import android.view.View;

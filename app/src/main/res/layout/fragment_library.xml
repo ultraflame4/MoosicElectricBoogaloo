@@ -75,7 +75,7 @@
 
                     <TextView
                         android:id="@+id/FavouritesTitle"
-                        style="@style/menuCatTitle"
+                        style="@style/section_title"
                         android:layout_width="132dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
@@ -103,7 +103,7 @@
 
                     <TextView
                         android:id="@+id/PlaylistsTitle"
-                        style="@style/menuCatTitle"
+                        style="@style/section_title"
                         android:layout_width="132dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -124,7 +124,7 @@
 
                     <TextView
                         android:id="@+id/SongsTitle"
-                        style="@style/menuCatTitle"
+                        style="@style/section_title"
                         android:layout_width="132dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"

@@ -2,8 +2,6 @@ package com.ultraflame42.moosicelectricboogaloo.adapters.SearchResults;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,25 +10,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.util.ArrayUtils;
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.PlaylistItemViewHolder;
-import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.SongListItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.viewholders.PlaylistItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.viewholders.SongListItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

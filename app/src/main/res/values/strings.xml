@@ -44,5 +44,7 @@
     <string name="lib_add_dialog_add_song_btn">Add Song</string>
     <string name="SettingsMenuTitle">Settings</string>
     <string name="accountSettingsTitle">Account</string>
+    <string name="SearchMenuTitle">Search</string>
+    <string name="search_menu_search_hint">Search artists, songs, playlists</string>
 
 </resources>

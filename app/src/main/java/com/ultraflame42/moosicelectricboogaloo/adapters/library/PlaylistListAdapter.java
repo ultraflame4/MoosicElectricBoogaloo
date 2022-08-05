@@ -10,14 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
-import com.ultraflame42.moosicelectricboogaloo.adapters.viewholders.PlaylistItemViewHolder;
+import com.ultraflame42.moosicelectricboogaloo.viewholders.PlaylistItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
-import com.ultraflame42.moosicelectricboogaloo.tools.events.EventCallbackListener;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventFunctionCallback;
 import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryItem;
-import com.ultraflame42.moosicelectricboogaloo.tools.registry.RegistryUpdateData;
 
 public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHolder> {
     Context ctx;

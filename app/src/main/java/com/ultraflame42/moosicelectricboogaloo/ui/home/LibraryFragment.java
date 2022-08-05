@@ -93,6 +93,7 @@ public class LibraryFragment extends Fragment {
             openPlaylist(playlistIndex);
         });
         RecyclerView favGridView = view.findViewById(R.id.FavouritesGrid);
+        // Add spacing for items using item decoration
         favGridView.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
         favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favGridView.setAdapter(favouritesGridAdapter);

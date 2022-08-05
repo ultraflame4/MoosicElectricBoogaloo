@@ -1,4 +1,4 @@
-package com.ultraflame42.moosicelectricboogaloo.adapters.viewholders;
+package com.ultraflame42.moosicelectricboogaloo.viewholders;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
-import com.squareup.picasso.Picasso;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
