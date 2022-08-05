@@ -42,9 +42,7 @@ public class AccountManager {
                 // debug
                 Log.i("AccountManager", "Logging out ...");
                 // sign out from fire base if previous status was not guest
-                if (AccountManager.authStatus != LoginStatus.GUEST) {
-                    firebaseAuth.signOut();
-                }
+
                 // push out logged out event
                 LoggedOutEvent.pushEvent(null);
                 break;
@@ -76,6 +74,13 @@ public class AccountManager {
      * Has string parameter to show error message to user
      */
     public static CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>();
+
+    public static void SignOut() {
+        if (AccountManager.authStatus != LoginStatus.GUEST) {
+            firebaseAuth.signOut();
+        }
+        setAuthStatus(LoginStatus.NOT_LOGGED_IN);
+    }
 
     /**
      * Initiates sign in with firebase using email and password
@@ -113,6 +118,23 @@ public class AccountManager {
                         setAuthStatus(LoginStatus.NOT_LOGGED_IN);
                     }
                 });
+    }
+
+    public static void DeleteAccount() {
+        if (authStatus == LoginStatus.LOGGED_IN) {
+            firebaseAuth.getCurrentUser().delete().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d("AccountManager", "User account deleted.");
+                    setAuthStatus(LoginStatus.NOT_LOGGED_IN);
+                } else {
+                    Log.w("AccountManager", "User account delete failed.", task.getException());
+                }
+            });
+
+        }
+        else{
+            Log.w("AccountManager", "Attempted to delete account when not logged in or in guest mode");
+        }
     }
 
 }

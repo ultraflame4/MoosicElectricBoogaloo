@@ -18,6 +18,8 @@ import com.ultraflame42.moosicelectricboogaloo.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class UsefulStuff {
@@ -69,6 +71,15 @@ public class UsefulStuff {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
         return minutes + " : " + seconds;
+    }
+
+    /**
+     * Converts epoch ms into date string
+     * @param millisecondsSinceEpoch
+     * @return
+     */
+    public static String formatEpochToDate(long millisecondsSinceEpoch) {
+        return new SimpleDateFormat("dd/MM/yyyy").format(new Date(millisecondsSinceEpoch));
     }
 
     public static void setMediaPlayerDataSource(MediaPlayer mediaPlayer, String source, Context context) throws IOException {
