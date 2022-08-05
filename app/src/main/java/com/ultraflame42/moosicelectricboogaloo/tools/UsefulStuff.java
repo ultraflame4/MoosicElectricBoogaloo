@@ -13,6 +13,9 @@ import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.squareup.picasso.Picasso;
+import com.ultraflame42.moosicelectricboogaloo.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -102,5 +105,17 @@ public class UsefulStuff {
             }
         }
         return result;
+    }
+
+    /**
+     * Using picaasso , loads an image from a uri string (local files, urls) into an image view
+     * @param uriLink uri of the image in string
+     * @param imageView image view to load the image into
+     */
+    public static void LoadImageUriIntoImageView(String uriLink, android.widget.ImageView imageView) {
+        if (uriLink.isEmpty()) {
+            uriLink = "EMPTY"; // if the uri is empty, set to fake link so that picasso errors out and uses the placeholder/error image
+        }
+        Picasso.get().load(uriLink).error(R.drawable.ic_default_background).into(imageView);
     }
 }

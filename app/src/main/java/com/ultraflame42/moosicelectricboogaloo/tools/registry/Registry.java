@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Registry<D> {
     protected HashMap<Integer,RegistryItem<D>> items = new HashMap<>();
-    protected int idCounter = 0; // todo load from storage
+    protected int idCounter = 0;
 
     /**
      * This event is fired when an item is added to the registry

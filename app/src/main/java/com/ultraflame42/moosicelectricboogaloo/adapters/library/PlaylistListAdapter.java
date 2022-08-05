@@ -65,7 +65,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistItemViewHo
 
 
     public void onItemClick(View view, int position) {
-        // TODO:IMPORTANT NOTE THIS SHOULD NOT PLAY THE PLAYLIST, BUT  OPEN THE PREVIEW PAGE FOR THE PLAYLIST
+        // Opens the playlist page for the clicked playlist
         RegistryItem<SongPlaylist> playlist = playlists[position];
         OnPlaylistClickedCallback.call(playlist.id);
 

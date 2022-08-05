@@ -8,8 +8,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.songs.Song;
+import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 public class SongListItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,7 +37,8 @@ public class SongListItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setSong(Song song, Context ctx){
-//        songImg.setImage(song.getImage) todo: set image
+//        songImg.setImage(song.getImage)
+        UsefulStuff.LoadImageUriIntoImageView(song.getImageUriLink(), songImg);
         songName.setText(song.getTitle());
         songArtist.setText(song.getArtist());
         songCount.setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());

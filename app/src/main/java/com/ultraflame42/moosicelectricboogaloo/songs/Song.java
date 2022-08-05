@@ -13,11 +13,11 @@ public class Song{
     private String title;
     private String artist;
     private String album;
-    private String fileLink; //todo change to id registry system for fileLink.
+    private String fileLink;
     private String imageUriLink; //either link or local internal file path.
 
     private boolean playable=false; // if false, link is broken and song is not playable
-    //todo implement picasso for image loading
+
 
     /**
      * Constructor for a song.
