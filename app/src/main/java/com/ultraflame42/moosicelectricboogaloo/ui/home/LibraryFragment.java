@@ -52,6 +52,7 @@ public class LibraryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         playlistRegistry = PlaylistRegistry.getInstance();
         songRegistry = SongRegistry.getInstance();
+        // create activity launcher for search activity
         SearchActivityIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             // on results from search activity...
             Intent data = result.getData();

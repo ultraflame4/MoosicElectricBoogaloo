@@ -38,13 +38,13 @@
     <string name="skip_btn_text">Skip</string>
     <string name="playlist_add_song_txt">Add song to playlist</string>
     <string name="playlist_more_options_txt">More options</string>
-    <string name="library_search_hint">Search in the library</string>
+    <string name="search_activity_inputhint">Search artists, songs, playlists</string>
     <string name="library_add_item_dialog_txt">Library Add Item</string>
     <string name="lib_add_dialog_create_playlist_btn">Create Playlist</string>
     <string name="lib_add_dialog_add_song_btn">Add Song</string>
     <string name="SettingsMenuTitle">Settings</string>
     <string name="accountSettingsTitle">Account</string>
     <string name="SearchMenuTitle">Search</string>
-    <string name="search_menu_search_hint">Search artists, songs, playlists</string>
+
 
 </resources>

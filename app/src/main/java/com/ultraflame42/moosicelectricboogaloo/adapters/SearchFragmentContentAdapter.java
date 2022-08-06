@@ -74,7 +74,8 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
         if (holder instanceof SearchMenuGridItemViewHolder) {
             // Bind search menu grid item
             SearchMenuGridItemViewHolder searchMenuGridItemViewHolder = (SearchMenuGridItemViewHolder) holder;
-
+            // set b ackground to color a first.
+            searchMenuGridItemViewHolder.getBgImage().setImageResource(R.drawable.color_a_bg);
             if ((position > 0) && (position <= SearchTool.MAX_RECENT_SEARCHES + 1)) {
                 // if position is in range 1-recentSearches.length. is recent searches.
                 if (recentItemCounter < recentSearches.length - 1) {
@@ -83,20 +84,22 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
                         SearchTool.getInstance().handleOnSearchItemSelected(recentSearches[recentItemCounter], context);
                     });
                 } else {
-                    searchMenuGridItemViewHolder.getText().setText("Empty");
+                    searchMenuGridItemViewHolder.getText().setText("n/a");
                 }
-                searchMenuGridItemViewHolder.getBgImage().setImageResource(R.drawable.color_a_bg);
+
                 recentItemCounter++;
 
             } else if (recommendedItemCounter <= recommendedSongs.size() - 1) {
                 // if position is in range, then get recommended songs
                 SearchNameItem searchNameItem = recommendedSongs.get(recommendedItemCounter);
                 searchMenuGridItemViewHolder.getText().setText(searchNameItem.name);
-                searchMenuGridItemViewHolder.getBgImage().setImageResource(R.drawable.color_a_bg);
                 searchMenuGridItemViewHolder.getCardView().setOnClickListener(view -> {
                     SearchTool.getInstance().handleOnSearchItemSelected(searchNameItem, context);
                 });
                 recommendedItemCounter++;
+            }
+            else {
+                searchMenuGridItemViewHolder.getText().setText("n/a");
             }
 
 
