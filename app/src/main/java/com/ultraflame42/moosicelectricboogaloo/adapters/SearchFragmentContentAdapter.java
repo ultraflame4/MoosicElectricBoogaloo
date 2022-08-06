@@ -25,13 +25,11 @@ import java.util.List;
 public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private HashMap<Integer, String> sectionHeaders;
-    private SearchNameItem[] recentSearches;
     private List<SearchNameItem> recommendedSongs;
 
-    public SearchFragmentContentAdapter(Context context, HashMap<Integer, String> sectionHeaderPositions, SearchNameItem[] recentSearches) {
+    public SearchFragmentContentAdapter(Context context, HashMap<Integer, String> sectionHeaderPositions) {
         this.context = context;
         this.sectionHeaders = sectionHeaderPositions;
-        this.recentSearches = recentSearches;
         // generate recommened  songs
 
         // get all searchnames
@@ -78,7 +76,10 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
             searchMenuGridItemViewHolder.getBgImage().setImageResource(R.drawable.color_a_bg);
             if ((position > 0) && (position <= SearchTool.MAX_RECENT_SEARCHES + 1)) {
                 // if position is in range 1-recentSearches.length. is recent searches.
-                if (recentItemCounter < recentSearches.length - 1) {
+                SearchNameItem[] recentSearches = SearchTool.getInstance().getRecentSearches();
+                Log.d("SearchFragmentContentAdapter", "Getting recent items " + recentSearches.length);
+                if (recentItemCounter <= recentSearches.length - 1) {
+
                     searchMenuGridItemViewHolder.getText().setText(recentSearches[recentItemCounter].name);
                     searchMenuGridItemViewHolder.getCardView().setOnClickListener(view -> {
                         SearchTool.getInstance().handleOnSearchItemSelected(recentSearches[recentItemCounter], context);

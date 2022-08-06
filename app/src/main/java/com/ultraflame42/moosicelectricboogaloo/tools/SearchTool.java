@@ -11,6 +11,7 @@ import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.PlaylistActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,16 +33,9 @@ public class SearchTool {
     }
 
     public SearchNameItem[] getRecentSearches() {
-        ArrayList<SearchNameItem> recent = new ArrayList<>();
-        for (int i = 0; i < MAX_RECENT_SEARCHES; i++) {
-            int index = _recentSearches.size() - i;
-            // if index does not exist in _recentSearches, break
-            if (index >= _recentSearches.size() - 1) {
-                break;
-            }
-            recent.add(_recentSearches.get(index));
-        }
-        return recent.toArray(new SearchNameItem[0]);
+        ArrayList<SearchNameItem> copy = new ArrayList<SearchNameItem>(_recentSearches);
+        Collections.reverse(copy);
+        return copy.toArray(new SearchNameItem[0]);
     }
 
 
@@ -74,5 +68,11 @@ public class SearchTool {
         names.removeIf(e->!seen.add(e.getUniqueFilterTargetString()));
     }
 
+    public void addToRecentSearch(SearchNameItem item) {
+        if (_recentSearches.size() >= MAX_RECENT_SEARCHES+1) {
+            _recentSearches.remove(0);
+        }
 
+        _recentSearches.add(item);
+    }
 }

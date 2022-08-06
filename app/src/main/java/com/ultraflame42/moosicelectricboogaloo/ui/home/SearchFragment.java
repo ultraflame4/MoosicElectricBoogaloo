@@ -36,6 +36,8 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
 
+    private SearchFragmentContentAdapter adapter;
+
     public SearchFragment() {
 
     }
@@ -54,7 +56,7 @@ public class SearchFragment extends Fragment {
             int itemType = data.getIntExtra("itemType", -1);
             int itemId = data.getIntExtra("itemId", -1);
             SearchTool.getInstance().handleOnSearchItemSelected(itemType, itemId, getContext());
-
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -72,11 +74,12 @@ public class SearchFragment extends Fragment {
         // positions where the sectionHeaders are placed
         // value is title of sections
         HashMap<Integer, String> sectionHeaders = new HashMap<>();
-        SearchNameItem[] recentSearches = SearchTool.getInstance().getRecentSearches();
+
         sectionHeaders.put(0, "Recent Searches");
         sectionHeaders.put(SearchTool.MAX_RECENT_SEARCHES+1, "Recommended");
 //        sectionHeaders.put(10, "Genre"); feature removed due to time constrain :(
 
+        adapter = new SearchFragmentContentAdapter(getContext(), sectionHeaders);
         EditText searchQueryInput = view.findViewById(R.id.searchQueryInput);
         // was supposed to filter the content recycler list but due to time constrain we will jst use the search activity
         searchQueryInput.setFocusable(false);
@@ -102,7 +105,7 @@ public class SearchFragment extends Fragment {
 
         content.setLayoutManager(layoutManager);
         content.addItemDecoration(new GridSpacingItemDecoration( 16, layoutManager));
-        content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaders,recentSearches));
+        content.setAdapter(adapter);
 
 
 

@@ -116,6 +116,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             viewHolder.setSong(song.item,activity);
             viewHolder.getCardView().setOnClickListener(v -> {
+                SearchTool.getInstance().addToRecentSearch(searchResults[position]);
                 OnResultItemClicked.call(searchResults[position]);
             });
 
@@ -125,6 +126,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             playlistItemViewHolder.setPlaylist(playlist.item, activity);
             playlistItemViewHolder.getCardView().setOnClickListener(v -> {
+                SearchTool.getInstance().addToRecentSearch(searchResults[position]);
                 OnResultItemClicked.call(searchResults[position]);
             });
         }
