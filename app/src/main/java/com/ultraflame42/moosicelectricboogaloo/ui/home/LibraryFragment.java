@@ -22,10 +22,9 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.library.FavouritesGridAd
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.PlaylistListAdapter;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.SongsListAdapter;
-import com.ultraflame42.moosicelectricboogaloo.search.ResultItemType;
 import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
-import com.ultraflame42.moosicelectricboogaloo.songs.SongPlayer;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
+import com.ultraflame42.moosicelectricboogaloo.tools.SearchTool;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.EventListenerGroup;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.SearchActivity;
 import com.ultraflame42.moosicelectricboogaloo.ui.others.PlaylistActivity;
@@ -54,25 +53,15 @@ public class LibraryFragment extends Fragment {
         playlistRegistry = PlaylistRegistry.getInstance();
         songRegistry = SongRegistry.getInstance();
         SearchActivityIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            // on results from search activity...
             Intent data = result.getData();
             if (data == null) {
                 Log.w("LibraryFragment", "Search Activity did not return data");
                 return;
             }
-
             int itemType = data.getIntExtra("itemType", -1);
             int itemId = data.getIntExtra("itemId", -1);
-            if (itemType < 0 || itemId < 0) {
-                Log.w("LibraryFragment", "WARNING Search activity returned invalid data");
-                return;
-            }
-
-            if (itemType == ResultItemType.SONG.ordinal()) {
-                SongPlayer.PlaySong(itemId);
-            } else if (itemType == ResultItemType.PLAYLIST.ordinal()) {
-                // playlist
-                openPlaylist(itemId);
-            }
+            SearchTool.getInstance().handleOnSearchItemSelected(itemType, itemId, getContext());
 
         });
 

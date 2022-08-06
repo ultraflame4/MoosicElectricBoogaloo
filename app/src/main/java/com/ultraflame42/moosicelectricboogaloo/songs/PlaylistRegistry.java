@@ -40,9 +40,10 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
 
     /**
      * Constructor for playlist registry. For prefilled values loaded from storage
+     *
      * @param favourites HashSet of favourites playlists
-     * @param playlists HashMap of playlists
-     * @param idCounter idCounter to start from.
+     * @param playlists  HashMap of playlists
+     * @param idCounter  idCounter to start from.
      */
     public PlaylistRegistry(HashSet<Double> favourites, HashMap<Integer, SongPlaylist> playlists, int idCounter) {
         favourites.forEach(aDouble -> {
@@ -58,10 +59,10 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
             this.items.put(id, regItem);
         });
 
-        this.idCounter=idCounter;
+        this.idCounter = idCounter;
 
         // check if there is a liked song playlist. if there isnt, create one
-        if (!items.containsKey(LikedSongsPlaylistID)){
+        if (!items.containsKey(LikedSongsPlaylistID)) {
             Log.d("PlaylistRegistry", "Liked songs playlist does not exist. Creating one...");
             SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
             pl.isSystem = true;
@@ -82,6 +83,7 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
 
     /**
      * Returns a list of SearchNameItems for use in the SearchResultsAdapter
+     *
      * @return
      */
     public List<SearchNameItem> getSearchNames() {
@@ -99,13 +101,14 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
             }
         }
         // return cache. invalid cache would have been caught and regenerated above.
-        return searchNamesCache;
+        return new ArrayList<>(searchNamesCache);
     }
 
     /**
      * Remove a playlist from the registry
-     *
+     * <p>
      * Note: playlist with attribute isSystem = true will not be removed because it is a system playlist created by the app
+     *
      * @param itemId
      */
     @Override
@@ -125,18 +128,21 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
         // clone it so we don't modify the original
         return (HashSet<Integer>) favourites.clone();
     }
+
     // Add playlist to favourites
     public void addToFavourites(int playlistId) {
         favourites.add(playlistId);
         // push favourite update event
         OnFavouritesUpdate.pushEvent(null);
     }
+
     // Remove playlist from favourites
     public void removeFromFavourites(int playlistId) {
         favourites.remove(playlistId);
         // push favourite update event
         OnFavouritesUpdate.pushEvent(null);
     }
+
     // Check if playlist is in favourites
     public boolean favouritesHas(int playlistId) {
         return favourites.contains(playlistId);

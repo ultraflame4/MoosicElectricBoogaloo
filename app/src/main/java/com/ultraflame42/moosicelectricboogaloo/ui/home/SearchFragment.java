@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.SearchFragmentContentAdapter;
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
+import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.tools.SearchTool;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,8 +54,9 @@ public class SearchFragment extends Fragment {
         // positions where the sectionHeaders are placed
         // value is title of sections
         HashMap<Integer, String> sectionHeaders = new HashMap<>();
+        SearchNameItem[] recentSearches = SearchTool.getInstance().getRecentSearches();
         sectionHeaders.put(0, "Recent Searches");
-        sectionHeaders.put(5, "Recommended");
+        sectionHeaders.put(SearchTool.MAX_RECENT_SEARCHES+1, "Recommended");
 //        sectionHeaders.put(10, "Genre"); feature removed due to time constrain
 
         // layout manager for recycler view
@@ -71,7 +74,7 @@ public class SearchFragment extends Fragment {
 
         content.setLayoutManager(layoutManager);
         content.addItemDecoration(new GridSpacingItemDecoration( 16, layoutManager));
-        content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaders));
+        content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaders,recentSearches));
 
 
 

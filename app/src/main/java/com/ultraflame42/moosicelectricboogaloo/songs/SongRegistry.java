@@ -54,6 +54,10 @@ public class SongRegistry extends Registry<Song> {
     // Cache search names for faster lookup
     private List<SearchNameItem> searchNamesCache = new ArrayList<>();
 
+    /**
+     * Returns a new list of searchable names for the songs in the registry.
+     * @return
+     */
     public List<SearchNameItem> getSearchNames() {
         int totalSize = count() * 2;
         // Invalidate cache if size changed
@@ -67,7 +71,7 @@ public class SongRegistry extends Registry<Song> {
 
             }
         }
-        return searchNamesCache;
+        return new ArrayList<>(searchNamesCache);
     }
 
     public RegistryItem<SongPlaylist> getLikedSongs() {

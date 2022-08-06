@@ -15,11 +15,14 @@ import androidx.fragment.app.DialogFragment;
 
 import com.squareup.picasso.Picasso;
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
+import com.ultraflame42.moosicelectricboogaloo.songs.PlaylistRegistry;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class UsefulStuff {
@@ -75,6 +78,7 @@ public class UsefulStuff {
 
     /**
      * Converts epoch ms into date string
+     *
      * @param millisecondsSinceEpoch
      * @return
      */
@@ -89,8 +93,9 @@ public class UsefulStuff {
 
     /**
      * Get file name from a valid uri.
-     *
+     * <p>
      * modified from : https://stackoverflow.com/questions/5568874/how-to-extract-the-file-name-from-uri-returned-from-intent-action-get-content/25005243#25005243
+     *
      * @param ctx context
      * @param uri uri of the file
      * @return
@@ -120,7 +125,8 @@ public class UsefulStuff {
 
     /**
      * Using picaasso , loads an image from a uri string (local files, urls) into an image view
-     * @param uriLink uri of the image in string
+     *
+     * @param uriLink   uri of the image in string
      * @param imageView image view to load the image into
      */
     public static void LoadImageUriIntoImageView(String uriLink, android.widget.ImageView imageView) {
@@ -128,5 +134,16 @@ public class UsefulStuff {
             uriLink = "EMPTY"; // if the uri is empty, set to fake link so that picasso errors out and uses the placeholder/error image
         }
         Picasso.get().load(uriLink).error(R.drawable.ic_default_background).into(imageView);
+    }
+
+    /**
+     * Returns a list of all search name. This includes songs and playlists
+     *
+     * @return
+     */
+    public static List<SearchNameItem> getAllSearchNames() {
+        List<SearchNameItem> list = SongRegistry.getInstance().getSearchNames();
+        list.addAll(PlaylistRegistry.getInstance().getSearchNames());
+        return list;
     }
 }

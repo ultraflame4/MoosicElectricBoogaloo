@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
+import com.ultraflame42.moosicelectricboogaloo.tools.SearchTool;
 import com.ultraflame42.moosicelectricboogaloo.viewholders.PlaylistItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.viewholders.SongListItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.search.SearchNameItem;
@@ -70,8 +71,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .collect(Collectors.toList());
 
             // Filter duplicate results. (Results that point to same target)
-            HashSet<String> seen=new HashSet<>();
-            results.removeIf(e->!seen.add(e.getUniqueFilterTargetString()));
+            SearchTool.getInstance().RemoveDuplicateSearchNames(results);
             // return results that matches query
             return results.toArray(new SearchNameItem[0]);
         }
@@ -81,6 +81,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             OnSearchResults(searchNameItems);
         }
     }
+
 
     SearchTask previousTask = null;
     public void updateQuery(String query) {
