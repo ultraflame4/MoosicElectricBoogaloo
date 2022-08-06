@@ -18,6 +18,7 @@ import com.ultraflame42.moosicelectricboogaloo.adapters.SearchFragmentContentAda
 import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,7 +50,11 @@ public class SearchFragment extends Fragment {
 
         RecyclerView content = view.findViewById(R.id.content);
         // positions where the sectionHeaders are placed
-        List<Integer> sectionHeaderPositions = Arrays.asList(new Integer[]{0, 5, 10});
+        // value is title of sections
+        HashMap<Integer, String> sectionHeaders = new HashMap<>();
+        sectionHeaders.put(0, "Recent Searches");
+        sectionHeaders.put(5, "Recommended");
+//        sectionHeaders.put(10, "Genre"); feature removed due to time constrain
 
         // layout manager for recycler view
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -57,7 +62,7 @@ public class SearchFragment extends Fragment {
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (sectionHeaderPositions.contains(position)) {
+                if (sectionHeaders.containsKey(position)) {
                     return 2;
                 }
                 return 1;
@@ -66,7 +71,7 @@ public class SearchFragment extends Fragment {
 
         content.setLayoutManager(layoutManager);
         content.addItemDecoration(new GridSpacingItemDecoration( 16, layoutManager));
-        content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaderPositions));
+        content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaders));
 
 
 

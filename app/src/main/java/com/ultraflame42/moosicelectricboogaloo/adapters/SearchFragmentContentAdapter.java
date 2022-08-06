@@ -12,20 +12,21 @@ import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.viewholders.SearchMenuGridItemViewHolder;
 import com.ultraflame42.moosicelectricboogaloo.viewholders.SectionTitleViewHolder;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<Integer> sectionHeaderPositions;
+    private HashMap<Integer,String> sectionHeaders;
 
-    public SearchFragmentContentAdapter(Context context, List<Integer> sectionHeaderPositions) {
+    public SearchFragmentContentAdapter(Context context, HashMap<Integer,String> sectionHeaderPositions) {
         this.context = context;
-        this.sectionHeaderPositions = sectionHeaderPositions;
+        this.sectionHeaders = sectionHeaderPositions;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (sectionHeaderPositions.contains(position)) {
+        if (sectionHeaders.containsKey(position)) {
             return 1;
         } else {
             return 0;
@@ -55,7 +56,7 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
         } else if (holder instanceof SectionTitleViewHolder) {
             // Bind section title
             SectionTitleViewHolder sectionTitleViewHolder = (SectionTitleViewHolder) holder;
-            sectionTitleViewHolder.setTitle("Section Title #" +position);
+            sectionTitleViewHolder.setTitle(sectionHeaders.get(position));
         }
     }
 
