@@ -33,18 +33,24 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
      */
     public int getSpanCountFromPosition(int position) {
         int spanCounter = 0;
+        // loop through all previous positions
         for (int i = 0; i < position+1; i++) {
+            // add their span to the span counter. 1 span = 1 cell. so in the end we get total number of cells used before + by the current item
             spanCounter += layoutManager.getSpanSizeLookup().getSpanSize(i);
         }
+        // return it
         return spanCounter;
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        // get current item position
         int position = parent.getChildAdapterPosition(view); // item position
-        int colPos = getSpanCountFromPosition(position) % spanCount + 1;
-        Log.d("ITEM DECO", "Position " + position + " Cell" + getSpanCountFromPosition(position) + " Col" + colPos);
-        if (colPos == spanCount) {
+        // calculate the column position.
+        int colPos = getSpanCountFromPosition(position) % spanCount;
+        // check if column the item is in is the rightest most column.
+        if (colPos == spanCount-1) { // minus 1 because column position starts from 0
+            // if not rightest most, add right spacing
             outRect.right = spacing;
         }
 
