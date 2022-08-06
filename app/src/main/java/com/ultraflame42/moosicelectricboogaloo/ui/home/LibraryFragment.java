@@ -94,8 +94,9 @@ public class LibraryFragment extends Fragment {
         });
         RecyclerView favGridView = view.findViewById(R.id.FavouritesGrid);
         // Add spacing for items using item decoration
-        favGridView.addItemDecoration(new GridSpacingItemDecoration(2, 16, false));
-        favGridView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        GridLayoutManager layout = new GridLayoutManager(getContext(), 2);
+        favGridView.setLayoutManager(layout);
+        favGridView.addItemDecoration(new GridSpacingItemDecoration( 16, layout));
         favGridView.setAdapter(favouritesGridAdapter);
         listenerGroup.subscribe(playlistRegistry.OnFavouritesUpdate, data -> {
             favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));

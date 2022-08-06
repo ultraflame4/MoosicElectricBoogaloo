@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.adapters.SearchFragmentContentAdapter;
+import com.ultraflame42.moosicelectricboogaloo.adapters.library.GridSpacingItemDecoration;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class SearchFragment extends Fragment {
         });
 
         content.setLayoutManager(layoutManager);
+        content.addItemDecoration(new GridSpacingItemDecoration( 16, layoutManager));
         content.setAdapter(new SearchFragmentContentAdapter(getContext(), sectionHeaderPositions));
 
 
