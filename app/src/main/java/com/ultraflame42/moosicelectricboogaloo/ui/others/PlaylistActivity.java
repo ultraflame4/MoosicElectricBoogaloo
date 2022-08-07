@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -37,6 +38,7 @@ public class PlaylistActivity extends AppCompatActivity {
     private TextView playlistCreator;
 
     PlaylistRegistry playlistRegistry;
+    private ImageView playlistCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +61,12 @@ public class PlaylistActivity extends AppCompatActivity {
 
         playlistTitle = findViewById(R.id.playlistTitle);
         playlistCreator = findViewById(R.id.playlistCreator);
+        playlistCover = findViewById(R.id.playlistCover);
 
         playlistTitle.setText(playlist.getTitle());
         playlistCreator.setText(playlist.getCreator());
 
-        //todo do image part for playlist
+        playlist.loadCoverIntoImageView(playlistCover);
 
         favBtn = findViewById(R.id.favouriteBtn);
         updateFavButton();

@@ -1,5 +1,9 @@
 package com.ultraflame42.moosicelectricboogaloo.songs;
 
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 import java.util.ArrayList;
@@ -109,4 +113,20 @@ public class SongPlaylist {
         return formattedLength;
     }
 
+    /**
+     * Loads the playlist cover/image into the specified image view.
+     * @param imageView
+     */
+    public void loadCoverIntoImageView(ImageView imageView) {
+        if (songs.size() > 0) {
+            Picasso.get().load(SongRegistry.getInstance().get(songs.get(0)).item.getImageUriLink())
+                    // on error use default image
+                    .error(R.drawable.color_a_bg)
+                    .into(imageView);
+        }
+        else{
+            Picasso.get().load(R.drawable.color_a_bg)
+                    .into(imageView);
+        }
+    }
 }

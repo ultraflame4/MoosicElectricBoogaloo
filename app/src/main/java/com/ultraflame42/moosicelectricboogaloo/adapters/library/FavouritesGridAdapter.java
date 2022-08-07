@@ -1,11 +1,9 @@
 package com.ultraflame42.moosicelectricboogaloo.adapters.library;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,21 +27,21 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imgBtn;
+        private final ImageView imgView;
         private final TextView titleText;
         private final CardView cardView;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-            imgBtn = view.findViewById(R.id.favItemImageBtn);
+            imgView = view.findViewById(R.id.favItemImageBtn);
             titleText = view.findViewById(R.id.favItemText);
             cardView = view.findViewById(R.id.cardView);
 
         }
 
-        public ImageView getImgBtn() {
-            return imgBtn;
+        public ImageView getImgView() {
+            return imgView;
         }
 
         public TextView getTitleText() {
@@ -78,7 +76,7 @@ public class FavouritesGridAdapter extends RecyclerView.Adapter<FavouritesGridAd
     public void onBindViewHolder(@NonNull FavouritesGridAdapter.ViewHolder holder, int position) {
         int playlistIndex = favourites[position];
         SongPlaylist playlist = PlaylistRegistry.getInstance().getItem(playlistIndex);
-        // todo do for image also
+        playlist.loadCoverIntoImageView(holder.getImgView());
         holder.getTitleText().setText(playlist.getTitle());
         holder.getCardView().setOnClickListener(view -> {
 

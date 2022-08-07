@@ -8,8 +8,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.squareup.picasso.Picasso;
 import com.ultraflame42.moosicelectricboogaloo.R;
 import com.ultraflame42.moosicelectricboogaloo.songs.SongPlaylist;
+import com.ultraflame42.moosicelectricboogaloo.songs.SongRegistry;
 
 public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
     private final ShapeableImageView playlistImg;
@@ -37,7 +39,7 @@ public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setPlaylist(SongPlaylist playlist, Context ctx) {
-        //todo set playlist image also
+        playlist.loadCoverIntoImageView(playlistImg);
         playlistName.setText(playlist.getTitle());
         playlistCreator.setText(playlist.getCreator());
         playlistSongCount.setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());

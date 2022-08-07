@@ -133,7 +133,7 @@ public class UsefulStuff {
         if (uriLink.isEmpty()) {
             uriLink = "EMPTY"; // if the uri is empty, set to fake link so that picasso errors out and uses the placeholder/error image
         }
-        Picasso.get().load(uriLink).error(R.drawable.ic_default_background).into(imageView);
+        Picasso.get().load(uriLink).error(R.drawable.color_a_bg).into(imageView);
     }
 
     /**
