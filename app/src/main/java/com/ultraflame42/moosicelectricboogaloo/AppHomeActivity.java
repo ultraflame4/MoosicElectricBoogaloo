@@ -70,17 +70,46 @@ public class AppHomeActivity extends AppCompatActivity {
         if (songRegistry.getAllItems().length < 1) {
             // if song registry is empty, load a default songs
             songRegistry.add(
-                    new Song("abcdefu", "GAYLE", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965",
-                            "https://i.scdn.co/image/ab67616d00001e022842f743ebd32235bceb43d3")
+                    new Song(
+                            "Singapore Examinations Listening Comprehension (2016 onwards)",
+                            "SEAB",
+                            "https://audio.jukehost.co.uk/LYmVQyUlmaUsyDExITZRefbZZRaFpkrM",
+                            ""
+                    )
             );
             songRegistry.add(
-                    // song with absurdly long title
-                    new Song("abcdefuA-", "GAYLEA", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965", "")
+                    new Song(
+                            "DADDY! DADDY! DO!",
+                            "Masayuki Suzuki",
+                            "https://audio.jukehost.co.uk/tzpYpTO7nqcwgzauuyfoeAKyHfchQtgb",
+                            "https://iili.io/UcUCXf.png"
+                    )
             );
             songRegistry.add(
+                    new Song(
+                            "my name is...",
+                            "lullaboy",
+                            "https://audio.jukehost.co.uk/34UKZDAZuq01TcyDlOkoSGm4Jx28aIj6",
+                            "https://iili.io/UciV7p.th.png"
+                    )
+            );
 
-                    new Song("abcdefuB" +
-                            "", "GAYLEB", "https://p.scdn.co/mp3-preview/83c53804d9a84bee1cca941679370f0541dd4ca2?cid=2afe87a64b0042dabf51f37318616965", "")
+            songRegistry.add(
+                    new Song(
+                            "GIRI GIRI",
+                            "Masayuki Suzuki",
+                            "https://audio.jukehost.co.uk/cLeZolv6EnPeT1rfo4Yk6PLryISB5TTJ",
+                            "https://iili.io/Ucm8ej.md.png"
+                    )
+            );
+
+            songRegistry.add(
+                    new Song(
+                            "Numb Little Bug",
+                            "Emi Beihold",
+                            "https://audio.jukehost.co.uk/34UKZDAZuq01TcyDlOkoSGm4Jx28aIj6",
+                            "https://iili.io/Ul5k37.png"
+                    )
             );
 
         }
