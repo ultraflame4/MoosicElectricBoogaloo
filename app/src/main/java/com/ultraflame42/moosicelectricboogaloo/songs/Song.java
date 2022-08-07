@@ -89,6 +89,10 @@ public class Song{
     }
 
     public String getImageUriLink() {
+        if (imageUriLink.isEmpty()) {
+            // safe guard so that the link always fails
+            return "https://please-dont-use-this-link-it-is-broken";
+        }
         return imageUriLink;
     }
 }
