@@ -89,7 +89,7 @@ public class AppHomeActivity extends AppCompatActivity {
                     new Song(
                             "my name is...",
                             "lullaboy",
-                            "https://audio.jukehost.co.uk/34UKZDAZuq01TcyDlOkoSGm4Jx28aIj6",
+                            "https://audio.jukeh    ost.co.uk/34UKZDAZuq01TcyDlOkoSGm4Jx28aIj6",
                             "https://iili.io/UciV7p.th.png"
                     )
             );
@@ -108,20 +108,15 @@ public class AppHomeActivity extends AppCompatActivity {
                             "Numb Little Bug",
                             "Emi Beihold",
                             "https://audio.jukehost.co.uk/34UKZDAZuq01TcyDlOkoSGm4Jx28aIj6",
-                            "https://iili.io/Ul5k37.png"
+                            "https://iili.io/Uldd5F.png"
                     )
             );
 
         }
 
-        if (playlistRegistry.getAllItems().length < 2) {
-//            Log.d("AppHomeActivity", "Creating default playlist");
-//            playlistRegistry.add(
-//                    new SongPlaylist("Debug 1", "Test 1", new Integer[]{0, 1, 2})
-//            );
-        }
-
+        // Initiate song player
         SongPlayer.init(this);
+        // Add listener for On song play error
         listenerGroup.subscribe(SongPlayer.OnSongPlayError, data -> {
             Toast.makeText(this, "SongPlayer: " + data, Toast.LENGTH_SHORT).show();
         });
@@ -138,6 +133,7 @@ public class AppHomeActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
+        // When the user press the android back btn
         AccountManager.AppHomeExitEvent.pushEvent(null);
     }
 
