@@ -1,6 +1,7 @@
 package com.ultraflame42.moosicelectricboogaloo.adapters.playlist;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     }
 
     public void updatePlaylistInfo(boolean supressUpdate) {
+        // Update playlist and songs information
+        Log.d("PlaylistActivity", "Updating playlist and song information");
         RegistryItem<SongPlaylist> playlist = PlaylistRegistry.getInstance().get(playlistId);
         playlistSongs = playlist.item.getSongs().toArray(new Integer[0]);
         if (!supressUpdate) {
@@ -39,9 +42,6 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
         }
     }
 
-    public void updatePlaylistInfo() {
-        updatePlaylistInfo(true);
-    }
 
     @NonNull
     @Override
@@ -52,8 +52,8 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
 
     @Override
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
-
-        Song song = SongRegistry.getInstance().get(position).item;
+        // Get the song index using position from the playlist. Then get the song from the registry
+        Song song = SongRegistry.getInstance().get(playlistSongs[position]).item;
         holder.setSong(song, ctx);
         holder.getCardView().setOnClickListener(view -> {
             onItemClick(position);

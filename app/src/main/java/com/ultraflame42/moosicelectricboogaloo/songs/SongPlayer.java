@@ -386,5 +386,14 @@ public class SongPlayer {
 
     public static void SetShuffle(boolean toShuffle) {
         SongPlayer.isShuffle = toShuffle;
+        if (toShuffle) {
+            Collections.shuffle(currentPlaylistShadow);
+            // check if current song is in current playlist to prevent crashes
+            if (currentPlaylistShadow.contains(currentSong)) {
+                // shift current song to first index
+                currentPlaylistShadow.remove(currentSong);
+                currentPlaylistShadow.add(0,currentSong);
+            }
+        }
     }
 }
