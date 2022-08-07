@@ -8,6 +8,7 @@ import com.ultraflame42.moosicelectricboogaloo.tools.UsefulStuff;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SongPlaylist {
@@ -76,7 +77,8 @@ public class SongPlaylist {
      * Returns the ids of all songs in this playlist.
      */
     public List<Integer> getSongs() {
-        return songs;
+        // return a copy of the list so that wtv changes does not affect the original list
+        return new ArrayList<>(songs);
     }
 
     public int getSongCount() {
