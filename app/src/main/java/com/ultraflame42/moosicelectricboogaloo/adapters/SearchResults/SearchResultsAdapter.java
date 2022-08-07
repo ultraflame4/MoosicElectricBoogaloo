@@ -42,17 +42,23 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public boolean INCLUDE_SONGS = true;
 
     public SearchResultsAdapter(Activity activity, EventFunctionCallback<SearchNameItem> onResultItemClicked) {
+        // Set the constructor variables and field
         this.activity = activity;
         OnResultItemClicked = onResultItemClicked;
+
+        // initialise new empty array for search names
         searchNames = new ArrayList<>();
+        // If includfe playlist, add playlist search names to search names arraylist
         if (INCLUDE_PLAYLIST) {
             searchNames = Stream.concat(searchNames.stream(), PlaylistRegistry.getInstance().getSearchNames().stream())
                     .collect(Collectors.toList());
         }
+        // If include playlist, add songs search names to search names arraylist
         if (INCLUDE_SONGS) {
             searchNames = Stream.concat(searchNames.stream(), SongRegistry.getInstance().getSearchNames().stream())
                     .collect(Collectors.toList());
         }
+        // empty query so that it list all songs
         updateQuery("");
     }
 
@@ -78,6 +84,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         protected void onPostExecute(SearchNameItem[] searchNameItems) {
+            // call callback function with results
             OnSearchResults(searchNameItems);
         }
     }
@@ -85,14 +92,18 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     SearchTask previousTask = null;
     public void updateQuery(String query) {
+        // on query update, cancel previous task
         if(previousTask != null) {
             previousTask.cancel(true);
         }
+        // execute new task to search
         new SearchTask().execute(query);
     }
 
     public void OnSearchResults(SearchNameItem[] results) {
+        // set search results to new results
         searchResults= results;
+        // update list
         notifyDataSetChanged();
     }
 
@@ -100,9 +111,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
+            // If view type is 0, inflate the songlist_item layout
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
             return new SongListItemViewHolder(view);
         } else {
+            // else inflate the playlist item
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_listitem, parent, false);
             return new PlaylistItemViewHolder(view);
         }
@@ -111,6 +124,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SongListItemViewHolder) {
+            // if is a song item
+            // cast to correct type
             SongListItemViewHolder viewHolder = (SongListItemViewHolder) holder;
             RegistryItem<Song> song = SongRegistry.getInstance().get(searchResults[position].targetRegId);
 
@@ -121,12 +136,18 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
 
         } else if (holder instanceof PlaylistItemViewHolder) {
+            // if is a playlist item
+            // cast to correct type
             PlaylistItemViewHolder playlistItemViewHolder = (PlaylistItemViewHolder) holder;
+            // get playlist from registry using current position
             RegistryItem<SongPlaylist> playlist = PlaylistRegistry.getInstance().get(searchResults[position].targetRegId);
-
+            // set playlist for view holder, it should auto set the info for all the views
             playlistItemViewHolder.setPlaylist(playlist.item, activity);
+            // set on item clicked listener
             playlistItemViewHolder.getCardView().setOnClickListener(v -> {
+                // Add to recent searches on click
                 SearchTool.getInstance().addToRecentSearch(searchResults[position]);
+                // Call the callback function with the playlist
                 OnResultItemClicked.call(searchResults[position]);
             });
         }

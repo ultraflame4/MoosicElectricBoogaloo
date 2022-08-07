@@ -23,7 +23,7 @@ public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
 
     public PlaylistItemViewHolder(View view) {
         super(view);
-        // Define click listener for the ViewHolder's View
+        // Get the various views from the layout
         playlistImg = view.findViewById(R.id.playlistItem_image);
         playlistName = view.findViewById(R.id.playlist_title);
         playlistCreator = view.findViewById(R.id.playlist_creator);
@@ -39,10 +39,15 @@ public class PlaylistItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setPlaylist(SongPlaylist playlist, Context ctx) {
+        // Set the playlist iamge
         playlist.loadCoverIntoImageView(playlistImg);
+        // Set the playlist name
         playlistName.setText(playlist.getTitle());
+        // Set the playlist creator
         playlistCreator.setText(playlist.getCreator());
+        // Set the playlist song count
         playlistSongCount.setText(ctx.getString(R.string.playlist_songcount_text) + " " + playlist.getSongCount());
+        // Set the playlist length
         playlistLength.setText(ctx.getString(R.string.playlist_totallength_text) + " " + playlist.getLengthFormatted());
     }
 }

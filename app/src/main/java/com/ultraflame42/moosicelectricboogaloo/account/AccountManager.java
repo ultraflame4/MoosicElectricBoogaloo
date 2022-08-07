@@ -8,34 +8,56 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.DefaultEvent;
 import com.ultraflame42.moosicelectricboogaloo.tools.events.CustomEvents;
 
+/**
+ * Utility class to facilitate the signing in and signing out of the user's account
+ * Also have other uses related to user account management
+ */
 public class AccountManager {
+    // The status. Whether the user is logged in or not, or in guest mode
     private static LoginStatus authStatus = LoginStatus.NOT_LOGGED_IN;
-
+    // The firebase object to interact with firebase authentication
     private static FirebaseAuth firebaseAuth;
 
     /**
      * Event fired when status changes to logged in or guest
      */
     public static final DefaultEvent LoggedInEvent = new DefaultEvent();
+    /**
+     * Event fired when status changes to logged out
+     */
     public static final DefaultEvent LoggedOutEvent = new DefaultEvent();
-
+    /**
+     * Event fired the home activity is exited
+     */
     public static final DefaultEvent AppHomeExitEvent = new DefaultEvent();
 
+    /**
+     * Initializes the account manager
+     */
     public static void init() {
+        // Get firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Returns the current login status
+     * @return
+     */
     public static LoginStatus getAuthStatus() {
         return authStatus;
     }
 
+    /**
+     * Change the current logged in status. Note. this will fire teh various events
+     * @param authStatus
+     */
     public static void setAuthStatus(LoginStatus authStatus) {
         // Check if previous status is different than new status, if yes, do nothing
         if (authStatus == AccountManager.authStatus) {
             Log.w("AccountManager", "Attempted to set auth status to same value. Ignoring...");
             return;
         }
-
+        // use switch case to match condtions
         switch (authStatus) {
             // if new status is not logged in, log out
             case NOT_LOGGED_IN:
@@ -76,7 +98,9 @@ public class AccountManager {
     public static CustomEvents<String> OnAuthFailureEvent = new CustomEvents<>();
 
     public static void SignOut() {
+        // Check if user is logged in as guest.
         if (AccountManager.authStatus != LoginStatus.GUEST) {
+            // if not, they are logged in with firebase. log out from firebase
             firebaseAuth.signOut();
         }
         setAuthStatus(LoginStatus.NOT_LOGGED_IN);
@@ -121,18 +145,24 @@ public class AccountManager {
     }
 
     public static void DeleteAccount() {
+        // Check if user is logged in (with firebase)
         if (authStatus == LoginStatus.LOGGED_IN) {
+            // Get the firebase user object. delete. Also add a listener to listen for success or failure
             firebaseAuth.getCurrentUser().delete().addOnCompleteListener(task -> {
+
                 if (task.isSuccessful()) {
+                    // if successful, change status, and push event and log stuff
                     Log.d("AccountManager", "User account deleted.");
                     setAuthStatus(LoginStatus.NOT_LOGGED_IN);
                 } else {
+                    // if not successful, log error
                     Log.w("AccountManager", "User account delete failed.", task.getException());
                 }
             });
 
         }
         else{
+            // User is not logged in with firebase, OR in guest mode. in which both cases, do nothing
             Log.w("AccountManager", "Attempted to delete account when not logged in or in guest mode");
         }
     }

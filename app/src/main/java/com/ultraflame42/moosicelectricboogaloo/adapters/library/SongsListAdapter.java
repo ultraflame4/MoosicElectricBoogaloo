@@ -23,82 +23,57 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListItemViewHolde
     SongRegistry songRegistry;
 
     public SongsListAdapter(Context ctx) {
+        // Set the context for which this adapter is used in
         this.ctx = ctx;
+        // Get the song registry instance
         songRegistry = SongRegistry.getInstance();
+        // Initiate a new empty array
         songs=new RegistryItem[0];
-
     }
 
 
     public void updateData() {
         Log.d("SongsListAdapter", "SongRegistry updated, updating list");
+        // get all items from song registry and update data
         songs = songRegistry.getAllItems();
+
         notifyDataSetChanged();
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
+        // Return the number of items in the songs list so that recycler view know how many items to display
         return songs.length;
     }
 
     @NonNull
     @Override
     public SongListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // inflate view for each item
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
+        // return a new view holder
         return new SongListItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SongListItemViewHolder holder, int position) {
+        // Get the song from current position
         Song song = songs[position].item;
+        // Set the song for view holder. view holder will take care of setting all views with the information from the song
         holder.setSong(song, ctx);
+        // Set onclick listener for each item
         holder.getCardView().setOnClickListener(view -> {
+            // on item click..
             onItemClick(view, position);
         });
     }
 
     public void onItemClick(View view, int position) {
+        // Get song from the position
         RegistryItem<Song> song = songs[position];
+        // Play the song
         SongPlayer.PlaySong(song.id);
-
     }
 
-
-    //    @Override
-//    public int getCount() {
-//        return songs.length;
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public View getView(int i, View convertView, ViewGroup viewGroup) {
-//        if (inflater == null) {
-//            inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        }
-//        if (convertView == null) {
-//            convertView = inflater.inflate(R.layout.songlist_item, null);
-//        }
-//
-//        ImageView songImg = convertView.findViewById(R.id.songList_itemImage);
-//        TextView songTitle = convertView.findViewById(R.id.songList_itemTitle);
-//        TextView songArtist = convertView.findViewById(R.id.songList_itemArtist);
-//        TextView songLength = convertView.findViewById(R.id.songList_itemLength);
-//
-//        Song song = songs[i];
-//
-//        songTitle.setText(song.getTitle());
-//        songArtist.setText(song.getArtist());
-//        songLength.setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLength());
-//
-//        return convertView;
-//    }
 }

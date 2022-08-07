@@ -29,6 +29,7 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
 
     // Singleton pattern
     public static PlaylistRegistry getInstance() {
+        // If null, instance has not been loaded from existing data
         if (instance == null) {
             Log.e("PlaylistRegistry", "PlaylistRegistry has no instance");
             throw new IllegalStateException("PlaylistRegistry has no instance");
@@ -64,18 +65,23 @@ public class PlaylistRegistry extends Registry<SongPlaylist> {
         // check if there is a liked song playlist. if there isnt, create one
         if (!items.containsKey(LikedSongsPlaylistID)) {
             Log.d("PlaylistRegistry", "Liked songs playlist does not exist. Creating one...");
+            // Create new obj
             SongPlaylist pl = new SongPlaylist("-", "Liked Songs");
+            // set isSystem to true to prevent deletion
             pl.isSystem = true;
+            // add to registry
             items.put(LikedSongsPlaylistID, new RegistryItem<>(pl, LikedSongsPlaylistID));
+            // Add to favourites
             this.favourites.add(LikedSongsPlaylistID);
+            // update idCounter
             this.idCounter++;
         }
     }
 
 
     public static void LoadFromData(Storage.LoadedData data) {
+        // Set instance to new instance with data Loaded from shared preferences
         instance = new PlaylistRegistry(data.favorites, data.getPlaylists(), data.loadedNextPlaylistId);
-
     }
 
     // Cache so we do not need to recreate the list of search names every time it used

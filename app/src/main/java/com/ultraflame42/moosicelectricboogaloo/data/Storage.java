@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * 6
  * Main Interface to interact with stored data
  * Manages the download and retrieval of data from links.
  */
@@ -40,6 +39,7 @@ public class Storage {
     public static final String SONG_DOWNLOAD_DIRECTORY = "SongsDownloads";
 
     public static Storage getInstance() {
+        // create instance if null
         if (instance == null) {
             instance = new Storage();
         }
@@ -52,9 +52,12 @@ public class Storage {
      * @return
      */
     public static Gson getGson() {
+        // Craete the gson object used to serialise and deserialize
         GsonBuilder g = new GsonBuilder();
+        // Add the typeAdapters
         g.registerTypeAdapter(Song.class, new SongJsonAdapter());
         g.registerTypeAdapter(SongPlaylist.class, new PlaylistJsonAdapter());
+        // return the gson object
         return g.create();
     }
 
@@ -72,6 +75,7 @@ public class Storage {
         SharedPreferences.Editor generalEditor = generalData.edit();
         // save favourites
         generalEditor.putString("favorites", gson.toJson(playlistRegistry.getFavourites()));
+        // Save id counters for the registries
         generalEditor.putInt("songRegistryNextId", songRegistry.getNextId());
         generalEditor.putInt("playlistRegistryNextId", playlistRegistry.getNextId());
         generalEditor.apply();
@@ -90,10 +94,11 @@ public class Storage {
         SharedPreferences songRegistryData = ctx.getSharedPreferences("songRegistry", Context.MODE_PRIVATE);
         // get the editor
         SharedPreferences.Editor songRegDataEditor = songRegistryData.edit();
-
+        // For each song in the registry, serialise it to json and save it to shared preferences
         for (RegistryItem<Song> registeredSong : songRegistry.getAllItems()) {
             songRegDataEditor.putString(registeredSong.id + "", gson.toJson(registeredSong.item));
         }
+        // apply changes
         songRegDataEditor.apply();
     }
 
@@ -106,13 +111,17 @@ public class Storage {
         SharedPreferences playlistRegistryData = ctx.getSharedPreferences("playlistRegistry", Context.MODE_PRIVATE);
         // get the editor
         SharedPreferences.Editor playlistRegDataEditor = playlistRegistryData.edit();
-
+        // For each playlist in the registry, serialise it to json and save it to shared preferences
         for (RegistryItem<SongPlaylist> registeredPlaylist : playlistRegistry.getAllItems()) {
             playlistRegDataEditor.putString(registeredPlaylist.id + "", gson.toJson(registeredPlaylist.item));
         }
+        // apply changes
         playlistRegDataEditor.apply();
     }
 
+    /**
+     * utility class to carry loaded data from shared preferences
+     */
     public static class LoadedData {
         public final int loadedNextSongId;
         public final int loadedNextPlaylistId;

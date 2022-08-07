@@ -34,7 +34,9 @@ public class UsefulStuff {
      * @param activity
      */
     public static void setupActivity(AppCompatActivity activity) {
+        // Remove title bar
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // Hide the SupportAction bar
         activity.getSupportActionBar().hide();
     }
 
@@ -48,11 +50,18 @@ public class UsefulStuff {
      * @param fragment
      */
     public static void setupDialogFragment(DialogFragment fragment) {
+        // Disable the window title
         fragment.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // Set dialog bg to transparent
         fragment.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
 
+    /**
+     * Returns DisplayMetrics of the device.
+     * @param activity
+     * @return
+     */
     public static DisplayMetrics getDisplayMetrics(AppCompatActivity activity) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -67,10 +76,12 @@ public class UsefulStuff {
      * @return A float value to represent px equivalent to dp depending on device density
      */
     public static float convertDpToPx(Context context, float dp) {
+        // Converts dp to px
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
     public static String formatMilliseconds(Integer time) {
+        // Format ms into minutes and seconds
         long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
         return minutes + " : " + seconds;
@@ -83,6 +94,7 @@ public class UsefulStuff {
      * @return
      */
     public static String formatEpochToDate(long millisecondsSinceEpoch) {
+        // format epoch ms to date format
         return new SimpleDateFormat("dd/MM/yyyy").format(new Date(millisecondsSinceEpoch));
     }
 
@@ -142,7 +154,9 @@ public class UsefulStuff {
      * @return
      */
     public static List<SearchNameItem> getAllSearchNames() {
+        // Get a copy of all song search names from song registry
         List<SearchNameItem> list = SongRegistry.getInstance().getSearchNames();
+        // add all song search names from playlist registry to list
         list.addAll(PlaylistRegistry.getInstance().getSearchNames());
         return list;
     }

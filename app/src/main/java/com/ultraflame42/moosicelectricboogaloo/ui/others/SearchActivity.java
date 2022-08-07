@@ -30,17 +30,23 @@ public class SearchActivity extends AppCompatActivity {
         findViewById(R.id.closeSearchBtn).setOnClickListener(view -> finish());
 
         resultsList = findViewById(R.id.resultsRecyclerView);
+        // Create adapter for the Recycler View
         adapter = new SearchResultsAdapter(this, data -> {
+            // on item clicked, return the result
             Intent intent = new Intent();
+            // Set item clicked type
             intent.putExtra("itemType", data.type.ordinal());
+            // Set item clicked id
             intent.putExtra("itemId", data.targetRegId);
             setResult(Activity.RESULT_OK, intent);
             finish();
         });
-
+        // set the layout manager for the recylcer view
         resultsList.setLayoutManager(new LinearLayoutManager(this));
+        // set the adapter
         resultsList.setAdapter(adapter);
 
+        // Get the EditText view for the search query
         searchQueryInput = findViewById(R.id.searchQueryInput);
         // Detect when the user enter characters
         searchQueryInput.addTextChangedListener(new TextWatcher() {
@@ -51,6 +57,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // On te xt changed, update query
                 adapter.updateQuery(charSequence.toString());
             }
 

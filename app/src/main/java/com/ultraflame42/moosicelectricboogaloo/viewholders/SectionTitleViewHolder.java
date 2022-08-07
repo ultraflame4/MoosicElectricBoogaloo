@@ -18,6 +18,7 @@ public class SectionTitleViewHolder extends RecyclerView.ViewHolder {
      */
     public SectionTitleViewHolder(@NonNull View itemView) {
         super(itemView);
+        // get the title text view
         title = itemView.findViewById(R.id.section_title);
     }
 
@@ -29,11 +30,13 @@ public class SectionTitleViewHolder extends RecyclerView.ViewHolder {
      * @return
      */
     public static SectionTitleViewHolder from(@NonNull ViewGroup parent) {
+        // inflate the layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_title, parent, false);
         return new SectionTitleViewHolder(view);
     }
 
     public void setTitle(String title) {
+        // set the title text
         this.title.setText(title);
     }
 }

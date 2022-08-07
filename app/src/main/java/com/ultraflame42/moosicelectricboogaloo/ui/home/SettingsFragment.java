@@ -42,6 +42,8 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+
+        // Get the various view
         settingsAccountEmailText = view.findViewById(R.id.settingsAccountEmailText);
         settingsCreatedDateText = view.findViewById(R.id.settingsCreatedDateText);
 
@@ -50,6 +52,7 @@ public class SettingsFragment extends Fragment {
 
         settingsAccountDeleteBtn = view.findViewById(R.id.settingsAccountDeleteBtn);
 
+        // On sign out button clicked, sign out the user
         settingsAccountSignOutBtn.setOnClickListener(view1 -> {
             AccountManager.SignOut();
         });
@@ -64,15 +67,18 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        // set the accoutn info for user
+        // set the account info for user
         if (AccountManager.getAuthStatus() == LoginStatus.LOGGED_IN) {
             // if logged in, get email and created date
             settingsAccountEmailText.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            // Set the account created text to the created date
             settingsCreatedDateText.setText(
+                    // Format the date properly
                     UsefulStuff.formatEpochToDate(FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp())
             );
 
         } else if (AccountManager.getAuthStatus() == LoginStatus.GUEST) {
+            // else if in guest mode set to default text
             settingsAccountEmailText.setText("N/A");
             settingsCreatedDateText.setText("N/A");
         }

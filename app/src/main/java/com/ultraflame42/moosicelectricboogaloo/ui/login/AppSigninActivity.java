@@ -29,11 +29,13 @@ public class AppSigninActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_app_signin);
-
+        // Get email ans password edit text views
         emailInput = findViewById(R.id.signInEmailInput);
         pwdInput = findViewById(R.id.signInPasswordInput);
 
+        // on failed sign in
         eGroup.subscribe(AccountManager.OnAuthFailureEvent, data -> {
+            // Toast to user and log error
             Log.d("AppSigninActivity", "Auth failure: " + data);
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
@@ -42,19 +44,22 @@ public class AppSigninActivity extends AppCompatActivity {
     }
 
     public void handleCancel(View view) {
+        // go back to login activity
         finish();
     }
 
     public void handleSignin(View view) {
-
+        // Get email and password
         String email = emailInput.getText().toString();
         String pwd = pwdInput.getText().toString();
         Log.d("AppSigninActivity", "Attempt signin with: " + email + "," + pwd);
+        // Attempt sign in using AccountManager
         AccountManager.SignIn(email, pwd);
     }
 
     @Override
     public void finish() {
+        // prevent memory leaks by removing all listeners
         eGroup.unsubscribeAll();
         super.finish();
     }

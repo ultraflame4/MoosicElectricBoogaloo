@@ -29,30 +29,34 @@ public class AppLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("AppLogin: ", "onCreate()");
+        // Set up the activity
         UsefulStuff.setupActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Initialize Firebase Auth
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
-
+        // Initialize AccountManager
         AccountManager.init();
         // Google one tap init
         googleAuthHelper = new GoogleAuthHelper(this);
-
+        // Setup listeners ---------
+        // On logged in event , call goToHomeActivity
         eGroup.subscribe(AccountManager.LoggedInEvent, (data) -> {
             gotoHomeActivity();
         });
-
+        // on AppHomeExit , simulate android home button click
         eGroup.subscribe(AccountManager.AppHomeExitEvent, (data) -> {
             startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
-    });
-
-        eGroup.subscribe(googleAuthHelper.OnAuthSuccessEvent,(data) -> {
+        });
+        // On Successful google login , call change auth status
+        eGroup.subscribe(googleAuthHelper.OnAuthSuccessEvent, (data) -> {
             Log.d("AppLogin", "Successfully logged in with Google");
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
         });
-
-        eGroup.subscribe(googleAuthHelper.OnAuthFailureEvent,(data) -> {
+        // On fail google login , show toast
+        eGroup.subscribe(googleAuthHelper.OnAuthFailureEvent, (data) -> {
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         });
 
@@ -60,6 +64,7 @@ public class AppLoginActivity extends AppCompatActivity {
     }
 
     private void gotoHomeActivity() {
+        // Go to the home activity
         Log.d("AppLogin", "Switching to home activity");
         Intent intent = new Intent(this, AppHomeActivity.class);
         startActivity(intent);
@@ -68,12 +73,13 @@ public class AppLoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // Check if alr logged in as guest
         if (AccountManager.getAuthStatus() == LoginStatus.GUEST) {
             Log.d("AppLogin", "Already logged in as guest");
             gotoHomeActivity();
 
         }
-
+        // Check if alr logged in firebase
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             AccountManager.setAuthStatus(LoginStatus.LOGGED_IN);
@@ -89,6 +95,7 @@ public class AppLoginActivity extends AppCompatActivity {
     }
 
     public void handleContinueAsGuest(View view) {
+        // Continue as guest by setting auth status
         Log.d("AppLogin", "Continue as guest");
         AccountManager.setAuthStatus(LoginStatus.GUEST);
     }
@@ -111,6 +118,7 @@ public class AppLoginActivity extends AppCompatActivity {
 
 
     public void handleGoogleSignIn(View view) {
+        // Start google signin flow.
         googleAuthHelper.oneTapSignIn();
     }
 

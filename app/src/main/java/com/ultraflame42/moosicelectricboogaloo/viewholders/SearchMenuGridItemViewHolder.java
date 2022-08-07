@@ -16,20 +16,24 @@ public class SearchMenuGridItemViewHolder extends RecyclerView.ViewHolder {
 
     public SearchMenuGridItemViewHolder(View view) {
         super(view);
+        // Get the various view from the layout
         this.cardView = view.findViewById(R.id.cardView);
         this.text = view.findViewById(R.id.text);
         this.bgImage = view.findViewById(R.id.bgimage);
     }
 
     public ImageView getBgImage() {
+        // return the background image view
         return bgImage;
     }
 
     public TextView getText() {
+        // return the text view
         return text;
     }
 
     public CardView getCardView() {
+        // return card view
         return cardView;
     }
 }

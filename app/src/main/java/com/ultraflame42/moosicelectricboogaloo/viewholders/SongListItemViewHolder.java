@@ -24,6 +24,7 @@ public class SongListItemViewHolder extends RecyclerView.ViewHolder {
 
     public SongListItemViewHolder(View view) {
         super(view);
+        // get the various views from the layout
         cardView = view.findViewById(R.id.songlist_itemcard);
         songImg = view.findViewById(R.id.songList_itemImage);
         songName = view.findViewById(R.id.songList_itemTitle);
@@ -32,14 +33,19 @@ public class SongListItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public CardView getCardView() {
+        /// return card view
         return cardView;
     }
 
-    public void setSong(Song song, Context ctx){
-//        songImg.setImage(song.getImage)
+    public void setSong(Song song, Context ctx) {
+        // set the song details
+        // set song image
         UsefulStuff.LoadImageUriIntoImageView(song.getImageUriLink(), songImg);
+        // set song title
         songName.setText(song.getTitle());
+        //set song artist
         songArtist.setText(song.getArtist());
+        // set song length
         songCount.setText(ctx.getString(R.string.songList_itemLength_text) + " " + song.getLengthFormatted());
 
     }

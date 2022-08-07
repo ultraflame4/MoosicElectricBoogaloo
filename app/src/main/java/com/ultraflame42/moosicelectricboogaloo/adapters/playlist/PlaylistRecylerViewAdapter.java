@@ -35,9 +35,12 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     public void updatePlaylistInfo(boolean supressUpdate) {
         // Update playlist and songs information
         Log.d("PlaylistActivity", "Updating playlist and song information");
+        // get playlist
         RegistryItem<SongPlaylist> playlist = PlaylistRegistry.getInstance().get(playlistId);
+        // update the songslist
         playlistSongs = playlist.item.getSongs().toArray(new Integer[0]);
         if (!supressUpdate) {
+            // update list
             notifyDataSetChanged();
         }
     }
@@ -46,6 +49,7 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
     @NonNull
     @Override
     public SongListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate view from layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songlist_item, parent, false);
         return new SongListItemViewHolder(view);
     }
@@ -56,11 +60,13 @@ public class PlaylistRecylerViewAdapter extends RecyclerView.Adapter<SongListIte
         Song song = SongRegistry.getInstance().get(playlistSongs[position]).item;
         holder.setSong(song, ctx);
         holder.getCardView().setOnClickListener(view -> {
+            // on item clicked
             onItemClick(position);
         });
     }
 
     public void onItemClick(int position) {
+        // On item clicked, play the playlist, with the offsetted position.
         SongPlayer.PlayPlaylist(playlistId, position);
     }
 

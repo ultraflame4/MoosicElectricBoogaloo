@@ -88,31 +88,36 @@ public class LibraryFragment extends Fragment {
         favGridView.setLayoutManager(layout);
         favGridView.addItemDecoration(new GridSpacingItemDecoration( 16, layout));
         favGridView.setAdapter(favouritesGridAdapter);
+        // On favourites list update, update the adapter data
         listenerGroup.subscribe(playlistRegistry.OnFavouritesUpdate, data -> {
             favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
         });
+        // tell adapter to update data to get latest favourites playlists
         favouritesGridAdapter.updateData(playlistRegistry.getFavourites().toArray(new Integer[0]));
 
-        // Playlist
+        // Playlist Recycler view setup
         playlistListAdapter = new PlaylistListAdapter(getContext(), this::openPlaylist);
         RecyclerView playlistListView = view.findViewById(R.id.playlist_list);
         playlistListView.setLayoutManager(new LinearLayoutManager(getContext()));
         playlistListView.setAdapter(playlistListAdapter);
+        // On playlists list update, update the adapter data
         listenerGroup.subscribe(playlistRegistry.OnItemsUpdate, data -> {
             playlistListAdapter.updateData();
         });
+        // tell adapter to update data to get latest playlists
         playlistListAdapter.updateData();
 
-        // Songlist
+        // Songlist Recycler view setup
         songsListAdapter = new SongsListAdapter(getContext());
         RecyclerView songsListView = view.findViewById(R.id.songs_list);
         songsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsListView.setAdapter(songsListAdapter);
+        // On songlist list update, update the adapter data
         listenerGroup.subscribe(songRegistry.OnItemsUpdate, data -> {
             Log.d("LibraryFragment", "Song list updating...");
             songsListAdapter.updateData();
         });
-
+        // tell adapter to update data to get latest songs
         songsListAdapter.updateData();
 
         // Search button
@@ -134,15 +139,18 @@ public class LibraryFragment extends Fragment {
     }
 
     public void handleSearchBtn() {
+        // on search btn clicked open search activity
         SearchActivityIntentLauncher.launch(new Intent(getActivity(), SearchActivity.class));
     }
 
     public void showAddToLibDialog() {
+        // open dialog to add to library
         NavHostFragment.findNavController(this).navigate(R.id.action_libraryFragment_to_libAddItemDialog);
     }
 
     @Override
     public void onDestroy() {
+        // to prevent memory leaks remove all listeners.
         Log.d("LibraryFragment", "onDestroy: unsubbing all listeners");
         listenerGroup.unsubscribeAll();
         super.onDestroy();

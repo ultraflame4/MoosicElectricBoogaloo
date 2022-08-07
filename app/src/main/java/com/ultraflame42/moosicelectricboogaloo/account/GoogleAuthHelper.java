@@ -58,6 +58,7 @@ public class GoogleAuthHelper {
 
 
     public GoogleAuthHelper(AppCompatActivity activity) {
+        // Get firebase auth object instance
         mAuth = FirebaseAuth.getInstance();
 
         // Configure settings for Google one tap sign in
@@ -134,6 +135,7 @@ public class GoogleAuthHelper {
      * method launches the activity for google sign in
      */
     private void GoogleFallbackSignIn() {
+        // Log for debugging
         Log.d("GoogleAuthHelper:GoogleSignIn", "Launching Google Sign In Ui");
         // Launch the Google Sign-In activity
         googleSignInUiResultLauncher.launch(googleSignInClient.getSignInIntent());
@@ -150,6 +152,7 @@ public class GoogleAuthHelper {
         try{
             // try to get the account from google sign in result
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            // Sign in to firebase with the id token
             AuthenticateWithFirebase(account.getIdToken());
         }
         catch (ApiException e) {
@@ -164,8 +167,9 @@ public class GoogleAuthHelper {
      * Starts activity for GoogleOneTapSignIn
      */
     public void oneTapSignIn() {
+        // Initiate one tap sign in
+        // Add on success and failure listeners
         oneTapClient.beginSignIn(oneTapSignInRequest)
-
                 .addOnSuccessListener(result -> {
                     try {
                         // On success start the activity for google one tap sign in
@@ -174,6 +178,7 @@ public class GoogleAuthHelper {
                         );
 
                     } catch (ActivityNotFoundException e) {
+                        // On error log exception
                         Log.e("GoogleAuthHelper:OneTap", "Couldn't start One Tap UI: " + e.getLocalizedMessage());
                         OnAuthFailureEvent.pushEvent("Couldn't start One Tap UI: " + e.getLocalizedMessage());
                     }
@@ -183,14 +188,18 @@ public class GoogleAuthHelper {
                         throw e;
                     } catch (ApiException apiException) {
                         if (apiException.getStatusCode() == 16) {
+                            // if status code is 16, there weren't any google accounts. Thats why it failed
                             Log.d("GoogleAuthHelper:OneTap", "No google accounts detected, falling back to google signin");
+                            // Fallback to google sign in
                             GoogleFallbackSignIn();
 
                         } else {
+                            // Else, log exception cuz error is unknown
                             Log.e("GoogleAuthHelper:OneTap", "Unknown Api Error ", e);
                             OnAuthFailureEvent.pushEvent("Unknown Api Error " + e.getLocalizedMessage());
                         }
                     } catch (Exception e1) {
+                        // Else, log exception cuz error is unknown
                         Log.e("GoogleAuthHelper:OneTap", "Unknown Error ", e);
                         OnAuthFailureEvent.pushEvent("Unknown Error " + e.getLocalizedMessage());
                     }
@@ -198,10 +207,14 @@ public class GoogleAuthHelper {
                 });
     }
 
+    // Listener for the one tap sign in
     public void OnOneTapResult(int resultCode, @Nullable Intent data) {
         try {
+            // Get google credentials
             SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
+            // Get id token from google creds
             String idToken = googleCredential.getGoogleIdToken();
+            // Sign in with firebase with google creds
             AuthenticateWithFirebase(idToken);
 
         } catch (ApiException e) {

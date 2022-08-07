@@ -15,10 +15,17 @@ public class EventCallbackListener<D> {
         this.manager = manager;
     }
 
+    /**
+     * Returns the callback that this object is wrapping around.
+     * @return
+     */
     public EventFunctionCallback<D> getCallback() {
         return cb;
     }
 
+    /**
+     * When called, removes itself from the event.
+     */
     public void remove() {
         manager.removeListener(cb);
     }

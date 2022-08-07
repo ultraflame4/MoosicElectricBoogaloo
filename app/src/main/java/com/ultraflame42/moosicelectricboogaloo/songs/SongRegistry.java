@@ -62,10 +62,11 @@ public class SongRegistry extends Registry<Song> {
         int totalSize = count() * 2;
         // Invalidate cache if size changed
         if (searchNamesCache.size() != totalSize) {
+            // if invalidate, clear cache
             searchNamesCache.clear();
-
+            // For each item in the song registry
             for (RegistryItem<Song> item : getAllItems()) {
-
+                // Add the song name and artist name to the search names cache
                 searchNamesCache.add(new SearchNameItem(ResultItemType.SONG, item.item.getTitle(), item.id));
                 searchNamesCache.add(new SearchNameItem(ResultItemType.SONG, item.item.getArtist(), item.id));
 
@@ -74,6 +75,10 @@ public class SongRegistry extends Registry<Song> {
         return new ArrayList<>(searchNamesCache);
     }
 
+    /**
+     * Return the liked songs playlist
+     * @return
+     */
     public RegistryItem<SongPlaylist> getLikedSongs() {
         return PlaylistRegistry.getInstance().get(0);
     }
@@ -84,10 +89,12 @@ public class SongRegistry extends Registry<Song> {
      * @param suppress supresses the info toast if true
      */
     public void add(Song item,boolean suppress) {
+        // check if home context is null
         if (homeContext == null) {
             Log.e("SongRegistry", "Context is null");
             throw new NullPointerException("Context is null");
         }
+        // vertify song is playable
         verifySong(item, suppress, homeContext);
         super.add(item);
     }
@@ -98,7 +105,9 @@ public class SongRegistry extends Registry<Song> {
      * @param ctx
      */
     private void verifySong(Song item, boolean suppress, Context ctx) {
+        // Verity media playable
         VerifyMediaPlayable.GetInfoAndVerifyMediaPlayable(ctx, item.getFileLink(), (playable, songLength) -> {
+            // on verified no playable, push out warning event
             if (!playable) {
                 OnRegistryWarningsUI.pushEvent("Warning. Song " + item.getTitle() + " unplayable." +
                         "\nThis may be due to:" +
@@ -106,7 +115,9 @@ public class SongRegistry extends Registry<Song> {
                         "\n2. The web link being invalid" +
                         "\n3. Network errors");
             } else {
+                // else, set the runtime info for the song
                 item.setRuntimeInfo(playable, songLength);
+                // push out registry item update
                 OnItemsUpdate.pushEvent(null);
                 if (!suppress) {
                     OnRegistryWarningsUI.pushEvent(" Song " + item.getTitle() + " added successfully.");
@@ -117,14 +128,17 @@ public class SongRegistry extends Registry<Song> {
     }
 
     public void add(Song item) {
+        // shortcut to add with suppress
         add(item,false);
     }
 
     public void setHomeContext(Context homeContext) {
+        // sets the home context
         this.homeContext = homeContext;
     }
 
     public void removeHomeContext() {
+        // removes the home context to prevent memory leaks
         this.homeContext = null;
     }
 
@@ -134,6 +148,7 @@ public class SongRegistry extends Registry<Song> {
      * It will cause a memory leak
      */
     public Context getHomeContext() {
+        // returns the home context
         return homeContext;
     }
 }

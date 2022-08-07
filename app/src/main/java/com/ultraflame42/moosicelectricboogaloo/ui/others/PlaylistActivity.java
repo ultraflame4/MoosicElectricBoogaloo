@@ -56,50 +56,59 @@ public class PlaylistActivity extends AppCompatActivity {
             return; // If cannot get playlist index. STOP
         }
 
-
+        // Get the playlist from index
         SongPlaylist playlist = playlistRegistry.get(playlistId).item;
 
+        // Get the various views
         playlistTitle = findViewById(R.id.playlistTitle);
         playlistCreator = findViewById(R.id.playlistCreator);
         playlistCover = findViewById(R.id.playlistCover);
 
+        // Set playlist title and creator
         playlistTitle.setText(playlist.getTitle());
         playlistCreator.setText(playlist.getCreator());
-
+        // Load playlist cover
         playlist.loadCoverIntoImageView(playlistCover);
-
+        // Get the fav toggle button
         favBtn = findViewById(R.id.favouriteBtn);
+        // update the btn
         updateFavButton();
+        // Disable save
         favBtn.setSaveEnabled(false);
+        // SEt on btn click, handle favourite
         favBtn.setOnClickListener(view -> {
             handleFavourite();
         });
 
-
+        // Get the playlist play button
         playlistPlayBtn = findViewById(R.id.playlistPlay);
+        // Disable save
         playlistPlayBtn.setSaveEnabled(false);
+        // update it
         updatePlayStopBtn(!SongPlayer.IsPaused());
+        // On btn clicked, handle play/stop
         playlistPlayBtn.setOnClickListener(view -> {
             handlePlaylistPlayStop();
         });
+        // SongPlayer play state is changed, update the btn
         listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange,this::updatePlayStopBtn);
 
 
         // -----UI Scrolling stuff---------
-
+        // get recycler view
         recyclerView = findViewById(R.id.scollCtn);
         recyclerView.setAdapter(new PlaylistRecylerViewAdapter(playlistId,this));
 
         nestedScroll = findViewById(R.id.nestedScrollCtn);
 
+        // Change the recycler view height to match the screen size
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
         params.height = Math.round(UsefulStuff.getDisplayMetrics(this).heightPixels - UsefulStuff.convertDpToPx(this, 64 + 96));
 
-
+        // Set it such that when recycler view is at the top, allow recycler view to scroll
+        // So that the image cover is scrolled away before the recycler view can start scrolling
         nestedScroll.getViewTreeObserver().addOnScrollChangedListener(() -> {
             int scrollY = nestedScroll.getScrollY();
 
@@ -121,19 +130,26 @@ public class PlaylistActivity extends AppCompatActivity {
     }
 
     private void handlePlaylistPlayStop() {
+        // on play/stop btn clicked
         Log.d("PlaylistActivity","Playlist play button clicked");
+
         if (!playlistPlayBtn.isChecked()) {
+            // If is not prev not checked, it was prev paused, so pause it
             SongPlayer.Pause();
         } else {
+            // check if the current playlist is this
             if (SongPlayer.getCurrentPlaylist() == playlistId) {
+                // if yes resume
                 SongPlayer.Resume();
             } else {
+                // else play from start
                 SongPlayer.PlayPlaylist(playlistId, 0);
             }
         }
     }
 
     private void updatePlayStopBtn(Boolean isPlaying) {
+        // update the play/stop button so it in the correct state
         Log.d("PlaylistActivity","Updating Play/Stop button");
         playlistPlayBtn.setChecked(!SongPlayer.IsPaused()&&SongPlayer.getCurrentPlaylist()==playlistId);
     }
@@ -144,32 +160,42 @@ public class PlaylistActivity extends AppCompatActivity {
 
     public void handleMore(View view) {
         Log.d("PlaylistActivity", "Opening more options menu");
-        //todo playlist options menu
+        //tod-o playlist options menu canceled
     }
 
     public void handleFavourite() {
+        // On fav button clicked
         Log.d("PlaylistActivity", "Toggling favourite for playlistId " + playlistId);
+        // if prev not checked, it was favourited
         if (!favBtn.isChecked()) {
+            // So un favourite it
             Log.d("PlaylistActivity", "un-favourited for playlistId " + playlistId);
+            // make sure the playlist is in the favourites list before removing it
             if (playlistRegistry.favouritesHas(playlistId)) {
+                // remove it fro mfavourites
                 playlistRegistry.removeFromFavourites(playlistId);
             }
         } else {
+            // Else favourite it
             Log.d("PlaylistActivity", "favourited for playlistId " + playlistId);
+            // make sure it is not alr favourited first
             if (!playlistRegistry.favouritesHas(playlistId)) {
+                // add to favourites
                 playlistRegistry.addToFavourites(playlistId);
             }
         }
+        // update the button
         updateFavButton();
     }
 
     private void updateFavButton() {
         Log.d("PlaylistActivity", "Updating favourite button");
+        // Set the state of the button to the correcct state
         favBtn.setChecked(playlistRegistry.favouritesHas(playlistId));
     }
 
     public void handleAddSongs(View view) {
         Log.d("PlaylistActivity", "Opening add songs menu");
-        //todo playlist add songs menu
+        //~~tod o~~ playlist add songs menu canceled
     }
 }

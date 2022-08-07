@@ -43,7 +43,7 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public int getItemViewType(int position) {
-
+        // iif is a section haeder, return 1
         if (sectionHeaders.containsKey(position)) {
             return 1;
         } else {
@@ -78,35 +78,44 @@ public class SearchFragmentContentAdapter extends RecyclerView.Adapter<RecyclerV
                 // if position is in range 1-recentSearches.length. is recent searches.
                 SearchNameItem[] recentSearches = SearchTool.getInstance().getRecentSearches();
                 Log.d("SearchFragmentContentAdapter", "Getting recent items " + recentSearches.length);
+                // Check if the recentItemCounter is less than the total number of recenntItems.
                 if (recentItemCounter <= recentSearches.length - 1) {
-
+                    // Set tge recent item information
+                    // set the text
                     searchMenuGridItemViewHolder.getText().setText(recentSearches[recentItemCounter].name);
+                    // set the onclick
                     searchMenuGridItemViewHolder.getCardView().setOnClickListener(view -> {
                         SearchTool.getInstance().handleOnSearchItemSelected(recentSearches[recentItemCounter], context);
                     });
                 } else {
+                    // set default text
                     searchMenuGridItemViewHolder.getText().setText("n/a");
                 }
 
                 recentItemCounter++;
 
+                // if not recent item, it is recommended items
             } else if (recommendedItemCounter <= recommendedSongs.size() - 1) {
                 // if position is in range, then get recommended songs
                 SearchNameItem searchNameItem = recommendedSongs.get(recommendedItemCounter);
+                // set the text
                 searchMenuGridItemViewHolder.getText().setText(searchNameItem.name);
+                // set the onclick
                 searchMenuGridItemViewHolder.getCardView().setOnClickListener(view -> {
                     SearchTool.getInstance().handleOnSearchItemSelected(searchNameItem, context);
                 });
                 recommendedItemCounter++;
             }
             else {
+                // else set default text
                 searchMenuGridItemViewHolder.getText().setText("n/a");
             }
 
 
         } else if (holder instanceof SectionTitleViewHolder) {
-            // Bind section title
+            // if section title
             SectionTitleViewHolder sectionTitleViewHolder = (SectionTitleViewHolder) holder;
+            // set the title for the section
             sectionTitleViewHolder.setTitle(sectionHeaders.get(position));
         }
     }

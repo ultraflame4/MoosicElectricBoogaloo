@@ -62,10 +62,12 @@ public class SongPlaylist {
     }
 
     public void removeSongAtIndex(int index) {
+        // Remove song
         songs.remove(index);
     }
 
     public void removeSong(int songId) {
+        // find index of songid and remove
         removeSongAtIndex(songs.indexOf(songId));
     }
 
@@ -82,14 +84,17 @@ public class SongPlaylist {
     }
 
     public int getSongCount() {
+        // return the size of the arraylist
         return songs.size();
     }
 
     public String getCreator() {
+        // return the creator of playlist
         return creator;
     }
 
     public String getTitle() {
+        // return the title of the playlist
         return title;
     }
 
@@ -98,6 +103,7 @@ public class SongPlaylist {
      * Returns the total length of the playlist in milliseconds
      */
     public int getLength() {
+        // sum the length of all songs in the playlist
         int length = songs.stream().mapToInt(integer -> SongRegistry.getInstance().getItem(integer).getLength()).sum();
         return length;
     }
@@ -109,9 +115,12 @@ public class SongPlaylist {
      * @return
      */
     public String getLengthFormatted() {
+        // if formatted length is empty, format it
         if (formattedLength.equals("")) {
+            // format the length of the playlist
             formattedLength = UsefulStuff.formatMilliseconds(getLength());
         }
+        // Return the formmated length of the playlist
         return formattedLength;
     }
 
@@ -120,13 +129,16 @@ public class SongPlaylist {
      * @param imageView
      */
     public void loadCoverIntoImageView(ImageView imageView) {
+        // If there are more than one song in the playlist
         if (songs.size() > 0) {
+            // get the first song in the playlist, and load its cover into the image view
             Picasso.get().load(SongRegistry.getInstance().get(songs.get(0)).item.getImageUriLink())
                     // on error use default image
                     .error(R.drawable.color_a_bg)
                     .into(imageView);
         }
         else{
+            // else if there are no songs in the playlist, use the default image
             Picasso.get().load(R.drawable.color_a_bg)
                     .into(imageView);
         }

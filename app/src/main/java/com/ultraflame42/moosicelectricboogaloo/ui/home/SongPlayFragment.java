@@ -123,23 +123,28 @@ public class SongPlayFragment extends Fragment {
             SongPlayer.PlayPrev();
         });
 
+        // Set when SongPlayer PlayState changes listener
         listenerGroup.subscribe(SongPlayer.OnSongPlayStateChange, song -> {
             updatePlayStopBtn();
         });
 
 
-
+        // get the current song
         int currentSong = SongPlayer.GetCurrentSong();
 
         if (currentSong >= 0) {
+            // if current song not -1 , then update the song info
             updateSongInfo(SongRegistry.getInstance().getItem(currentSong));
         }
 
+        // add on play change listener so that it updates whenever the song changes
         listenerGroup.subscribe(SongPlayer.OnSongPlayChange, regItem -> {
             if (regItem!=null) {
+                // update to the next song information
                 updateSongInfo(regItem.item);
             }
             else{
+                // the no next song, update to the default song info
                 updateSongInfo(null);
             }
         });
@@ -148,10 +153,13 @@ public class SongPlayFragment extends Fragment {
         // Song progress bar
         seekBar = view.findViewById(R.id.songPlaySeekBar);
 
+        // set the seekbar progress change listener
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // when seekbar is being dragged
                 if (fromUser) {
+                    // if change is by user, then skip ahead to the new position/time in SongPlayer
                     SongPlayer.SetCurrentSongProgress(progress / (float) seekBarProgressResolution);
                 }
             }
@@ -167,19 +175,24 @@ public class SongPlayFragment extends Fragment {
             }
         });
 
-
+        // The set "resolution" of the seekbar. the higher the better because it looks more smoot
         seekBar.setMax(seekBarProgressResolution);
-        // Update progress bar every half a second
+
+        // Update progress bar every half a second.
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // When scrubbing, stop updating the progress bar
                 float progress = SongPlayer.GetCurrentSongProgress();
                 if (!isScrubbing) {
+                    // When not scrubbing, update the progress bar
                     seekBar.setProgress(Math.round(progress * seekBarProgressResolution));
                 }
+                // get current song id
                 int songId = SongPlayer.GetCurrentSong();
+                // if current song is not -1, then update time stamp
                 if (songId > -1) {
+                    // Check if registry contains the song
                     if (songRegistry.contains(songId)) {
                         Song song = songRegistry.getItem(songId);
 
@@ -189,7 +202,7 @@ public class SongPlayFragment extends Fragment {
                         Log.w("SongPlayer (fragment)", "Song not found in registry! Song id " + songId);
                     }
                 }
-
+                // Set to run this every 100ms
                 seekbarUpdateHandler.postDelayed(this, 100);
             }
         });
@@ -215,20 +228,28 @@ public class SongPlayFragment extends Fragment {
 
         });
 
+        // Get shuffle and loop btn views
         shuffleBtn = view.findViewById(R.id.shuffleBtn);
         loopBtn = view.findViewById(R.id.loopBtn);
 
+        // Disable save because they are toggle buttons
         shuffleBtn.setSaveEnabled(false);
         loopBtn.setSaveEnabled(false);
 
+        // Update shuffle btn state
         updateShuffleBtn();
+        // Set listener for shuffle btn
         shuffleBtn.setOnClickListener((v) -> {
+            // set shuffle state
             SongPlayer.SetShuffle(shuffleBtn.isChecked());
             Log.d("SongPlayer (fragment)", "Shuffle set to " + SongPlayer.IsShuffle());
         });
 
+        // Update loop btn state
         updateLoopBtn();
+        // Set listener for loop btn
         loopBtn.setOnClickListener((v) -> {
+            // set loop state
             SongPlayer.SetLooping(loopBtn.isChecked());
             Log.d("SongPlayer (fragment)", "Loop set to " + SongPlayer.IsLooping());
         });
@@ -237,45 +258,61 @@ public class SongPlayFragment extends Fragment {
     }
 
     private void updatePlayStopBtn() {
+        // Set the play/stop button to correct state
         Log.d("SongPlayer (fragment)", "Updating play/stop button");
         playStopBtn.setChecked(!SongPlayer.IsPaused() && SongPlayer.IsReady());
     }
 
     private void onSongLikeBtnClicked() {
+        // On song toggle liked
+        // get the song
         int currentSong = SongPlayer.GetCurrentSong();
+        // if song is in registry, then continue
         if (currentSong < 0) {
             return;
         }
-
+        // get liked songs playlist
         RegistryItem<SongPlaylist> likedSongs = playlistRegistry.get(0);
+
         if (!likedBtn.isChecked()) {
+            // if not checked, then remove to liked songs
             Log.d("SongPlay (fragment)", "setting liked=false for songid " + currentSong);
+            // check if in likedSongs first
             if (likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.removeSong(currentSong);
             }
         } else {
+            // if not checked, then add to liked songs
             Log.d("SongPlay (fragment)", "setting liked=true for songid " + currentSong);
+            // check if alr in likedSongs
             if (!likedSongs.item.hasSong(currentSong)) {
                 likedSongs.item.addSong(currentSong);
             }
         }
+        // update the btn
         updateLikedBtn();
     }
 
     private void updateLikedBtn() {
+        // get the current song
         int currentSong = SongPlayer.GetCurrentSong();
-        boolean isLiked = playlistRegistry.get(0).item.hasSong(currentSong);
-        Log.d("SongPlayer (fragment)", "Updating liked button. CurrentLiked: " + isLiked);
+        // check if current song exists
         if (currentSong < 0) {
             return;
         }
+        // check if song is in liked Songs
+        boolean isLiked = playlistRegistry.get(0).item.hasSong(currentSong);
+        Log.d("SongPlayer (fragment)", "Updating liked button. CurrentLiked: " + isLiked);
+        // if is liked , then set checked to true
         likedBtn.setChecked(isLiked);
     }
 
     private void updateShuffleBtn() {
+        // If shuffling, set to checked
         shuffleBtn.setChecked(SongPlayer.IsShuffle());
     }
     private void updateLoopBtn() {
+        // If looping, set to checked
         loopBtn.setChecked(SongPlayer.IsLooping());
     }
 
@@ -283,6 +320,7 @@ public class SongPlayFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        //  Prevent memory leaks by removing all listeners
         listenerGroup.unsubscribeAll();
         super.onDestroy();
     }

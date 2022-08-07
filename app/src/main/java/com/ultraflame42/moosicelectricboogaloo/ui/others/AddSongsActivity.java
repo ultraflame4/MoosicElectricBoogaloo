@@ -24,16 +24,22 @@ public class AddSongsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_songs);
 
+        // Get the playlist name from the intent
         String playlistName = getIntent().getExtras().getString("playlistName");
 
+        // Setup the recycler view osnglist
         RecyclerView recyclerViewSongList = findViewById(R.id.songlist);
         AddSongPlaylistAdapter songListAdapter = new AddSongPlaylistAdapter(this);
         recyclerViewSongList.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSongList.setAdapter(songListAdapter);
+        // update data
         songListAdapter.updateData();
 
+        // Get create playlist btn
         Button createPlaylisBtn = findViewById(R.id.finalCreatePlaylistBtn);
+        // on btn clicked...
         createPlaylisBtn.setOnClickListener(v -> {
+            // create nwe playlist with the name and songs
             PlaylistRegistry.getInstance().add(
                     new SongPlaylist(
                             "you",
@@ -41,6 +47,7 @@ public class AddSongsActivity extends AppCompatActivity {
                             songListAdapter.getCheckedSongs().toArray(new Integer[0])
                     )
             );
+            // Exit this activity
             finish();
         });
     }

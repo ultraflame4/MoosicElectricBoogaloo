@@ -7,17 +7,21 @@ import android.view.View;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Item decoration for Recycler View
+ * Adds spacing between items in a grid layout manager
+ */
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount;
     private int spacing;
-    private boolean includeEdge;
     private GridLayoutManager layoutManager;
 
     public GridSpacingItemDecoration(int spacing, GridLayoutManager layoutManager) {
+        // Set the variables to values from constructor
         this.spacing = spacing;
-        this.includeEdge = includeEdge;
         this.layoutManager = layoutManager;
+        // get span count from the layout manager
         spanCount = layoutManager.getSpanCount();
     }
 
@@ -53,7 +57,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             // if not rightest most, add right spacing
             outRect.right = spacing;
         }
-
+        // set spacing for bottom
         outRect.bottom = spacing;
 
     }

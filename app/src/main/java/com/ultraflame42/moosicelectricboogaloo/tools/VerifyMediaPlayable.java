@@ -8,6 +8,9 @@ import android.util.Log;
 
 import java.io.IOException;
 
+/**
+ * Utility class to verify that a media file is playable.
+ */
 public class VerifyMediaPlayable {
     public interface OnMediaVerificationListener {
         /**
@@ -18,6 +21,7 @@ public class VerifyMediaPlayable {
         void onMediaVerified(boolean playable, int songLength);
     }
 
+    // Use async task so that it runs in the background and does not obstruct the ui
     private static class VerifyMediaPlayableTask extends AsyncTask<Integer, Integer, MediaPlayer> {
         private Context ctx;
         private OnMediaVerificationListener callback;
@@ -31,7 +35,7 @@ public class VerifyMediaPlayable {
 
         @Override
         protected MediaPlayer doInBackground(Integer... args) {
-
+            // try to set up media player to lay the thing
             MediaPlayer mp = new MediaPlayer();
             try {
 
@@ -41,6 +45,7 @@ public class VerifyMediaPlayable {
                 mp.start();
                 mp.stop(); // if it can play, stop it. prevent audio
             } catch (IOException e) {
+                // If error return null
                 Log.e("VerifyMediaPlayable", "Error: " + e.getMessage());
                 return null;
             }
@@ -52,9 +57,11 @@ public class VerifyMediaPlayable {
         protected void onPostExecute(MediaPlayer result) {
 
             if (result != null) {
+                // If result is not null, media is playable
                 callback.onMediaVerified(true, result.getDuration());
                 result.release();
             } else {
+                // If result is null, media is not playable
                 callback.onMediaVerified(false, -1);
             }
 
