@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.ultraflame42.moosicelectricboogaloo.R;
@@ -54,7 +55,13 @@ public class SettingsFragment extends Fragment {
         });
 
         settingsAccountDeleteBtn.setOnClickListener(view1 -> {
-            AccountManager.DeleteAccount();
+            // Check if logged in. if not logged in, cannot delete account (cuz no account) and warn user
+            if (AccountManager.getAuthStatus()!=LoginStatus.LOGGED_IN){
+                Toast.makeText(getContext(), "You must be logged in to able delete your account!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                AccountManager.DeleteAccount();
+            }
         });
 
         // set the accoutn info for user
