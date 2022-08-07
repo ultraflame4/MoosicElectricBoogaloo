@@ -4,7 +4,6 @@ A music app created for a school project
 
 ## The Plan (revised)
 ### basic features (the very bare minimum and hard coded stuff)
-- [ ] Add in username for sign up. (IMPORTANT) ( iforgot abt usernames lmao )
 - [x] Implement the login screen
 - [x] Implement the basic library ui
 - [x] Implement playing of songs
@@ -13,25 +12,25 @@ A music app created for a school project
 - 
 ### core features (must have)
 - [x] Implement searching of songs in lib 
-- [ ] Implement removal songs
-- [ ] Implement removal of playlists
-- [ ] basic settings page (for logout, changing password & clearing of data)
+~~- [ ] Implement removal songs~~
+~~- [ ] Implement removal of playlists~~
+~~- [ ] basic settings page (for logout, changing password & clearing of data)~~
 - [x] Implement adding of songs through links (web audio links only for now) 
 - [x] Implement adding of songs through local files [reference](https://developer.android.com/training/data-storage/shared/documents-files)
 - [x] Implement creation of playlist
 
 #### data stuff
 - [x] Implement local data storage
-- [ ] Implement cloud data storage for logged in users
+~~- [ ] Implement cloud data storage for logged in users~~
 
 ### common features pt.2
 - [ ] Implement editing of song information
 - [ ] Implement editing of playlist information
 - [ ] Implement editing of playlist songs
-- [ ] recent searches
+- [x] recent searches
 
 ### advanced features
-- [ ] Implement recommendations and suggestions for search menu
+- [x] Implement recommendations and suggestions for search menu
 - [ ] Shareable playlist link
 
 
