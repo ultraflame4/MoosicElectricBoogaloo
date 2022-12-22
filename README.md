@@ -3,7 +3,6 @@
 A music app created for a school project
 
 
-<strike>
 ## The Plan (revised)
 ### basic features (the very bare minimum and hard coded stuff)
 - [x] Implement the login screen
@@ -82,4 +81,4 @@ Regex? [This](https://github.com/tdebatty/java-string-similarity) ?
 1. First, we save the data locally
 2. Then, we save the data to the cloud by syncing.
 
-</strike>
+
