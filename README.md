@@ -3,6 +3,10 @@
 A music app created for a school project
 
 
+
+https://user-images.githubusercontent.com/34125174/209052797-04de64b1-5645-4b96-a1a0-75f40a411bd2.mov
+
+
 ## The Plan (revised)
 ### basic features (the very bare minimum and hard coded stuff)
 - [x] Implement the login screen
